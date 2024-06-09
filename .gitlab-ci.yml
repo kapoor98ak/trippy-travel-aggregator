@@ -1,37 +1,37 @@
-stages:
-  - build
-  - test
-  - deploy
+# stages:
+#   - build
+#   - test
+#   - deploy
 
-variables:
-  NODE_ENV: 'production'
-  EMAIL_ADDRESS: $EMAIL_ADDRESS
-  EMAIL_PASSWORD: $EMAIL_PASSWORD
+# variables:
+#   NODE_ENV: 'production'
+#   EMAIL_ADDRESS: $EMAIL_ADDRESS
+#   EMAIL_PASSWORD: $EMAIL_PASSWORD
 
-before_script:
-  - npm install
-  - npm install nodemailer
-  - npm install dotenv express cors mongoose
+# before_script:
+#   - npm install
+#   - npm install nodemailer
+#   - npm install dotenv express cors mongoose
 
-build:
-  stage: build
-  script:
-    - npm run build
-  artifacts:
-    paths:
-      - dist
+# build:
+#   stage: build
+#   script:
+#     - npm run build
+#   artifacts:
+#     paths:
+#       - dist
 
-test:
-  stage: test
-  script:
-    - npm test
+# test:
+#   stage: test
+#   script:
+#     - npm test
 
-deploy:
-  stage: deploy
-  script:
-    - npm run deploy
-  environment:
-    name: production
-    url: http://your-production-url.com
-  only:
-    - main
+# deploy:
+#   stage: deploy
+#   script:
+#     - npm run deploy
+#   environment:
+#     name: production
+#     url: http://your-production-url.com
+#   only:
+#     - main

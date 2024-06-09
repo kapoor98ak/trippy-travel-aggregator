@@ -5,10 +5,7 @@ const mongoose = require('mongoose');
 const connect = () => {
   const dbUri = process.env.DB_URI || 'mongodb://localhost:27017/trippyDB';
 
-  mongoose.connect(dbUri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  mongoose.connect(dbUri)
   .then(() => {
     console.log('Successfully connected to the database');
   })
