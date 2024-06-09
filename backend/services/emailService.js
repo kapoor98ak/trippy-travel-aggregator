@@ -1,21 +1,30 @@
 const nodemailer = require('nodemailer');
-const config = require('../config/config');
 
-const transporter = nodemailer.createTransport({
-    service: 'Gmail',
+const sendEmail = async ({ from, to, subject, text }) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
     auth: {
-        user: config.email.address,
-        pass: config.email.password
-    }
-});
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
 
-exports.sendEmail = async (to, subject, text) => {
-    const mailOptions = {
-        from: config.email.address,
-        to,
-        subject,
-        text
-    };
+  const mailOptions = {
+    from,
+    to,
+    subject,
+    text,
+  };
 
+  try {
     await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully');
+  } catch (error) {
+    console.error('Error sending email', error);
+    throw new Error('Error sending email');
+  }
+};
+
+module.exports = {
+  sendEmail,
 };

@@ -1,37 +1,40 @@
-# stages:
-#   - build
-#   - test
-#   - deploy
+stages:
+  - install
+  - test
+  - deploy
 
-# variables:
-#   NODE_ENV: 'production'
-#   EMAIL_ADDRESS: $EMAIL_ADDRESS
-#   EMAIL_PASSWORD: $EMAIL_PASSWORD
+variables:
+  NODE_ENV: 'development'
 
-# before_script:
-#   - npm install
-#   - npm install nodemailer
-#   - npm install dotenv express cors mongoose
+cache:
+  paths:
+    - node_modules/
 
-# build:
-#   stage: build
-#   script:
-#     - npm run build
-#   artifacts:
-#     paths:
-#       - dist
+install_dependencies:
+  stage: install
+  script:
+    - echo "Installing dependencies..."
+    - npm install
+  # only:
+  #   - main
 
-# test:
-#   stage: test
-#   script:
-#     - npm test
+run_tests:
+  stage: test
+  script:
+    - cd backend
+    - echo "Running tests..."
+    - npm test
+  only:
+    - main
 
-# deploy:
-#   stage: deploy
-#   script:
-#     - npm run deploy
-#   environment:
-#     name: production
-#     url: http://your-production-url.com
-#   only:
-#     - main
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying..."
+    # Add your deployment commands here
+    # For example, you might use rsync or scp to copy files to a server
+  only:
+    - main
+  environment:
+    name: production
+    url: https://your-production-url.com
