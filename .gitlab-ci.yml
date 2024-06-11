@@ -18,6 +18,7 @@ before_script:
   # - curl -sL https://deb.nodesource.com/setup_14.x | bash -
   - apt-get install -y nodejs
   - node -v
+  - npm install
   - npm -v
 
 
