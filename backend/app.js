@@ -14,17 +14,17 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(express.json());
+app.use(express.json()); // For parsing JSON payloads
+app.use(express.urlencoded({ extended: true })); // For parsing URL-encoded payloads, with support for nested objects
 
 // Routes
 app.use('/api', routes);
-
 
 // // Connect to database
 // databaseConfig.connectDB();
 
 app.listen(config.port, () => {
-    console.log(`HELLO! Server running on port ${config.port}`);
+  console.log(`HELLO! Server running on port ${config.port}`);
 });
 
 module.exports = app;

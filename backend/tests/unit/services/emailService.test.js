@@ -45,6 +45,8 @@ describe('Email Service', () => {
       text: 'This is a test email.',
     };
 
-    await expect(emailService.sendEmail(emailData)).rejects.toThrow('Error sending email');
+    await expect(emailService.sendEmail(emailData)).rejects.toThrow(
+      'Error sending email',
+    );
   });
 });
