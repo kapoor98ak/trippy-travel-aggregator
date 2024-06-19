@@ -10,33 +10,57 @@ import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import ForgotPassword from "./components/ForgotPassword.jsx";
 import PasswordReset from "./components/PasswordReset.jsx";
+// import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const theme = createTheme({
+  typography: {
+    h1: {
+      fontSize: "4rem",
+      fontWeight: 500,
+    },
+    subtitle1: {
+      fontSize: "1.2rem",
+    },
+  },
+});
 
 function App() {
   return (
-    <BrowserRouter>
-      <div
-        style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
-      >
-        <Header />
-        <div style={{ flexGrow: 1 }}>
-          <Routes>
-            <Route exact path="/" element={<Landing />} />
-            <Route exact path="/faq" element={<FAQ />} />
-            <Route exact path="/contact" element={<ContactUs />} />
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/register" element={<Register />} />
-            <Route exact path="/forgotpassword" element={<ForgotPassword />} />
-            {/* <Route
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100vh",
+          }}
+        >
+          <Header />
+          <div style={{ flexGrow: 1 }}>
+            <Routes>
+              <Route exact path="/" element={<Landing />} />
+              <Route exact path="/faq" element={<FAQ />} />
+              <Route exact path="/contact" element={<ContactUs />} />
+              <Route exact path="/login" element={<Login />} />
+              <Route exact path="/register" element={<Register />} />
+              <Route
+                exact
+                path="/forgotpassword"
+                element={<ForgotPassword />}
+              />
+              {/* <Route
               exact
               path="/reset-password/:token"
               element={<PasswordReset />}
             /> */}
-            <Route exact path="/reset-password" element={<PasswordReset />} />
-          </Routes>
+              <Route exact path="/reset-password" element={<PasswordReset />} />
+            </Routes>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
