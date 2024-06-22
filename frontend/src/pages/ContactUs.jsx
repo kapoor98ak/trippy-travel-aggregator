@@ -1,52 +1,62 @@
-
 import React, { useRef, useState } from 'react';
-import { Container, Alert, Box, Typography, TextField, FormControlLabel, Checkbox, Button } from '@mui/material';
+import { Container, Alert, Box, Typography, TextField, FormControlLabel, FormHelperText, Checkbox, Button } from '@mui/material';
 
 const ContactUs = () => {
 
-  const firstNameRef=useRef(null)
-  const lastNameRef=useRef(null)
-  const emailRef=useRef(null)
-  const messageRef=useRef(null)
+  const firstNameRef = useRef(null);
+  const lastNameRef = useRef(null);
+  const emailRef = useRef(null);
+  const messageRef = useRef(null);
+  const termsRef = useRef(null);
 
-  const [isFirstNameValid, setIsFirstNameValid] = useState(false);
-  const [isLastNameValid, setIsLastNameValid] = useState(false);
-  const [isEmailValid, setIsEmailValid] = useState(false);
-  const [isMessageValid, setIsMessageValid] = useState(false);
+  const [isFirstNameInvalid, setIsFirstNameInvalid] = useState(false);
+  const [isLastNameInvalid, setIsLastNameInvalid] = useState(false);
+  const [isEmailInvalid, setIsEmailInvalid] = useState(false);
+  const [isMessageInvalid, setIsMessageInvalid] = useState(false);
+  const [isTermsUnchecked, setIsTermsUnchecked] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
 
   const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
-  function handleSubmit(){
-    if(areAllInputsValid()){
-      console.log("all")
-      setSuccessMsg("Message sent successfully!")
+  function handleSubmit() {
+    if (areAllInputsValid()) {
+      setSuccessMsg("Message sent successfully!");
+    } else {
+      setSuccessMsg("");
     }
-
   }
 
-  function areAllInputsValid(){
-    setIsFirstNameValid(firstNameRef.current.value==null | firstNameRef.current.value==='')
-    setIsLastNameValid(lastNameRef.current.value==null | lastNameRef.current.value==='')
-    setIsEmailValid(emailRef.current.value==null | !emailRegex.test(emailRef.current.value))
-    setIsMessageValid(messageRef.current.value==null | messageRef.current.value==='')
-    return isFirstNameValid & isLastNameValid & isEmailValid & isMessageValid
+  function areAllInputsValid() {
+    const isFirstNameValid = firstNameRef.current.value !== '';
+    const isLastNameValid = lastNameRef.current.value !== '';
+    const isEmailValid = emailRegex.test(emailRef.current.value);
+    const isMessageValid = messageRef.current.value !== '';
+    const isTermsValid = termsRef.current.checked;
+
+    setIsFirstNameInvalid(!isFirstNameValid);
+    setIsLastNameInvalid(!isLastNameValid);
+    setIsEmailInvalid(!isEmailValid);
+    setIsMessageInvalid(!isMessageValid);
+    setIsTermsUnchecked(!isTermsValid);
+
+    return isFirstNameValid && isLastNameValid && isEmailValid && isMessageValid && isTermsValid;
   }
 
   return (
-    <Container 
-      maxWidth="xl" 
-      sx={{ 
-         borderRadius: '8px',
-          padding: '20px',
-          backgroundImage: `url('./src/assets/contactusbackground.jpg')`,
-          backgroundSize: 'cover' }}      
-      >
-      <Container         
+    <Container
+      maxWidth="xl"
+      sx={{
+        borderRadius: '8px',
+        padding: '20px',
+        backgroundImage: `url('./src/assets/contactusbackground.jpg')`,
+        backgroundSize: 'cover'
+      }}
+    >
+      <Container
         maxWidth="sm"
         sx={{
-          backgroundColor:'white',
-          padding:'35px',
+          backgroundColor: 'white',
+          padding: '35px',
           borderRadius: 3
         }}
       >
@@ -59,16 +69,16 @@ const ContactUs = () => {
         <form noValidate autoComplete="off">
           <Box
             sx={{ display: 'flex', gap: 2 }}>
-            <TextField        
+            <TextField
               required
               variant='filled'
               sx={{ width: '49%' }}
               maxWidth="full"
               label="First name"
               margin="dense"
-              inputRef={firstNameRef} 
-              helperText={isFirstNameValid?"Please enter valid input":null}
-              error={isFirstNameValid}/>
+              inputRef={firstNameRef}
+              helperText={isFirstNameInvalid ? "Please enter valid input" : ""}
+              error={isFirstNameInvalid} />
 
             <TextField
               required
@@ -77,19 +87,19 @@ const ContactUs = () => {
               style={{ marginLeft: 'auto' }}
               label="Last name"
               margin="dense"
-              inputRef={lastNameRef} 
-              helperText={isLastNameValid?"Please enter valid input":null}
-              error={isLastNameValid}/>
+              inputRef={lastNameRef}
+              helperText={isLastNameInvalid ? "Please enter valid input" : ""}
+              error={isLastNameInvalid} />
           </Box>
-          <TextField 
-            required 
-            variant='filled' 
-            fullWidth 
-            label="Email address" 
-            margin="dense" 
+          <TextField
+            required
+            variant='filled'
+            fullWidth
+            label="Email address"
+            margin="dense"
             inputRef={emailRef}
-            helperText={isEmailValid?"Please enter valid input":null}
-            error={isEmailValid}/>
+            helperText={isEmailInvalid ? "Please enter valid input" : ""}
+            error={isEmailInvalid} />
 
           <TextField
             required
@@ -100,23 +110,26 @@ const ContactUs = () => {
             margin="dense"
             variant='filled'
             inputRef={messageRef}
-            helperText={isMessageValid?"Please enter valid input":""}
-            error={isMessageValid}
+            helperText={isMessageInvalid ? "Please enter valid input" : ""}
+            error={isMessageInvalid}
           />
           <FormControlLabel
-            control={<Checkbox name="agreeTerms" color="primary" />}
+            control={<Checkbox name="agreeTerms" color="primary" inputRef={termsRef} />}
             label="I agree to the terms of use and privacy policy."
           />
+          {isTermsUnchecked && (
+            <FormHelperText error>Please agree to the terms</FormHelperText>
+          )}
           <Button variant="contained" onClick={handleSubmit} color="primary" fullWidth>
             SUBMIT
           </Button>
 
         </form>
         {successMsg && (
-            <Alert severity="success" sx={{ mt: 4 }}>
-              {successMsg}
-            </Alert>
-          )}
+          <Alert severity="success" sx={{ mt: 4 }}>
+            {successMsg}
+          </Alert>
+        )}
       </Container>
     </Container>
   );
