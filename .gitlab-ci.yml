@@ -1,0 +1,40 @@
+stages:
+  - install
+  - test
+  - deploy
+
+variables:
+  NODE_ENV: 'development'
+
+cache:
+  paths:
+    - node_modules/
+
+install_dependencies:
+  stage: install
+  script:
+    - echo "Installing dependencies..."
+    - npm install
+  # only:
+  #   - main
+
+run_tests:
+  stage: test
+  script:
+    - cd backend
+    - echo "Running tests..."
+    - npm test
+  only:
+    - main
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying..."
+    # Add your deployment commands here
+    # For example, you might use rsync or scp to copy files to a server
+  only:
+    - main
+  environment:
+    name: production
+    url: https://your-production-url.com
