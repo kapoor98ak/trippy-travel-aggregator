@@ -20,6 +20,54 @@ import SaveIcon from "@mui/icons-material/Save";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
 const Landing = () => {
+  const featuredTripsCards = [
+    {
+      image:
+        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2",
+      title: "Machu Picchu Trek",
+      content:
+        "Embark on a 4-day trek through the iconic Inca citadel of Machu Picchu",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      title: "Northern Lights Adventure",
+      content:
+        "Witness the mesmerizing Aurora Borealis in the heart of Lapland, Finland",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      title: "Bali Wellness Retreat",
+      content:
+        "Rejuvenate your mind, body, and soul at a luxury wellness retreat in Bali",
+    },
+  ];
+
+  const partnerLogos = [
+    {
+      img: "https://github.com/mui/material-ui/assets/48391286/1bdf707a-385e-49e4-b56e-7049a2e73046",
+    },
+    {
+      img: "https://github.com/mui/material-ui/assets/48391286/f6e97bb1-bc06-4126-85ae-347f671519dc",
+    },
+    {
+      img: "https://github.com/mui/material-ui/assets/48391286/f1373cce-14d9-4438-97fe-aa517ae60b4a",
+    },
+    {
+      img: "https://github.com/mui/material-ui/assets/48391286/ca75e41f-bbae-4de3-9ebe-d8800fd8dc18",
+    },
+    {
+      img: "https://github.com/mui/material-ui/assets/48391286/798f38fb-adf5-443b-8071-ca351db95158",
+    },
+    {
+      img: "https://github.com/mui/material-ui/assets/48391286/a2f3d489-726e-4d33-b134-a9954ef71b1b",
+    },
+    {
+      img: "https://github.com/mui/material-ui/assets/48391286/56654980-e9d9-4538-8b09-3d3ed96c6e50",
+    },
+  ];
+
   return (
     <Container minHeight="100vh" minWidth="100%" maxWidth="100%" disableGutters>
       <Grid
@@ -64,9 +112,9 @@ const Landing = () => {
             <Grid item>
               <Button variant="contained">Book a Trip</Button>
             </Grid>
-            <Grid item ml={{ xs: 0, sm: 2 }} my={{ xs: 2, sm: 0 }}>
+            {/* <Grid item ml={{ xs: 0, sm: 2 }} my={{ xs: 2, sm: 0 }}>
               <Button variant="outlined">Explore Experiences</Button>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
         <Grid
@@ -135,71 +183,49 @@ const Landing = () => {
           height={{ xs: "100%" }}
           justifyContent="center"
         >
-          {/* <Grid item xs={12} md={4}>
-            <Card
-              sx={{
-                smaxWidth: 300,
-                // height: "100%"
-              }}
-            >
-              <CardMedia
-                sx={{ height: 180 }}
-                image="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
-                title="machu pichu"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Machu Picchu Trek
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Embark on a 4-day trek through the iconic Inca citadel of
-                  Machu Picchu.
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small" variant="contained">
-                  Book Now
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid> */}
-          <Grid item xs={12} md={4} maxWidth={{ xs: 350, sm: 300 }}>
+          {featuredTripsCards.map((card, index) => (
+            <Grid item xs={12} sm={6} md={4} maxWidth={{ xs: 350, sm: 300 }}>
+              <Card
+                sx={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <CardMedia
+                  sx={{ height: 180 }}
+                  image={card.image}
+                  title="machu pichu"
+                />
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {card.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {card.content}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small" variant="contained">
+                    Book Now
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+          {/* <Grid item xs={12} md={4} maxWidth={{ xs: 350, sm: 300 }}>
             <Card>
               <CardMedia
                 sx={{ height: 180 }}
-                image="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
-                title="machu pichu"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Machu Picchu Trek
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Embark on a 4-day trek through the iconic Inca citadel of
-                  Machu Picchu.
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small" variant="contained">
-                  Book Now
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={4} maxWidth={{ xs: 350, sm: 300 }}>
-            <Card>
-              <CardMedia
-                sx={{ height: 180 }}
-                image="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                image=""
                 title="northern lights"
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                  Northern Lights Adventure
+                  
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Witness the mesmerizing Aurora Borealis in the heart of
-                  Lapland, Finland.
+                  
                 </Typography>
               </CardContent>
               <CardActions>
@@ -213,16 +239,15 @@ const Landing = () => {
             <Card>
               <CardMedia
                 sx={{ height: 180 }}
-                image="https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                image=""
                 title="bali"
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                  Bali Wellness Retreat
+                  
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Rejuvenate your mind, body, and soul at a luxury wellness
-                  retreat in Bali.
+                  
                 </Typography>
               </CardContent>
               <CardActions>
@@ -231,27 +256,6 @@ const Landing = () => {
                 </Button>
               </CardActions>
             </Card>
-          </Grid>
-          {/* <Grid item xs={12} md={4}>
-            <Box sx={{ borderRadius: 3, boxShadow: 2 }}>
-              <Box
-                component="img"
-                alt="The house from the offer."
-                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
-                width="100%"
-                borderRadius={3}
-              />
-              <Stack direction="column" p={2}>
-                <Typography variant="h5">Machu Picchu Trek</Typography>
-                <Typography variant="subtitle2">
-                  Embark on a 4-day trek through the iconic Inca citadel of
-                  Machu Picchu.
-                </Typography>
-                <Button variant="contained" sx={{ width: "50%", mt: 2 }}>
-                  Book Now
-                </Button>
-              </Stack>
-            </Box>
           </Grid> */}
         </Grid>
       </Stack>
@@ -263,6 +267,7 @@ const Landing = () => {
         alignItems="center"
         px={{ xs: 4 }}
         textAlign="center"
+        bgcolor="#f6f6f6"
       >
         <Typography variant="h3">Stay Up-to-Date with Trippy</Typography>
         <Typography variant="subtitle1" mt={1}>
@@ -324,9 +329,15 @@ const Landing = () => {
               mt={2}
             >
               <Stack direction="row" justifyContent="start" alignItems="center">
-                <Avatar>J</Avatar>
+                {/* <Avatar>J</Avatar> */}
+                <Box
+                  component="img"
+                  src="https://github.com/mui/material-ui/assets/48391286/1c7b4c8f-7596-4115-a4ff-abc54c9bcf11"
+                  sx={{ height: 50, width: 50 }}
+                  borderRadius="50%"
+                />
                 <Stack direction="column" ml={2}>
-                  <Typography variant="h6">John Doe</Typography>
+                  <Typography variant="h6">Hugh Grant</Typography>
                   <Typography variant="subtitle2">Verified Traveler</Typography>
                 </Stack>
               </Stack>
@@ -346,9 +357,14 @@ const Landing = () => {
               mt={3}
             >
               <Stack direction="row" justifyContent="start" alignItems="center">
-                <Avatar>J</Avatar>
+                <Box
+                  component="img"
+                  src="https://github.com/mui/material-ui/assets/48391286/a41d62da-6696-4ae7-a720-c05ab5e67cf8"
+                  sx={{ height: 50, width: 50 }}
+                  borderRadius="50%"
+                />
                 <Stack direction="column" ml={2}>
-                  <Typography variant="h6">Jane Smith</Typography>
+                  <Typography variant="h6">Cho Chan</Typography>
                   <Typography variant="subtitle2">Verified Traveler</Typography>
                 </Stack>
               </Stack>
@@ -364,57 +380,24 @@ const Landing = () => {
         </Grid>
         <Grid item xs={12} md={6} mt={{ xs: 6, sm: 0 }}>
           <Typography variant="subtitle2">Trusted Partners</Typography>
-          <Grid container spacing={4} mt={1} width="100%">
-            <Grid item xs={3}>
-              <Box
-                sx={{
-                  bgcolor: "text.disabled",
-                  borderRadius: 2,
-                  height: 80,
-                  width: 80,
-                }}
-              ></Box>
-            </Grid>
-            <Grid item xs={3}>
-              <Box
-                sx={{
-                  bgcolor: "text.disabled",
-                  borderRadius: 2,
-                  height: 80,
-                  width: 80,
-                }}
-              ></Box>
-            </Grid>
-            <Grid item xs={3}>
-              <Box
-                sx={{
-                  bgcolor: "text.disabled",
-                  borderRadius: 2,
-                  height: 80,
-                  width: 80,
-                }}
-              ></Box>
-            </Grid>
-            <Grid item xs={3}>
-              <Box
-                sx={{
-                  bgcolor: "text.disabled",
-                  borderRadius: 2,
-                  height: 80,
-                  width: 80,
-                }}
-              ></Box>
-            </Grid>
-            <Grid item xs={3}>
-              <Box
-                sx={{
-                  bgcolor: "text.disabled",
-                  borderRadius: 2,
-                  height: 80,
-                  width: 80,
-                }}
-              ></Box>
-            </Grid>
+          <Grid
+            container
+            spacing={{ xs: 4, sm: 6 }}
+            width="100%"
+            mt={{ xs: 2, sm: 1 }}
+          >
+            {partnerLogos.map((partner, index) => (
+              <Grid item xs={4} sm={3}>
+                <Box
+                  index={index}
+                  component="img"
+                  // src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcD-pxOE0HXagEPOxHY1glbk7HY8DsEpwsgg&s"
+                  src={partner.img}
+                  sx={{ height: 80, width: 80 }}
+                  borderRadius={4}
+                />
+              </Grid>
+            ))}
           </Grid>
         </Grid>
       </Grid>
@@ -422,12 +405,13 @@ const Landing = () => {
         direction="column"
         minHeight={{ xs: "100vh", sm: "70vh" }}
         height="100%"
-        justifyContent="start"
+        justifyContent="center"
         alignItems="center"
         mt={{ xs: 10, md: 5 }}
         mb={{ xs: 10, md: 5 }}
         px={4}
         py={2}
+        bgcolor="#f6f6f6"
       >
         <Grid container spacing={{ xs: 8, md: 6 }}>
           <Grid item xs={12} md={6} lg={4}>
