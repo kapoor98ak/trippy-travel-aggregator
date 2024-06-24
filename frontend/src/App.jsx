@@ -1,5 +1,6 @@
 import React from "react";
 // import "./App.css";
+import { Box } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Landing from "./pages/Landing.jsx";
 import FAQ from "./pages/FAQ.jsx";
@@ -22,6 +23,13 @@ const theme = createTheme({
     subtitle1: {
       fontSize: "1.2rem",
     },
+    components: {
+      MuiContainer: {
+        defaultProps: {
+          disableGutters: true,
+        },
+      },
+    },
   },
 });
 
@@ -29,15 +37,9 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            minHeight: "100vh",
-          }}
-        >
+        <Box flex flexDirection="column" minHeight="100vh" minWidth="100%">
           <Header />
-          <div style={{ flexGrow: 1 }}>
+          <Box flexGrow={1}>
             <Routes>
               <Route exact path="/" element={<Landing />} />
               <Route exact path="/faq" element={<FAQ />} />
@@ -56,9 +58,9 @@ function App() {
             /> */}
               <Route exact path="/reset-password" element={<PasswordReset />} />
             </Routes>
-          </div>
+          </Box>
           <Footer />
-        </div>
+        </Box>
       </BrowserRouter>
     </ThemeProvider>
   );
