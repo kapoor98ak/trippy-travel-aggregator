@@ -6,7 +6,11 @@ import {
   Button,
   TextField,
   Grid,
+  Card,
 } from "@mui/material";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
 import Avatar from "@mui/material/Avatar";
 import SearchIcon from "@mui/icons-material/Search";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
@@ -17,12 +21,15 @@ import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
 const Landing = () => {
   return (
-    <Container minHeight="100vh" minWidth="100vw" maxWidth="100vw">
+    <Container minHeight="100vh" minWidth="100%" maxWidth="100%" disableGutters>
       <Grid
         container
-        spacing={2}
-        minHeight={{ xs: "100vh", sm: "90vh" }}
+        minHeight={{ xs: "100vh" }}
+        height="100%"
         width="100%"
+        bgcolor="#e1f5fe"
+        px={4}
+        py={{ xs: 6, sm: 2 }}
       >
         <Grid
           item
@@ -47,19 +54,20 @@ const Landing = () => {
               Discover unique, curated experiences tailored to your preferences.
             </Typography>
           </Box>
-          <Box
-            flex
-            direction="row"
-            justifyContent="start"
-            alignItems="center"
+          <Grid
+            container
+            direction={{ xs: "column", sm: "row" }}
             width="100%"
             mt={2}
+            // spacing={2}
           >
-            <Button variant="contained">Book a Trip</Button>
-            <Button variant="outlined" sx={{ ml: 2 }}>
-              Explore Experiences
-            </Button>
-          </Box>
+            <Grid item>
+              <Button variant="contained">Book a Trip</Button>
+            </Grid>
+            <Grid item ml={{ xs: 0, sm: 2 }} my={{ xs: 2, sm: 0 }}>
+              <Button variant="outlined">Explore Experiences</Button>
+            </Grid>
+          </Grid>
         </Grid>
         <Grid
           item
@@ -68,11 +76,12 @@ const Landing = () => {
           sx={{ display: "flex", padding: 0 }}
           justifyContent="center"
           alignItems="center"
+          spacing={2}
         >
           <Box
             component="img"
-            alt="The house from the offer."
-            src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
+            alt=""
+            src="https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             sx={{ width: "100%" }}
             borderRadius={4}
             // sx={{
@@ -87,28 +96,143 @@ const Landing = () => {
       <Stack
         direction="column"
         minHeight={{ xs: "100vh", sm: "80vh" }}
-        width="100%"
+        height="100%"
         justifyContent="center"
         alignItems="center"
-        mt={{ xs: 10, sm: 5 }}
+        // mt={{ xs: 10, sm: 5 }}
+        // bgcolor="#e0e0e0"
+        px={{ xs: 4 }}
+        py={6}
       >
-        <Stack direction="column" justifyContent="center" alignItems="center">
-          <Typography variant="body1" alignSelf="center">
-            Featured Trips
-          </Typography>
-          <Typography variant="h1">Discover Incredible Trips</Typography>
+        <Box
+          flex
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Box
+            flex
+            justifyContent="center"
+            alignItems="center"
+            textAlign="center"
+          >
+            <Typography variant="body1">Featured Trips</Typography>
+          </Box>
+          <Box textAlign={{ xs: "left", md: "center" }}>
+            <Typography variant="h1">Discover Incredible Trips</Typography>
+          </Box>
+
           <Typography variant="subtitle1" mt={1}>
             Explore a curated selection of the world's most incredible trips,
             handpicked by our travel experts.
           </Typography>
-        </Stack>
+        </Box>
         <Grid
           container
           mt={4}
           spacing={4}
-          width={{ xs: "100%", sm: "90%", md: "70%" }}
+          width={{ xs: "100%", sm: "90%" }}
+          height={{ xs: "100%" }}
+          justifyContent="center"
         >
-          <Grid item xs={12} md={4}>
+          {/* <Grid item xs={12} md={4}>
+            <Card
+              sx={{
+                smaxWidth: 300,
+                // height: "100%"
+              }}
+            >
+              <CardMedia
+                sx={{ height: 180 }}
+                image="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
+                title="machu pichu"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Machu Picchu Trek
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Embark on a 4-day trek through the iconic Inca citadel of
+                  Machu Picchu.
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small" variant="contained">
+                  Book Now
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid> */}
+          <Grid item xs={12} md={4} maxWidth={{ xs: 350, sm: 300 }}>
+            <Card>
+              <CardMedia
+                sx={{ height: 180 }}
+                image="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
+                title="machu pichu"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Machu Picchu Trek
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Embark on a 4-day trek through the iconic Inca citadel of
+                  Machu Picchu.
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small" variant="contained">
+                  Book Now
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={4} maxWidth={{ xs: 350, sm: 300 }}>
+            <Card>
+              <CardMedia
+                sx={{ height: 180 }}
+                image="https://images.unsplash.com/photo-1531366936337-7c912a4589a7?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                title="northern lights"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Northern Lights Adventure
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Witness the mesmerizing Aurora Borealis in the heart of
+                  Lapland, Finland.
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small" variant="contained">
+                  Book Now
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={4} maxWidth={{ xs: 350, sm: 300 }}>
+            <Card>
+              <CardMedia
+                sx={{ height: 180 }}
+                image="https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                title="bali"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Bali Wellness Retreat
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Rejuvenate your mind, body, and soul at a luxury wellness
+                  retreat in Bali.
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small" variant="contained">
+                  Book Now
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+          {/* <Grid item xs={12} md={4}>
             <Box sx={{ borderRadius: 3, boxShadow: 2 }}>
               <Box
                 component="img"
@@ -128,49 +252,7 @@ const Landing = () => {
                 </Button>
               </Stack>
             </Box>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Box sx={{ borderRadius: 3, boxShadow: 2 }}>
-              <Box
-                component="img"
-                alt="The house from the offer."
-                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
-                width="100%"
-                borderRadius={3}
-              />
-              <Stack direction="column" p={2}>
-                <Typography variant="h5">Northern Lights</Typography>
-                <Typography variant="subtitle2">
-                  Witness the mesmerizing Aurora Borealis in the heart of
-                  Lapland, Finland.
-                </Typography>
-                <Button variant="contained" sx={{ width: "50%", mt: 2 }}>
-                  Book Now
-                </Button>
-              </Stack>
-            </Box>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Box sx={{ borderRadius: 3, boxShadow: 2 }}>
-              <Box
-                component="img"
-                alt="The house from the offer."
-                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
-                width="100%"
-                borderRadius={3}
-              />
-              <Stack direction="column" p={2}>
-                <Typography variant="h5">Bali Wellness Retreat</Typography>
-                <Typography variant="subtitle2">
-                  Rejuvenate your mind, body, and soul at a luxury wellness
-                  retreat in Bali.
-                </Typography>
-                <Button variant="contained" sx={{ width: "50%", mt: 2 }}>
-                  Book Now
-                </Button>
-              </Stack>
-            </Box>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Stack>
       <Stack
@@ -179,25 +261,41 @@ const Landing = () => {
         height="100%"
         justifyContent="center"
         alignItems="center"
+        px={{ xs: 4 }}
+        textAlign="center"
       >
         <Typography variant="h3">Stay Up-to-Date with Trippy</Typography>
         <Typography variant="subtitle1" mt={1}>
           Sign up to receive exclusive offers, personalized trip
           recommendations, and the latest news from Trippy.
         </Typography>
-        <Box
-          flex
-          direction={{ xs: "column", md: "column" }}
-          width={{ xs: "80%", md: "350px" }}
+        <Stack
+          direction="column"
+          // width={{ xs: "80%", md: "350px" }}
           justifyContent="center"
           alignItems="center"
           mt={4}
         >
-          <TextField id="outlined-basic" label="Email" variant="outlined" />
-          <Button variant="contained" ml={2}>
-            Sign Up
-          </Button>
-        </Box>
+          <Box flex justifyContent="center" justifyItems="center" width="100%">
+            <TextField
+              id="outlined-basic"
+              label="Email"
+              variant="outlined"
+              sx={{ width: 350 }}
+              size="small"
+            />
+          </Box>
+          <Box flex justifyContent="center" justifyItems="center" mt={2}>
+            <Button
+              size="small"
+              variant="contained"
+              ml={{ sx: 0, md: 2 }}
+              width={100}
+            >
+              Sign Up
+            </Button>
+          </Box>
+        </Stack>
         <Typography variant="subtitle2" mt={1}>
           By signing up, you agree to our Terms &amp; Conditions
         </Typography>
@@ -208,6 +306,9 @@ const Landing = () => {
         height="100%"
         justifyContent="center"
         alignItems="start"
+        // bgcolor="#e0e0e0"
+        px={4}
+        py={8}
       >
         <Grid item xs={12} md={6}>
           <Stack direction="column">
@@ -261,7 +362,7 @@ const Landing = () => {
             </Stack>
           </Stack>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} mt={{ xs: 6, sm: 0 }}>
           <Typography variant="subtitle2">Trusted Partners</Typography>
           <Grid container spacing={4} mt={1} width="100%">
             <Grid item xs={3}>
@@ -325,8 +426,10 @@ const Landing = () => {
         alignItems="center"
         mt={{ xs: 10, md: 5 }}
         mb={{ xs: 10, md: 5 }}
+        px={4}
+        py={2}
       >
-        <Grid container spacing={{ xs: 2, md: 6 }}>
+        <Grid container spacing={{ xs: 8, md: 6 }}>
           <Grid item xs={12} md={6} lg={4}>
             <Stack direction="column">
               <SearchIcon sx={{ fontSize: 40, fontWeight: 1000 }} />
