@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import { Container, Alert, Box, Typography, TextField, FormControlLabel, FormHelperText, Checkbox, Button } from '@mui/material';
 
 const ContactUs = () => {
-
   const firstNameRef = useRef(null);
   const lastNameRef = useRef(null);
   const emailRef = useRef(null);
@@ -17,18 +16,20 @@ const ContactUs = () => {
   const [successMsg, setSuccessMsg] = useState("");
 
   const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  const nameRegex = /^[A-Za-z]+$/;  
 
   function handleSubmit() {
     if (areAllInputsValid()) {
       setSuccessMsg("Message sent successfully!");
+      clearInputs();
     } else {
       setSuccessMsg("");
     }
   }
 
   function areAllInputsValid() {
-    const isFirstNameValid = firstNameRef.current.value !== '';
-    const isLastNameValid = lastNameRef.current.value !== '';
+    const isFirstNameValid = nameRegex.test(firstNameRef.current.value);
+    const isLastNameValid = nameRegex.test(lastNameRef.current.value);
     const isEmailValid = emailRegex.test(emailRef.current.value);
     const isMessageValid = messageRef.current.value !== '';
     const isTermsValid = termsRef.current.checked;
@@ -42,14 +43,21 @@ const ContactUs = () => {
     return isFirstNameValid && isLastNameValid && isEmailValid && isMessageValid && isTermsValid;
   }
 
+  function clearInputs() {
+    firstNameRef.current.value = '';
+    lastNameRef.current.value = '';
+    emailRef.current.value = '';
+    messageRef.current.value = '';
+    termsRef.current.checked = false;
+  }
+
   return (
     <Container
       maxWidth="xl"
       sx={{
         borderRadius: '8px',
         padding: '20px',
-        backgroundImage: `url('./src/assets/contactusbackground.jpg')`,
-        backgroundSize: 'cover'
+       
       }}
     >
       <Container
@@ -73,23 +81,23 @@ const ContactUs = () => {
               required
               variant='filled'
               sx={{ width: '49%' }}
-              maxWidth="full"
               label="First name"
               margin="dense"
               inputRef={firstNameRef}
-              helperText={isFirstNameInvalid ? "Please enter valid input" : ""}
-              error={isFirstNameInvalid} />
+              helperText={isFirstNameInvalid ? "First name must contain only letters." : ""}
+              error={isFirstNameInvalid}
+              onChange={() => setIsFirstNameInvalid(!nameRegex.test(firstNameRef.current.value))} />
 
             <TextField
               required
               variant='filled'
               sx={{ width: '49%' }}
-              style={{ marginLeft: 'auto' }}
               label="Last name"
               margin="dense"
               inputRef={lastNameRef}
-              helperText={isLastNameInvalid ? "Please enter valid input" : ""}
-              error={isLastNameInvalid} />
+              helperText={isLastNameInvalid ? "Last name must contain only letters." : ""}
+              error={isLastNameInvalid}
+              onChange={() => setIsLastNameInvalid(!nameRegex.test(lastNameRef.current.value))} />
           </Box>
           <TextField
             required
@@ -98,8 +106,10 @@ const ContactUs = () => {
             label="Email address"
             margin="dense"
             inputRef={emailRef}
-            helperText={isEmailInvalid ? "Please enter valid input" : ""}
-            error={isEmailInvalid} />
+            helperText={isEmailInvalid ? "Please enter a valid email address." : ""}
+            error={isEmailInvalid}
+            onChange={() => setIsEmailInvalid(!emailRegex.test(emailRef.current.value))}
+          />
 
           <TextField
             required
@@ -110,7 +120,7 @@ const ContactUs = () => {
             margin="dense"
             variant='filled'
             inputRef={messageRef}
-            helperText={isMessageInvalid ? "Please enter valid input" : ""}
+            helperText={isMessageInvalid ? "Please enter your message." : ""}
             error={isMessageInvalid}
           />
           <FormControlLabel
@@ -123,7 +133,6 @@ const ContactUs = () => {
           <Button variant="contained" onClick={handleSubmit} color="primary" fullWidth>
             SUBMIT
           </Button>
-
         </form>
         {successMsg && (
           <Alert severity="success" sx={{ mt: 4 }}>
