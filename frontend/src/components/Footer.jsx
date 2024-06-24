@@ -1,9 +1,9 @@
 import React from "react";
 import { Container, Typography, Grid, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const handleNavigation = (path) => () => {
     navigate(path);
   };
@@ -30,13 +30,28 @@ const Footer = () => {
           <Grid item xs={6}>
             <Grid container spacing={2} justifyContent="flex-end">
               <Grid item>
-                <Button onClick={handleNavigation("/about")} style={{ color: '#fff', textTransform: 'none' }}>About Us</Button>
+                <Button
+                  onClick={handleNavigation("/")}
+                  style={{ color: "#fff", textTransform: "none" }}
+                >
+                  Home
+                </Button>
               </Grid>
               <Grid item>
-                <Button onClick={handleNavigation("/services")} style={{ color: '#fff', textTransform: 'none' }}>Services</Button>
+                <Button
+                  onClick={handleNavigation("/faq")}
+                  style={{ color: "#fff", textTransform: "none" }}
+                >
+                  FAQ
+                </Button>
               </Grid>
               <Grid item>
-                <Button onClick={handleNavigation("/contact")} style={{ color: '#fff', textTransform: 'none' }}>Contact</Button>
+                <Button
+                  onClick={handleNavigation("/contact")}
+                  style={{ color: "#fff", textTransform: "none" }}
+                >
+                  Contact
+                </Button>
               </Grid>
             </Grid>
           </Grid>

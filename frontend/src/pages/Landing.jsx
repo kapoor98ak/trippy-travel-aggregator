@@ -83,7 +83,6 @@ const Landing = () => {
           item
           sm={12}
           md={6}
-          direction="column"
           justifyContent="center"
           alignItems="center"
           sx={{ display: "flex", pl: 0 }}
@@ -94,28 +93,36 @@ const Landing = () => {
             justifyContent="center"
             alignItems="center"
           >
-            <Typography variant="h1">
-              Unlock the World's Most Incredible Trips
-            </Typography>
-            <Typography variant="subtitle1" mt={1}>
-              Search and book trips from top travel agents in one place.
-              Discover unique, curated experiences tailored to your preferences.
-            </Typography>
-          </Box>
-          <Grid
-            container
-            direction={{ xs: "column", sm: "row" }}
-            width="100%"
-            mt={2}
-            // spacing={2}
-          >
-            <Grid item>
-              <Button variant="contained">Book a Trip</Button>
-            </Grid>
-            {/* <Grid item ml={{ xs: 0, sm: 2 }} my={{ xs: 2, sm: 0 }}>
+            <Box
+              flex
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Typography variant="h1">
+                Unlock the World's Most Incredible Trips
+              </Typography>
+              <Typography variant="subtitle1" mt={1}>
+                Search and book trips from top travel agents in one place.
+                Discover unique, curated experiences tailored to your
+                preferences.
+              </Typography>
+            </Box>
+            <Grid
+              container
+              direction={{ xs: "column", sm: "row" }}
+              width="100%"
+              mt={2}
+              // spacing={2}
+            >
+              <Grid item>
+                <Button variant="contained">Book a Trip</Button>
+              </Grid>
+              {/* <Grid item ml={{ xs: 0, sm: 2 }} my={{ xs: 2, sm: 0 }}>
               <Button variant="outlined">Explore Experiences</Button>
             </Grid> */}
-          </Grid>
+            </Grid>
+          </Box>
         </Grid>
         <Grid
           item
@@ -124,7 +131,6 @@ const Landing = () => {
           sx={{ display: "flex", padding: 0 }}
           justifyContent="center"
           alignItems="center"
-          spacing={2}
         >
           <Box
             component="img"
@@ -184,7 +190,14 @@ const Landing = () => {
           justifyContent="center"
         >
           {featuredTripsCards.map((card, index) => (
-            <Grid item xs={12} sm={6} md={4} maxWidth={{ xs: 350, sm: 300 }}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              maxWidth={{ xs: 350, sm: 300 }}
+              key={index}
+            >
               <Card
                 sx={{
                   height: "100%",
@@ -387,7 +400,7 @@ const Landing = () => {
             mt={{ xs: 2, sm: 1 }}
           >
             {partnerLogos.map((partner, index) => (
-              <Grid item xs={4} sm={3}>
+              <Grid item xs={4} sm={3} key={index}>
                 <Box
                   index={index}
                   component="img"

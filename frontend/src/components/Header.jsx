@@ -14,7 +14,22 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-const pages = ["FAQ", "Contact", "Blog"];
+// const pages = ["Home", "FAQ", "Contact"];
+
+const pages = [
+  {
+    name: "Home",
+    url: " ",
+  },
+  {
+    name: "FAQ",
+    url: "faq",
+  },
+  {
+    name: "Contact",
+    url: "contact",
+  },
+];
 // const settings = ["Profile", "Account", "Dashboard", "Logout"];
 const settings = ["Login", "Register"];
 
@@ -56,7 +71,7 @@ const Header = () => {
       <Container width="100%" disableGutters maxWidth="false" sx={{ px: 4 }}>
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
-          <Typography
+          {/* <Typography
             variant="h6"
             noWrap
             component="a"
@@ -74,7 +89,19 @@ const Header = () => {
             }}
           >
             Trippy
-          </Typography>
+          </Typography> */}
+          <Box
+            component="a"
+            onClick={() => navigate("/")}
+            sx={{ display: { xs: "none", md: "flex", cursor: "pointer" } }}
+          >
+            <Box
+              component="img"
+              alt="Trippy"
+              src="https://github.com/mui/material-ui/assets/48391286/c85e381b-d861-4aa8-8fe3-2f2056fca1c4"
+              sx={{ width: 120 }}
+            />
+          </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -107,17 +134,17 @@ const Header = () => {
             >
               {pages.map((page) => (
                 <MenuItem
-                  key={page}
-                  data-my-value={page}
+                  key={page.name}
+                  data-my-value={page.url}
                   onClick={handleCloseNavMenu}
                 >
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
           {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
-          <Typography
+          {/* <Typography
             variant="h5"
             noWrap
             component="a"
@@ -136,20 +163,46 @@ const Header = () => {
             }}
           >
             Trippy
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          </Typography> */}
+
+          <Box
+            component="a"
+            onClick={() => navigate("/")}
+            sx={{
+              display: {
+                xs: "flex",
+                md: "none",
+                cursor: "pointer",
+                flexGrow: 1,
+              },
+            }}
+          >
+            <Box
+              component="img"
+              alt="Trippy"
+              src="https://github.com/mui/material-ui/assets/48391286/c85e381b-d861-4aa8-8fe3-2f2056fca1c4"
+              sx={{ width: 120 }}
+            />
+          </Box>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex" },
+              justifyContent: "end",
+              mr: 4,
+            }}
+          >
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.name}
                 onClick={handleCloseNavMenu}
-                data-my-value={page}
+                data-my-value={page.url}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>
-
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
