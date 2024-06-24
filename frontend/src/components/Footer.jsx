@@ -1,7 +1,13 @@
 import React from "react";
-import { Container, Typography, Link, Grid } from "@mui/material";
+import { Container, Typography, Grid, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom"; 
 
 const Footer = () => {
+  const navigate = useNavigate(); 
+  const handleNavigation = (path) => () => {
+    navigate(path);
+  };
+
   return (
     <footer
       style={{
@@ -24,19 +30,13 @@ const Footer = () => {
           <Grid item xs={6}>
             <Grid container spacing={2} justifyContent="flex-end">
               <Grid item>
-                <Link href="#" color="inherit" underline="hover">
-                  About Us
-                </Link>
+                <Button onClick={handleNavigation("/about")} style={{ color: '#fff', textTransform: 'none' }}>About Us</Button>
               </Grid>
               <Grid item>
-                <Link href="#" color="inherit" underline="hover">
-                  Services
-                </Link>
+                <Button onClick={handleNavigation("/services")} style={{ color: '#fff', textTransform: 'none' }}>Services</Button>
               </Grid>
               <Grid item>
-                <Link href="#" color="inherit" underline="hover">
-                  Contact
-                </Link>
+                <Button onClick={handleNavigation("/contact")} style={{ color: '#fff', textTransform: 'none' }}>Contact</Button>
               </Grid>
             </Grid>
           </Grid>
