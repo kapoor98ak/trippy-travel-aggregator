@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Typography,
@@ -7,6 +8,7 @@ import {
   TextField,
   Grid,
   Card,
+  Alert,
 } from "@mui/material";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -67,6 +69,40 @@ const Landing = () => {
       img: "https://github.com/mui/material-ui/assets/48391286/56654980-e9d9-4538-8b09-3d3ed96c6e50",
     },
   ];
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+  const [userEmailError, setUserEmailError] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+
+  useEffect(() => {
+    setUserEmailError("");
+  }, [userEmail]);
+
+  const validateInputs = () => {
+    let isValid = true;
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+    if (!userEmail.trim()) {
+      setUserEmailError("Please enter your email address");
+      isValid = false;
+    } else if (!emailRegex.test(userEmail)) {
+      setUserEmailError("Please enter a valid email address");
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateInputs()) {
+      setSuccessMsg("Submitted Successfully");
+      setIsLoading(true);
+      // Implement register logic
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Container minHeight="100vh" minWidth="100%" maxWidth="100%" disableGutters>
@@ -293,18 +329,36 @@ const Landing = () => {
           justifyContent="center"
           alignItems="center"
           mt={4}
+          component="form"
+          onSubmit={handleSubmit}
+          noValidate
         >
           <Box flex justifyContent="center" justifyItems="center" width="100%">
             <TextField
-              id="outlined-basic"
-              label="Email"
+              id="email"
+              label="Email Address"
+              name="email"
               variant="outlined"
               sx={{ width: 350 }}
               size="small"
+              margin="normal"
+              required
+              fullWidth
+              autoComplete="email"
+              error={!!userEmailError}
+              helperText={userEmailError}
+              onChange={(e) => setUserEmail(e.target.value)}
+              value={userEmail}
             />
+            {successMsg && (
+              <Alert severity="success" sx={{ mt: 1 }}>
+                {successMsg}
+              </Alert>
+            )}
           </Box>
           <Box flex justifyContent="center" justifyItems="center" mt={2}>
             <Button
+              type="submit"
               size="small"
               variant="contained"
               ml={{ sx: 0, md: 2 }}
