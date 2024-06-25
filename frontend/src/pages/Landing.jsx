@@ -151,7 +151,7 @@ const Landing = () => {
               mt={2}
               // spacing={2}
             >
-              <Grid item>
+              <Grid item my={{ xs: 2, sm: 0 }}>
                 <Button variant="contained">Book a Trip</Button>
               </Grid>
               {/* <Grid item ml={{ xs: 0, sm: 2 }} my={{ xs: 2, sm: 0 }}>
@@ -319,7 +319,7 @@ const Landing = () => {
         bgcolor="#f6f6f6"
       >
         <Typography variant="h3">Stay Up-to-Date with Trippy</Typography>
-        <Typography variant="subtitle1" mt={1}>
+        <Typography variant="subtitle1" mt={4}>
           Sign up to receive exclusive offers, personalized trip
           recommendations, and the latest news from Trippy.
         </Typography>
@@ -477,7 +477,7 @@ const Landing = () => {
         mt={{ xs: 10, md: 5 }}
         mb={{ xs: 10, md: 5 }}
         px={4}
-        py={2}
+        py={{ xs: 8, sm: 2 }}
         bgcolor="#f6f6f6"
       >
         <Grid container spacing={{ xs: 8, md: 6 }}>
