@@ -1,5 +1,7 @@
 # Group Project - Trippy
 
+Trippy - A travel agents’ trips aggregator app that allows travelers to search through available trip packages offered by different travel agent companies for a specific time period and place that they can query.
+
 - _Date Created_: 23 JUNE 2024
 - _Last Modification Date_: 24 JUNE 2024
 - _Project URL_: <https://trippy-main.netlify.app/>
@@ -7,12 +9,12 @@
 
 ## Authors
 
-- [Abhishek Kapoor](kapoor98.ak@dal.ca)
-- [Abhishek Latawa](ab827859@dal.ca)
-- [Kushal Panchal](ks735728@dal.ca)
-- [Parthraj Panchal](pr829133@dal.ca)
-- [Vaibhav Ramchandani](vaibhav.ramchandani@dal.ca)
-- [Yash Walia](yashwalia@dal.ca)
+- [Abhishek Kapoor](kapoor98.ak@dal.ca) - _(Full Stack Developer)_
+- [Abhishek Latawa](ab827859@dal.ca) - _(Full Stack Developer)_
+- [Kushal Panchal](ks735728@dal.ca) - _(Full Stack Developer)_
+- [Parthraj Panchal](pr829133@dal.ca) - _(Full Stack Developer)_
+- [Vaibhav Ramchandani](vaibhav.ramchandani@dal.ca) - _(Full Stack Developer)_
+- [Yash Walia](yashwalia@dal.ca) - _(Full Stack Developer)_
 
 ## Getting Started
 
@@ -459,3 +461,5 @@ export default function AccordionUsage() {
 
 - The code provided significant insights, serving as a foundation for comprehending the functionality and logic of various UI components. We are thankful for their work and commitment.
 - It offered valuable perspectives and shaped my approach to understanding and learning specific techniques and methods. Their contribution is greatly appreciated.
+- Logo.com
+- Reactjs
