@@ -77,16 +77,9 @@ const Login = () => {
   };
 
   return (
-    <Container
-      minHeight="100vh"
-      minWidth="100vw"
-      maxWidth="100vw"
-      height="100vh"
-      flexGrow={1}
-      disableGutters
-    >
-      <Container maxWidth="sm" minHeight="100vh" height="100vh" disableGutters>
-        <Box textAlign="center" my={4}>
+    <Container minWidth="100vw" maxWidth="100vw" disableGutters>
+      <Container maxWidth="sm" disableGutters>
+        <Box textAlign="center" my={8}>
           {/* <Typography variant="h4" component="h1" gutterBottom>
           TRIPPY
         </Typography> */}
@@ -161,6 +154,7 @@ const Login = () => {
                 onClick={() => {
                   navigate("/register");
                 }}
+                sx={{ cursor: "pointer" }}
               >
                 Register
               </Link>

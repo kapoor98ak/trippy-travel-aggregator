@@ -80,7 +80,7 @@ const Register = () => {
 
   return (
     <Container maxWidth="sm">
-      <Box textAlign="center" my={4}>
+      <Box textAlign="center" my={8}>
         {/* <Typography variant="h4" component="h1" gutterBottom>
           TRIPPY
         </Typography> */}
@@ -158,7 +158,7 @@ const Register = () => {
           </Button>
           {errMsg && <Typography color="error">{errMsg}</Typography>}
           <Typography variant="body2" color="text.secondary" align="center">
-            Already have an account? <Link to="/">Login</Link>
+            Already have an account? <Link to="/login">Login</Link>
           </Typography>
           {successMsg && (
             <Alert severity="success" sx={{ mt: 4 }}>
