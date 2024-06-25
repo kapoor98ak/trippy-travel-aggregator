@@ -39,7 +39,7 @@ function App() {
       <BrowserRouter>
         <Box flex flexDirection="column" minHeight="100vh" minWidth="100%">
           <Header />
-          <Box flexGrow={1}>
+          <Box flexGrow={1} minHeight="100vh" minWidth="100%">
             <Routes>
               <Route exact path="/" element={<Landing />} />
               <Route exact path="/faq" element={<FAQ />} />

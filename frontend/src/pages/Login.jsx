@@ -77,89 +77,103 @@ const Login = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box textAlign="center" my={4}>
-        {/* <Typography variant="h4" component="h1" gutterBottom>
+    <Container
+      minHeight="100vh"
+      minWidth="100vw"
+      maxWidth="100vw"
+      height="100vh"
+      flexGrow={1}
+      disableGutters
+    >
+      <Container maxWidth="sm" minHeight="100vh" height="100vh" disableGutters>
+        <Box textAlign="center" my={4}>
+          {/* <Typography variant="h4" component="h1" gutterBottom>
           TRIPPY
         </Typography> */}
-        <Typography variant="h5" component="h2" gutterBottom>
-          Sign in to your account
-        </Typography>
-      </Box>
-      {isLoading ? (
-        <Box display="flex" justifyContent="center">
-          <CircularProgress />
-        </Box>
-      ) : (
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            error={!!userEmailError}
-            helperText={userEmailError}
-            onChange={(e) => setUserEmail(e.target.value)}
-            value={userEmail}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type={showPassword ? "text" : "password"}
-            id="password"
-            autoComplete="current-password"
-            error={!!passwordError}
-            helperText={passwordError}
-            onChange={(e) => setPwd(e.target.value)}
-            value={pwd}
-          />
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Link
-              onClick={handleForgotPassword}
-              variant="body2"
-              component="button"
-            >
-              Forgot password?
-            </Link>
-          </Box>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign in
-          </Button>
-          {errMsg && <Typography color="error">{errMsg}</Typography>}
-          <Typography variant="body2" color="text.secondary" align="center">
-            New User?{" "}
-            <Link
-              onClick={() => {
-                navigate("/register");
-              }}
-            >
-              Register
-            </Link>
+          <Typography variant="h5" component="h2" gutterBottom>
+            Sign in to your account
           </Typography>
-
-          {successMsg && (
-            <Alert severity="success" sx={{ mt: 4 }}>
-              {successMsg}
-            </Alert>
-          )}
         </Box>
-      )}
+        {isLoading ? (
+          <Box display="flex" justifyContent="center">
+            <CircularProgress />
+          </Box>
+        ) : (
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              error={!!userEmailError}
+              helperText={userEmailError}
+              onChange={(e) => setUserEmail(e.target.value)}
+              value={userEmail}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type={showPassword ? "text" : "password"}
+              id="password"
+              autoComplete="current-password"
+              error={!!passwordError}
+              helperText={passwordError}
+              onChange={(e) => setPwd(e.target.value)}
+              value={pwd}
+            />
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Link
+                onClick={handleForgotPassword}
+                variant="body2"
+                component="button"
+              >
+                Forgot password?
+              </Link>
+            </Box>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign in
+            </Button>
+            {errMsg && <Typography color="error">{errMsg}</Typography>}
+            <Typography variant="body2" color="text.secondary" align="center">
+              New User?{" "}
+              <Link
+                onClick={() => {
+                  navigate("/register");
+                }}
+              >
+                Register
+              </Link>
+            </Typography>
+
+            {successMsg && (
+              <Alert severity="success" sx={{ mt: 4 }}>
+                {successMsg}
+              </Alert>
+            )}
+          </Box>
+        )}
+      </Container>
     </Container>
   );
 };
