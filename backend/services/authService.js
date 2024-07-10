@@ -49,24 +49,30 @@ exports.registerUser = async ({ name, email, password, role, agency_bin}) => {
 };
 
 exports.loginUser = async ({ email, password }) => {
-  let user = await User.findOne({ email });
-  if (!user) {
-    throw new Error('Invalid credentials');
-    // return res.status(400).json({ msg: "Invalid credentials" });
+  try {
+    let user = await User.findOne({ email });
+    if (!user) {
+      throw new Error('Invalid credentials');
+    }
+
+    const isMatch = await bcrypt.compare(password, user.passwordHash);
+    if (!isMatch) {
+      throw new Error('Invalid credentials');
+    }
+
+    const payload = {
+      user: {
+        id: user.id,
+        role: user.role,
+        isApproved: user.isApproved,
+      },
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 });
+
+    return { user, token };
+  } catch (error) {
+    console.error("Error while logging in user:", error.message);
+    throw new Error('Server error'); // Throw error to be handled in the controller
   }
-
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) {
-    throw new Error('Invalid credentials');
-  }
-
-  const payload = {
-    user: {
-      id: user.id,
-      role: user.role,
-      isApproved: user.isApproved,
-    },
-  };
-
-  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 });
 };

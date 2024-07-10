@@ -15,13 +15,12 @@ exports.registerUser = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
-  const { email, password } = req.body;
-
   try {
-    const token = await authService.loginUser({ email, password });
-    res.json({ token });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
+    const { email, password } = req.body;
+    const result = await authService.loginUser({ email, password });
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("Error in loginUser controller:", error.message);
+    res.status(500).json({ message: error.message });
   }
 };
