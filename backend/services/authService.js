@@ -1,63 +1,64 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const Agency = require('../models/Agency');
 
-exports.registerUser = async ({
-  name,
-  email,
-  password,
-  role,
-  address,
-  agencyName,
-  agencyBIN,
-  agencyAddress,
-}) => {
+exports.registerUser = async ({ name, email, password, role, agency_bin}) => {
+  try {
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      throw new Error('User already exists');
+    }
+    console.log("Registering a User...")
+
+    // Hash the password
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(password, salt);
+
+    // Create new user
+    const newUser = new User({
+      name,
+      email,
+      passwordHash,
+      role: role === 'agent' ? 'agent' : 'traveler',
+      agency_bin: role === 'agent' ? agency_bin : null,
+      isApproved: role !== 'agent',
+    });
+
+    // Save the user to the database
+    const savedUser = await newUser.save();
+
+    // Create JWT token
+    const payload = {
+      user: {
+        id: savedUser.id,
+        role: savedUser.role,
+        isApproved: savedUser.isApproved,
+      },
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 });
+    
+    return { user: savedUser, token };
+  } catch (err) {
+    console.log("Error while registering user...")
+    console.error(err.message);
+    throw new Error('Server error');
+  }
+};
+
+exports.loginUser = async ({ email, password }) => {
   try {
     let user = await User.findOne({ email });
-    if (user) {
-      throw new Error('User already exists');
-      // return res.status(400).json({ msg: "User already exists" });
+    if (!user) {
+      throw new Error('Invalid credentials');
     }
 
-    if (role === 'agent') {
-      let agency = await Agency.findOne({ binNumber: agencyBIN });
-      if (agency) {
-        throw new Error('Agency with this BIN already exists');
-        // return res
-        //   .status(400)
-        //   .json({ msg: "Agency with this BIN already exists" });
-      }
-
-      agency = new Agency({
-        name: agencyName,
-        binNumber: agencyBIN,
-        address: agencyAddress,
-      });
-
-      await agency.save();
-
-      user = new User({
-        name,
-        email,
-        password,
-        role,
-        address,
-        agency: agency.id,
-      });
-    } else {
-      user = new User({
-        name,
-        email,
-        password,
-        role,
-      });
+    const isMatch = await bcrypt.compare(password, user.passwordHash);
+    if (!isMatch) {
+      throw new Error('Invalid credentials');
     }
-
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(password, salt);
-
-    await user.save();
 
     const payload = {
       user: {
@@ -67,40 +68,11 @@ exports.registerUser = async ({
       },
     };
 
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: 3600 },
-      (err, token) => {
-        if (err) throw err;
-        res.status(200).json({ token });
-      },
-    );
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 });
+
+    return { user, token };
   } catch (error) {
-    console.error(err.message);
-    res.status(500).send('Server error');
+    console.error("Error while logging in user:", error.message);
+    throw new Error('Server error'); // Throw error to be handled in the controller
   }
-};
-
-exports.loginUser = async ({ email, password }) => {
-  let user = await User.findOne({ email });
-  if (!user) {
-    throw new Error('Invalid credentials');
-    // return res.status(400).json({ msg: "Invalid credentials" });
-  }
-
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) {
-    throw new Error('Invalid credentials');
-  }
-
-  const payload = {
-    user: {
-      id: user.id,
-      role: user.role,
-      isApproved: user.isApproved,
-    },
-  };
-
-  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 });
 };

@@ -1,43 +1,26 @@
 const authService = require('../services/authService');
+const bcrypt = require('bcryptjs');
+const User = require('../models/User');
 
 exports.registerUser = async (req, res) => {
-  const {
-    name,
-    email,
-    password,
-    role,
-    address,
-    agencyName,
-    agencyBIN,
-    agencyAddress,
-  } = req.body;
+  const { name, email, password, role, agency_bin } = req.body;
 
   try {
-    const token = await authService.registerUser({
-      name,
-      email,
-      password,
-      role,
-      address,
-      agencyName,
-      agencyBIN,
-      agencyAddress,
-    });
-    res.json({ token });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
+    const { user, token } = await authService.registerUser({ name, email, password, role, agency_bin });
+    res.status(201).json({ user, token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
 exports.loginUser = async (req, res) => {
-  const { email, password } = req.body;
-
   try {
-    const token = await authService.loginUser({ email, password });
-    res.json({ token });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
+    const { email, password } = req.body;
+    const result = await authService.loginUser({ email, password });
+    res.status(200).json(result);
+  } catch (error) {
+    console.error("Error in loginUser controller:", error.message);
+    res.status(500).json({ message: error.message });
   }
 };

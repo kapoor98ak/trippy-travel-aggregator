@@ -6,10 +6,6 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  // username: {
-  //   type: String,
-  //   required: true,
-  // },
   email: {
     type: String,
     required: true,
@@ -23,13 +19,7 @@ const userSchema = new Schema({
     enum: ['traveler', 'agent', 'admin'],
     default: 'traveler',
   },
-  address: {
-    type: String,
-    required: function () {
-      return this.role === 'agent';
-    },
-  },
-  agency: {
+  agency_bin: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Agency',
     required: function () {
@@ -42,11 +32,6 @@ const userSchema = new Schema({
       return this.role !== 'agent';
     },
   },
-  //   profile: {
-  //     name: String,
-  //     phone: String,
-  //     address: String,
-  //   },
   createdAt: {
     type: Date,
     default: Date.now,

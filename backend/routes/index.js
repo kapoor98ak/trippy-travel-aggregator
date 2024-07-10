@@ -7,7 +7,6 @@ const emailRoutes = require('./emailRoutes');
 const authRoutes = require('./authRoutes');
 
 router.use('/email', emailRoutes);
-// router.use("/users", userRoutes);
 router.use('/auth', authRoutes);
 
 module.exports = router;
