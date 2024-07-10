@@ -19,7 +19,7 @@ const userSchema = new Schema({
     enum: ['traveler', 'agent', 'admin'],
     default: 'traveler',
   },
-  agency: {
+  agency_bin: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Agency',
     required: function () {
