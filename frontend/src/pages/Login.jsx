@@ -77,7 +77,12 @@ const Login = () => {
   };
 
   return (
-    <Container minWidth="100vw" maxWidth="100vw" disableGutters>
+    <Container
+      minHeight="100%"
+      minWidth="100vw"
+      maxWidth="100vw"
+      disableGutters
+    >
       <Container maxWidth="sm" disableGutters>
         <Box textAlign="center" my={8}>
           {/* <Typography variant="h4" component="h1" gutterBottom>
