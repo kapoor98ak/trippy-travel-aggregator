@@ -1,6 +1,6 @@
 // middlewares/authMiddleware.js
 const jwt = require('jsonwebtoken');
-import User from '../models/User';
+const User = require('../models/User');
 
 const authMiddleware = async (req, res, next) => {
   let token;
@@ -12,10 +12,19 @@ const authMiddleware = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id).select('-password');
+    const userId = decoded.user.id;  
+    console.log('User ID:', userId);
+   
+
+    const user = await User.findById(userId).select('-password');
+    if (!user) {
+      console.log('No user found with ID:', userId);
+      return res.status(404).json({ message: 'User not found' });
+    }
     req.user = user;
 
     req.body.user = decoded.id;
+    console.log('User:', user);
 
     next();
   } catch (err) {
