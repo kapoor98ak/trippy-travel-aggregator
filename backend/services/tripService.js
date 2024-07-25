@@ -9,7 +9,7 @@ We can delete a Trip.
 */
 
 // services/tripService.js
-const Trip = require('../models/Trip');
+const Trip = require('../models/Trips');
 
 exports.createTrip = async (tripData) => {
     try{
