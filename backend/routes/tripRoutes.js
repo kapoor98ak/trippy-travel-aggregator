@@ -4,9 +4,7 @@ const tripController = require('../controllers/tripController')
 const router = express.Router();
 
 router.post('/create', tripController.createTrip);
-router.post('/create', tripController.createTrip);
-router.post('/create', tripController.createTrip);
-router.post('/create', tripController.createTrip);
-router.post('/create', tripController.createTrip);
+router.post('/filter', tripController.filterTrips);
+
 
 module.exports = router;
