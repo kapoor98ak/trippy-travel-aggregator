@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { z } from 'zod';
 import tripSchema from '../functions/tripSchema';
 import TextareaWrapper from '../components/TextareaWrapper';
-import sendDataToBackend from '../functions/sendDataToBackend';
+import sendDataToBackend from '../functions/addTrip';
 
 const AddTripPage = () => {
     const navigate = useNavigate();
@@ -60,7 +60,8 @@ const AddTripPage = () => {
             price,
             occupancy,
             itinerary,
-            files
+            files,
+            amenities
         };
         try {
             tripSchema.parse(formData);

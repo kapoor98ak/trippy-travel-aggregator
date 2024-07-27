@@ -12,17 +12,16 @@ We can delete a Trip.
 const Trip = require('../models/Trips');
 
 exports.createTrip = async (tripData) => {
-    try{
-        const newTrip = new Trip(tripData);
-        const savedTrip = await newTrip.save();
-        return savedTrip;
-    }
-    catch (error) {
-        console.error("Error while creating a trip:", error.message);
-        throw new Error(error.message);
-    }
-
-}
+  try {
+      const newTrip = new Trip(tripData);
+      const savedTrip = await newTrip.save();
+      console.log("Trip saved successfully:", savedTrip);
+      return savedTrip;
+  } catch (error) {
+      console.error("Error while creating a trip:", error.message);
+      throw new Error(error.message);
+  }
+};
 
 exports.filterTrips = async ({ source, destination, startDate, endDate }) => {
   try {
