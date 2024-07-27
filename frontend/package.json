@@ -13,10 +13,12 @@
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.15.20",
+    "@mui/material": "^5.16.0",
     "@mui/material": "^5.16.5",
     "flowbite-react": "^0.10.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5",
     "zod": "^3.23.8"

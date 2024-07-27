@@ -4,7 +4,7 @@ import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import { Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-// import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 const Landing = lazy(() => import('./pages/Landing.jsx'));
 const FAQ = lazy(() => import('./pages/FAQ.jsx'));
 const ContactUs = lazy(() => import('./pages/ContactUs.jsx'));
@@ -40,6 +40,17 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <Box flex flexDirection="column" minheight="100vh" minwidth="100%">
           <Header />
           <Box flexGrow={1} minheight="100vh" minwidth="100%">
@@ -58,6 +69,7 @@ function App() {
           </Box>
           <Footer />
         </Box>
+        <ToastContainer />
       </BrowserRouter>
     </ThemeProvider>
   );
