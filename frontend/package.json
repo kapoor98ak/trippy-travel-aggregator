@@ -10,15 +10,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.15.20",
     "@mui/material": "^5.16.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.23.1",
-    "react-toastify": "^10.0.5"
+    "react-toastify": "^10.0.5",
+    "@mui/joy": "^5.0.0-beta.48",
+    "@mui/system": "^5.16.5",
+    "@mui/x-date-pickers": "^7.11.1",
+    "@testing-library/user-event": "^12.1.2",
+    "dayjs": "^1.11.12"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

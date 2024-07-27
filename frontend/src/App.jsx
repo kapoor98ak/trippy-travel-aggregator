@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 // import "./App.css";
 import { Box } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -14,6 +14,9 @@ import Footer from "./components/Footer.jsx";
 import ForgotPassword from "./components/ForgotPassword.jsx";
 import PasswordReset from "./components/PasswordReset.jsx";
 import TripDetail from "./pages/TripDetail.jsx";
+import TravelRequestForm from "./pages/TravelRequestForm.jsx";
+import TravelRequestPage from "./pages/TravelRequestForm.jsx";
+
 
 const theme = createTheme({
   typography: {
@@ -58,6 +61,8 @@ function App() {
               <Route path="/contact" element={<ContactUs />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route exact path="/travel-request-form" element={<TravelRequestForm />} />
+
               <Route
                 exact
                 path="/forgotpassword"
