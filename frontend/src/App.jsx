@@ -12,7 +12,10 @@ const Login = lazy(() => import('./pages/Login.jsx'));
 const Register = lazy(() => import('./pages/Register.jsx'));
 const ForgotPassword = lazy(() => import('./components/ForgotPassword.jsx'));
 const PasswordReset = lazy(() => import('./components/PasswordReset.jsx'));
-import Spinner from './components/Spinner';
+const AddTripPage = lazy(() => import('./pages/AddTrip.jsx'));
+import Spinner from './components/Spinner.jsx';
+
+
 
 const theme = createTheme({
   typography: {
@@ -37,9 +40,9 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <Box flex flexDirection="column" minHeight="100vh" minWidth="100%">
+        <Box flex flexDirection="column" minheight="100vh" minwidth="100%">
           <Header />
-          <Box flexGrow={1} minHeight="100vh" minWidth="100%">
+          <Box flexGrow={1} minheight="100vh" minwidth="100%">
           <Suspense fallback={<Spinner />}>
           <Routes>
                 <Route path="/" element={<Landing />} />
@@ -49,6 +52,7 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<PasswordReset />} />
+                <Route path="/add-trip" element={<AddTripPage />} />
               </Routes>
             </Suspense>
           </Box>

@@ -1,14 +1,20 @@
-// Spinner.jsx
 import React from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
 const Spinner = () => {
     return (
-        <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-            <CircularProgress style={{ color: 'blue' }} thickness={5} />
-            </Box>
+        <Box 
+            sx={{ 
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh'
+            }}
+        >
+            <CircularProgress color="info" aria-label="Info spinner example" />
+        </Box>
     );
-}
+};
 
 export default Spinner;

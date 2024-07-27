@@ -6,12 +6,45 @@ const tripSchema = new Schema({
     type: String,
     required: true,
   },
-  description: String,
-  source: String,
-  destination: String,
-  startDate: Date,
-  endDate: Date,
-  price: Number,
+  source: {
+    type: String,
+    required: true,
+  },
+  destination: {
+    type: String,
+    required: true,
+  },
+  startDate: {
+    type: Date,
+    required: true,
+  },
+  endDate: {
+    type: Date,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  capacity: {
+    type: Number,
+    required: true,
+  },
+  bookedSlots: {
+    type: Number,
+    default: 0,
+  },
+  itinerary: {
+    type: String,
+    required: true,
+  },
+  amenities: {
+    wifi: { type: Boolean, default: false },
+    meals: { type: Boolean, default: false },
+    parking: { type: Boolean, default: false },
+    guide: { type: Boolean, default: false },
+  },
+  images: [String],
   agentId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
@@ -30,14 +63,8 @@ const tripSchema = new Schema({
     enum: ['active', 'canceled', 'completed'],
     default: 'active',
   },
-  capacity: Number,
-  bookedSlots: {
-    type: Number,
-    default: 0,
-  },
-
-  // TODO: Add a list of people who are going on that trip.
-  // TODO: How do you make joins in MongoDB.
+  // Make changes if required 
+ 
 });
 
 module.exports = mongoose.model('Trip', tripSchema);
