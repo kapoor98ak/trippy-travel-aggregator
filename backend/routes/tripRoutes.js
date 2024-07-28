@@ -10,5 +10,10 @@ router.post('/filter', tripController.filterTrips);
 
 router.get('/', authMiddleware,tripController.getTripsByAgent);
 
+router.get('/:id', authMiddleware, tripController.getTripById);
+
+router.put('/:id', uploadFilesAndConvertToBase64, authMiddleware, tripController.updateTrip);
+
+
 
 module.exports = router;
