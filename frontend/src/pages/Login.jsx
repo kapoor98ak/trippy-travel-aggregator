@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext.jsx";
 import {
   Container,
   TextField,
@@ -13,6 +14,7 @@ import {
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
   const [userEmail, setUserEmail] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -66,12 +68,26 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateInputs()) {
-      setSuccessMsg("Login Successful");
+    if (!validateInputs()) return;
+
+    try {
       setIsLoading(true);
-      // Implement login logic
+      await login(userEmail, pwd);
+      setSuccessMsg("Login Successful");
+      navigate("/dashboard"); // Adjust the route as needed
+    } catch (err) {
+      let errorMessage = "Login Failed";
+      if (!err?.response) {
+        errorMessage = "No Server Response";
+      } else if (err.response?.status === 401) {
+        errorMessage = "Invalid credentials";
+      } else if (err.response?.status === 400) {
+        errorMessage = "Validation Failed";
+      }
+      setErrMsg(errorMessage);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -85,9 +101,6 @@ const Login = () => {
     >
       <Container maxWidth="sm" disableGutters>
         <Box textAlign="center" my={8}>
-          {/* <Typography variant="h4" component="h1" gutterBottom>
-          TRIPPY
-        </Typography> */}
           <Typography variant="h5" component="h2" gutterBottom>
             Sign in to your account
           </Typography>
