@@ -14,6 +14,7 @@ import Footer from "./components/Footer.jsx";
 import ForgotPassword from "./components/ForgotPassword.jsx";
 import PasswordReset from "./components/PasswordReset.jsx";
 import TripDetail from "./pages/TripDetail.jsx";
+import AdminHomePage from "./pages/AdminHomePage.jsx";
 
 const theme = createTheme({
   typography: {
@@ -70,6 +71,7 @@ function App() {
             /> */}
               <Route path="/reset-password" element={<PasswordReset />} />
               <Route path="/tripdetail" element={<TripDetail />} />
+              <Route path="/admin-home" element={<AdminHomePage></AdminHomePage>} />
             </Routes>
           </Box>
           <Footer />
