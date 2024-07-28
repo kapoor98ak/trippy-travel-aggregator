@@ -33,7 +33,6 @@ exports.createTrip = async (tripData) => {
 };
 
 exports.getTrip = async(id) => {
-  console.log("Trip id: ", id);
   try {
     const query = {};
     if (id) {
