@@ -86,10 +86,6 @@ function App() {
                     </PrivateRoute>
                   }
                 />
-                <Route
-                  path="/admin-home"
-                  element={<AdminHomePage></AdminHomePage>}
-                />
               </Routes>
             </Box>
             <Footer />
