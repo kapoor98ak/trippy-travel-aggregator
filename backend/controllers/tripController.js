@@ -1,18 +1,22 @@
 const tripService = require('../services/tripService');
+const Trip=require('../models/Trips');
 
 // tripController.js
 
 
 exports.createTrip = async (req, res) => {
-  const { title, source, destination, startDate, endDate, price,  itinerary, amenities, images } = req.body;
-  const capacity=req.body.occupancy;
+  const { title, source, destination, startDate, endDate, price, itinerary, images } = req.body;
+  const capacity = req.body.occupancy;
+  let amenities;
 
+  try {
+    amenities = JSON.parse(req.body.amenities);
+  } catch (error) {
+    console.error('Error parsing amenities:', error);
+    return res.status(400).json({ msg: 'Invalid amenities format' });
+  }
 
- 
-  
-
-
-  if (!title || !source || !destination || !startDate || !endDate || !price || !capacity || !itinerary || !images) {
+  if (!title || !source || !destination || !startDate || !endDate || !price || !capacity || !itinerary || !images || !amenities) {
     console.log('Missing required fields');
     return res.status(400).json({ msg: 'Please enter all the details!!' });
   }
@@ -49,6 +53,21 @@ exports.createTrip = async (req, res) => {
   }
 };
 
+
+
+
+exports.getTripsByAgent = async (req, res) => {
+  try {
+      const agentId = req.user._id;
+
+      const trips = await Trip.find({ agentId });
+
+      res.status(200).json(trips);
+  } catch (error) {
+      console.error('Error fetching trips by agent:', error);
+      res.status(500).json({ msg: 'Server error' });
+  }
+};
 
 
 exports.filterTrips = async (req, res) => {
