@@ -15,7 +15,7 @@ exports.authMiddleware = async (req, res, next) => {
     console.log('Verifying token...');
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.user.id;
-    console.log('User ID:', userId);
+    // console.log('User ID:', userId);
     const user = await User.findById(userId).select('-password');
     if (!user) {
       console.log('No user found with ID:', userId);
@@ -23,7 +23,7 @@ exports.authMiddleware = async (req, res, next) => {
     }
     req.user = user;
     req.body.user = decoded.id;
-    console.log('User:', user);
+    // console.log('User:', user);
     next();
   } catch (err) {
     console.log('Authorization Error:', err);
