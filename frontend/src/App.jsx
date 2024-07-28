@@ -2,6 +2,8 @@ import React from "react";
 // import "./App.css";
 import { Box } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ToastContainer } from "react-toastify";
 import Landing from "./pages/Landing.jsx";
 import FAQ from "./pages/FAQ.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
@@ -11,8 +13,8 @@ import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import ForgotPassword from "./components/ForgotPassword.jsx";
 import PasswordReset from "./components/PasswordReset.jsx";
-// import { createMuiTheme, ThemeProvider } from "@material-ui/core";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import TripDetail from "./pages/TripDetail.jsx";
+import AdminHomePage from "./pages/AdminHomePage.jsx";
 
 const theme = createTheme({
   typography: {
@@ -37,15 +39,26 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <Box flex flexDirection="column" minHeight="100vh" minWidth="100%">
           <Header />
           <Box flexGrow={1} minHeight="100vh" minWidth="100%">
             <Routes>
-              <Route exact path="/" element={<Landing />} />
-              <Route exact path="/faq" element={<FAQ />} />
-              <Route exact path="/contact" element={<ContactUs />} />
-              <Route exact path="/login" element={<Login />} />
-              <Route exact path="/register" element={<Register />} />
+              <Route path="/" element={<Landing />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/contact" element={<ContactUs />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
               <Route
                 exact
                 path="/forgotpassword"
@@ -56,11 +69,14 @@ function App() {
               path="/reset-password/:token"
               element={<PasswordReset />}
             /> */}
-              <Route exact path="/reset-password" element={<PasswordReset />} />
+              <Route path="/reset-password" element={<PasswordReset />} />
+              <Route path="/tripdetail" element={<TripDetail />} />
+              <Route path="/admin-home" element={<AdminHomePage></AdminHomePage>} />
             </Routes>
           </Box>
           <Footer />
         </Box>
+        <ToastContainer />
       </BrowserRouter>
     </ThemeProvider>
   );

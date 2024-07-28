@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Trips = require('../models/Trips')
 
 // Returns total count of user having particular role
 exports.getUserCountByType = async (userType) => {
@@ -8,6 +9,18 @@ exports.getUserCountByType = async (userType) => {
     }
     catch (error) {
         console.log(`Unable to fetch user count for role: ${userType} | Error : ${error}`)
+        return null
+    }
+}
+
+// Returns total count of trips by status
+exports.getTotalTripCountbyStatus = async (status) => {
+    try {
+        let result = await Trips.countDocuments({ status: status })
+        return result
+    }
+    catch (error) {
+        console.log(`Unable to fetch trip count for status: ${status} | Error : ${error}`)
         return null
     }
 }
@@ -71,6 +84,48 @@ exports.getTotalUserCountMonthWiseByYear = async (year, role) => {
     } catch (err) {
         console.error(err);
         throw new Error('Failed to fetch user count by month');
+    }
+}
+
+// Returns percentage of approved agents
+exports.getApprovedAgentRatio = async () => {
+    try {
+        let agentString = "agent"
+        let totalAgents = await User.countDocuments({ role: agentString })
+        let approvedAgents = await User.countDocuments({ role: agentString, isApproved: true })
+        let approvalRatio = ((approvedAgents / totalAgents) * 100).toFixed(2)
+        return approvalRatio
+    }
+    catch (err) {
+        console.error(err)
+        throw new Error('Failed to fetch approval ratio for agents')
+    }
+}
+
+// returns list of unique years in users collection
+exports.getUniqueYearListFromUsers = async () => {
+    try {
+        const years = await User.aggregate([
+            {
+                $group: {
+                    _id: { $year: '$createdAt' }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    year: '$_id'
+                }
+            },
+            {
+                $sort: { year: 1 }
+            }
+        ]);
+        const uniqueYears = years.map(y => y.year);
+        return uniqueYears
+    } catch (err) {
+        console.error(err)
+        throw new Error('Unable to fetch unique years from users collection')
     }
 }
 
