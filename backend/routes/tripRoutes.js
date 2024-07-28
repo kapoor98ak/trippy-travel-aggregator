@@ -4,8 +4,10 @@ const authMiddleware = require('../middleware/authMiddleware')
 
 const router = express.Router();
 
-router.post('/create',authMiddleware, tripController.createTrip);
-router.post('/filter', tripController.filterTrips);
+console.log("In the Routes, Index.js , Trips ...")
+
+router.post('/create', authMiddleware, tripController.createTrip);
+router.post('/filter', authMiddleware, tripController.filterTrips);
 
 
 module.exports = router;

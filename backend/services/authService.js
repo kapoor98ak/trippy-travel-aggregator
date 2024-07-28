@@ -52,13 +52,16 @@ exports.loginUser = async ({ email, password }) => {
   try {
     let user = await User.findOne({ email });
     if (!user) {
-      throw new Error('Invalid credentials');
+      throw new Error('Email not registered');
     }
 
     const isMatch = await bcrypt.compare(password, user.passwordHash);
     if (!isMatch) {
-      throw new Error('Invalid credentials');
+      throw new Error('Invalid password');
     }
+    
+    // The user credentials are correct... 
+    console.log("User successfull logged in!!");
 
     const payload = {
       user: {
