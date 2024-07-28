@@ -2,10 +2,13 @@
 const express = require('express');
 const router = express.Router();
 
+
 const emailRoutes = require('./emailRoutes');
 const authRoutes = require('./authRoutes');
 const adminRoutes = require('./adminRoutes');
 const tripRoutes = require('./tripRoutes');
+
+console.log("In the Routes, Index.js ...")
 
 router.use('/email', emailRoutes);
 router.use('/auth', authRoutes);

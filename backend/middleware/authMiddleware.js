@@ -12,6 +12,7 @@ exports.authMiddleware = async (req, res, next) => {
   token = token.replace('Bearer ', '');
 
   try {
+    console.log('Verifying token...');
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.user.id;
     console.log('User ID:', userId);
@@ -25,7 +26,8 @@ exports.authMiddleware = async (req, res, next) => {
     console.log('User:', user);
     next();
   } catch (err) {
-    res.status(401).json({ message: 'Token is not valid' });
+    console.log('Authorization Error:', err);
+    res.status(401).json({ message: 'Token is not valid...' });
   }
 };
 
