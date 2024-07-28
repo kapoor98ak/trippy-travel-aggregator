@@ -1,5 +1,16 @@
 const tripService = require('../services/tripService');
 
+exports.getAllTrips = async (req, res) => {
+  const allTrips = await tripService.getAllTrips();
+  res.status(200).json(allTrips);
+};
+
+exports.getTrip = async (req, res) => {
+  id = req.params.id;
+  const requestedTrip = await tripService.getTrip(id);
+  res.status(200).json(requestedTrip);
+};
+
 exports.createTrip = async (req, res) => {
   const { title, description, source, destination, startDate, endDate, price, capacity } = req.body;
     

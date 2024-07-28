@@ -11,6 +11,16 @@ We can delete a Trip.
 // services/tripService.js
 const Trip = require('../models/Trip');
 
+exports.getAllTrips = async() => {
+  try{
+    const allTrips = await Trip.find({});
+    return allTrips;
+  } catch (error) {
+    console.log("Error while fetching all the trips...");
+    throw new Error(error.message);
+  }
+};
+
 exports.createTrip = async (tripData) => {
   try {
     const newTrip = new Trip(tripData);
@@ -18,6 +28,21 @@ exports.createTrip = async (tripData) => {
     return savedTrip;
   } catch (error) {
     console.error('Error while creating a trip:', error.message);
+    throw new Error(error.message);
+  }
+};
+
+exports.getTrip = async(id) => {
+  console.log("Trip id: ", id);
+  try {
+    const query = {};
+    if (id) {
+      query._id = id;
+      const trip = await Trip.findById(query);
+      return trip;
+    }
+  } catch (error) {
+    console.error('Error while fetching trip...', error.message);
     throw new Error(error.message);
   }
 };
