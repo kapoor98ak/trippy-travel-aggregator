@@ -1,16 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Grid, InputLabel, MenuItem, Paper, Select, Typography, FormControl } from '@mui/material';
-import { styled } from '@mui/system';
+import React, { useEffect, useState } from "react";
+import {
+    Box,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Paper,
+    Select,
+    Typography,
+    FormControl,
+} from "@mui/material";
+import { styled } from "@mui/system";
 import axios from "axios";
-import { BarChart } from '@mui/x-charts';
+import { BarChart } from "@mui/x-charts";
 
 const Item = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(2),
     margin: theme.spacing(1),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
-    borderRadius: '8px',
-    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+    borderRadius: "8px",
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
 }));
 
 const getMonthWiseUserURL = "/admin/getMonthWiseTravellerCountForYear";
@@ -19,11 +28,11 @@ const getTotalUsersURL = "/admin/getTotalTravellers";
 const getTotalAgentsURL = "/admin/getTotalAgents";
 const getTotalActiveTripURL = "/admin/getActiveTripCount";
 const getAgentsApprovalRatioURL = "/admin/getAgentsApprovalRatio";
-const getYearsListURL = "/admin/getUniqueYearsFromUsers"
+const getYearsListURL = "/admin/getUniqueYearsFromUsers";
 
 export default function AdminHomePage() {
-    const [yearsList, setYearsList] = useState([])
-    const [selectedYear, setSelectedYear] = useState(2024)
+    const [yearsList, setYearsList] = useState([]);
+    const [selectedYear, setSelectedYear] = useState(2024);
 
     const [monthWiseUserChart, setMonthWiseUserChart] = useState([]);
     const [monthWiseAgentChart, setMonthWiseAgentChart] = useState([]);
@@ -49,42 +58,56 @@ export default function AdminHomePage() {
     }, [selectedYear]);
 
     async function GetMonthWiseUserByYear() {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}${getMonthWiseUserURL}/${selectedYear}`);
+        const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}${getMonthWiseUserURL}/${selectedYear}`
+        );
         setMonthWiseUserChart(response.data);
     }
 
     async function GetMonthWiseAgentByYear() {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}${getMonthWiseAgentURL}/${selectedYear}`);
+        const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}${getMonthWiseAgentURL}/${selectedYear}`
+        );
         setMonthWiseAgentChart(response.data);
     }
 
     async function GetTotalUserCount() {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}${getTotalUsersURL}`);
+        const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}${getTotalUsersURL}`
+        );
         setTotalUsersCount(response.data.totalCount);
     }
 
     async function GetTotalAgentCount() {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}${getTotalAgentsURL}`);
+        const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}${getTotalAgentsURL}`
+        );
         setTotalAgentsCount(response.data.totalCount);
     }
 
     async function GetTotalActiveTripsCount() {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}${getTotalActiveTripURL}`);
+        const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}${getTotalActiveTripURL}`
+        );
         setTotalActiveTripsCount(response.data.totalCount);
     }
 
     async function GetAgentApprovalRatio() {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}${getAgentsApprovalRatioURL}`);
+        const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}${getAgentsApprovalRatioURL}`
+        );
         setAgentApprovalRatio(response.data.ratio);
     }
 
     async function GetYearsList() {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}${getYearsListURL}`);
+        const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}${getYearsListURL}`
+        );
         setYearsList(response.data);
     }
 
     async function handleSelectedYearChange(event) {
-        setSelectedYear(event.target.value)
+        setSelectedYear(event.target.value);
         // console.log(`Incoming year: ${event.target.value}`)
         // console.log(`Set year: ${selectedYear}`)
         // GetMonthWiseUserByYear();
@@ -161,7 +184,7 @@ export default function AdminHomePage() {
                         </Box>
                     </Item>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6} sm={12}>
                     <Item>
                         <Box sx={{ width: '100%', height: { xs: 300, md: 400 } }}>
                             <BarChart
