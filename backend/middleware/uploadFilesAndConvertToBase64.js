@@ -1,12 +1,10 @@
 const Busboy = require('busboy');
 
 const uploadFilesAndConvertToBase64 = (req, res, next) => {
-  console.log("busboy");
   if (req.headers['content-type'] && req.headers['content-type'].includes('multipart/form-data')) {
-    const busboy = Busboy({ headers: req.headers });
-    
+    const busboy = Busboy({ headers: req.headers }); // Correct constructor call
     req.body = {};
-    req.files = []; 
+    req.files = [];
 
     busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
       const chunks = [];
@@ -18,19 +16,19 @@ const uploadFilesAndConvertToBase64 = (req, res, next) => {
         const fileBuffer = Buffer.concat(chunks);
         const base64 = fileBuffer.toString('base64');
         req.files.push({ fieldname, filename, encoding, mimetype, base64 });
-        // console.log(`File [${fieldname}] uploaded: ${filename}`);
+        console.log(`File [${fieldname}] uploaded: ${filename}`);
       });
     });
 
     busboy.on('field', (fieldname, val) => {
       req.body[fieldname] = val;
-      // console.log(`Field [${fieldname}]: value: ${val}`);
+      console.log(`Field [${fieldname}]: value: ${val}`);
     });
 
     busboy.on('finish', () => {
       req.body.images = req.files.map(file => file.base64);
-      // console.log('Form parsing finished.');
-      // console.log('Request body:', req.body);
+      console.log('Form parsing finished.');
+      console.log('Request body:', req.body);
       next();
     });
 
@@ -41,3 +39,4 @@ const uploadFilesAndConvertToBase64 = (req, res, next) => {
 };
 
 module.exports = uploadFilesAndConvertToBase64;
+  

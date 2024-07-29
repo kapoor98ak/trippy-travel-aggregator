@@ -1,6 +1,21 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const itinerarySchema = new Schema({
+  locationName: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  visitDate: {
+    type: Date,
+    required: true,
+  },
+});
+
 const tripSchema = new Schema({
   title: {
     type: String,
@@ -34,10 +49,7 @@ const tripSchema = new Schema({
     type: Number,
     default: 0,
   },
-  itinerary: {
-    type: String,
-    required: true,
-  },
+  itinerary: [itinerarySchema],
   amenities: {
     wifi: { type: Boolean, default: false },
     meals: { type: Boolean, default: false },
@@ -63,8 +75,6 @@ const tripSchema = new Schema({
     enum: ['active', 'canceled', 'completed'],
     default: 'active',
   },
-  // Make changes if required 
- 
 });
 
 module.exports = mongoose.model('Trip', tripSchema);

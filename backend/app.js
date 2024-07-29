@@ -4,7 +4,7 @@ const cors = require('cors');
 const config = require('./config/config');
 const connectDB = require('./config/databaseConfig');
 const routes = require('./routes');
-const cors= require('cors');
+
 
 // Load environment variables
 dotenv.config();
@@ -20,7 +20,6 @@ app.use(cors()); // Enable CORS
 app.use(express.json()); // For parsing JSON payloads
 app.use(express.urlencoded({ extended: true })); // For parsing URL-encoded payloads, with support for nested objects
 
-app.use(cors()); // Enable CORS for cross-origin requests
 // Routes
 app.use('/api', routes);
 

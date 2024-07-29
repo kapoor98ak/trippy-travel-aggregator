@@ -13,9 +13,13 @@ const Register = lazy(() => import('./pages/Register.jsx'));
 const ForgotPassword = lazy(() => import('./components/ForgotPassword.jsx'));
 const PasswordReset = lazy(() => import('./components/PasswordReset.jsx'));
 const AddTripPage = lazy(() => import('./pages/AddTrip.jsx'));
+const TripDetail = lazy(() => import('./pages/TripDetail.jsx'));
 import Spinner from './components/Spinner.jsx';
 import { AuthProvider } from "./context/AuthContext.jsx";
 import PrivateRoute from "./components/PrivateRoute";
+const UserProfile = lazy(() => import('./pages/UserProfile.jsx'));
+const Dashboard= lazy(() => import('./pages/Dashboard.jsx'));
+
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -45,7 +49,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <AuthProvider>
         <BrowserRouter>
-          <ToastContainer
+          {/* <ToastContainer
             position="top-right"
             autoClose={5000}
             hideProgressBar={false}
@@ -55,7 +59,7 @@ function App() {
             pauseOnFocusLoss
             draggable
             pauseOnHover
-          />
+          /> */}
           <Box flex flexDirection="column" minHeight="100vh" minWidth="100%">
             <Header />
             <Box flexGrow={1} minHeight="100vh" minWidth="100%">
