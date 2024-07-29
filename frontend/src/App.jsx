@@ -65,11 +65,8 @@ function App() {
                 <Route path="/contact" element={<ContactUs />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route
-                  exact
-                  path="/forgotpassword"
-                  element={<ForgotPassword />}
-                />
+                <Route path="/addtrip" element={<AddTripPage />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<PasswordReset />} />
                 <Route path="/tripdetail" element={<TripDetail />} />
                 <Route
