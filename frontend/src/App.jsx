@@ -1,29 +1,26 @@
-import React, { Suspense,lazy} from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Header from './components/Header.jsx';
-import Footer from './components/Footer.jsx';
-import { Box } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-// import { createMuiTheme} from "@material-ui/core";
-const Landing = lazy(() => import('./pages/Landing.jsx'));
-const FAQ = lazy(() => import('./pages/FAQ.jsx'));
-const ContactUs = lazy(() => import('./pages/ContactUs.jsx'));
-const Login = lazy(() => import('./pages/Login.jsx'));
-const Register = lazy(() => import('./pages/Register.jsx'));
-const ForgotPassword = lazy(() => import('./components/ForgotPassword.jsx'));
-const PasswordReset = lazy(() => import('./components/PasswordReset.jsx'));
-const AddTripPage = lazy(() => import('./pages/AddTrip.jsx'));
-const TripDetail = lazy(() => import('./pages/TripDetail.jsx'));
-import Spinner from './components/Spinner.jsx';
+import React, { Suspense, lazy } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import { Box } from "@mui/material";
+import Spinner from "./components/Spinner.jsx";
+import Header from "./components/Header.jsx";
+import Footer from "./components/Footer.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import PrivateRoute from "./components/PrivateRoute";
-const UserProfile = lazy(() => import('./pages/UserProfile.jsx'));
-const Dashboard= lazy(() => import('./pages/Dashboard.jsx'));
-
-
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+const Landing = lazy(() => import("./pages/Landing.jsx"));
+const FAQ = lazy(() => import("./pages/FAQ.jsx"));
+const ContactUs = lazy(() => import("./pages/ContactUs.jsx"));
+const Login = lazy(() => import("./pages/Login.jsx"));
+const Register = lazy(() => import("./pages/Register.jsx"));
+const ForgotPassword = lazy(() => import("./components/ForgotPassword.jsx"));
+const PasswordReset = lazy(() => import("./components/PasswordReset.jsx"));
+const AddTripPage = lazy(() => import("./pages/AddTrip.jsx"));
+const TripDetail = lazy(() => import("./pages/TripDetail.jsx"));
+const UserProfile = lazy(() => import("./pages/UserProfile.jsx"));
+const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
+import Trips from "./pages/Trips.jsx";
 
 const theme = createTheme({
   typography: {
@@ -49,7 +46,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <AuthProvider>
         <BrowserRouter>
-          {/* <ToastContainer
+          <ToastContainer
             position="top-right"
             autoClose={5000}
             hideProgressBar={false}
@@ -59,20 +56,23 @@ function App() {
             pauseOnFocusLoss
             draggable
             pauseOnHover
-          /> */}
+          />
           <Box flex flexDirection="column" minHeight="100vh" minWidth="100%">
             <Header />
             <Box flexGrow={1} minHeight="100vh" minWidth="100%">
               <Routes>
+                {/* Basic Application Routes */}
                 <Route path="/" element={<Landing />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/contact" element={<ContactUs />} />
+                {/*  */}
+
+                {/* Auth Routes */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/addtrip" element={<AddTripPage />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<PasswordReset />} />
-                <Route path="/tripdetail" element={<TripDetail />} />
                 <Route
                   path="/profile"
                   element={
@@ -89,6 +89,12 @@ function App() {
                     </PrivateRoute>
                   }
                 />
+                {/*  */}
+
+                {/* Trip Routes */}
+                <Route path="/trip/:tripId" element={<TripDetail />} />
+                <Route path="/trips" element={<Trips />} />
+                {/*  */}
               </Routes>
             </Box>
             <Footer />
