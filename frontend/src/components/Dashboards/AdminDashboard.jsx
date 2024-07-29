@@ -117,36 +117,28 @@ export default function AdminDashboard() {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={3}>
+        <Grid item xs={12} md={3} sm={6}>
           <Item>
             Total users
-            <Typography variant="h3" component="h3">
-              {totalUsersCount}
-            </Typography>
+            <Typography variant="h3" component="h3">{totalUsersCount}</Typography>
           </Item>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} md={3} sm={6}>
           <Item>
             Total agents
-            <Typography variant="h3" component="h3">
-              {totalAgentsCount}
-            </Typography>
+            <Typography variant="h3" component="h3">{totalAgentsCount}</Typography>
           </Item>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} md={3} sm={6}>
           <Item>
             Total active trips
-            <Typography variant="h3" component="h3">
-              {totalActiveTripsCount}
-            </Typography>
+            <Typography variant="h3" component="h3">{totalActiveTripsCount}</Typography>
           </Item>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} md={3} sm={6}>
           <Item>
             Agent approval ratio
-            <Typography variant="h3" component="h3">
-              {agentApprovalRatio} %
-            </Typography>
+            <Typography variant="h3" component="h3">{agentApprovalRatio} %</Typography>
           </Item>
         </Grid>
       </Grid>
@@ -160,73 +152,62 @@ export default function AdminDashboard() {
             label="Age"
             onChange={handleSelectedYearChange}
           >
-            {yearsList.map((year) => (
-              <MenuItem key={year} value={year}>
-                {year}
-              </MenuItem>
-            ))}
+            {
+              yearsList.map(year => (
+                <MenuItem key={year} value={year}>{year}</MenuItem>
+              ))
+            }
           </Select>
         </FormControl>
       </Box>
 
       <Grid container spacing={2}>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6} sm={12}>
           <Item>
-            <BarChart
-              width={700}
-              height={300}
-              dataset={monthWiseUserChart}
-              xAxis={[
-                {
-                  scaleType: "band",
-                  dataKey: "month",
+            <Box sx={{ width: '100%', height: { xs: 300, md: 400 } }}>
+              <BarChart
+                dataset={monthWiseUserChart}
+                xAxis={[{
+                  scaleType: 'band',
+                  dataKey: 'month',
                   label: `Month wise new users - ${selectedYear}`,
-                },
-              ]}
-              yAxis={[
-                {
-                  label: "Count",
-                },
-              ]}
-              series={[
-                {
-                  dataKey: "count",
-                  label: "Users",
+                }]}
+                yAxis={[{
+                  label: 'Count'
+                }]}
+                series={[{
+                  dataKey: 'count',
+                  label: 'Users',
                   showLabel: true,
-                },
-              ]}
-            />
+                }]}
+              />
+            </Box>
           </Item>
         </Grid>
         <Grid item xs={6}>
           <Item>
-            <BarChart
-              width={700}
-              height={300}
-              dataset={monthWiseAgentChart}
-              xAxis={[
-                {
-                  scaleType: "band",
-                  dataKey: "month",
+            <Box sx={{ width: '100%', height: { xs: 300, md: 400 } }}>
+              <BarChart
+                dataset={monthWiseAgentChart}
+                xAxis={[{
+                  scaleType: 'band',
+                  dataKey: 'month',
                   label: `Month wise new agents - ${selectedYear}`,
-                },
-              ]}
-              yAxis={[
-                {
-                  label: "Count",
-                },
-              ]}
-              series={[
-                {
-                  dataKey: "count",
-                  label: "Agents",
+                }]}
+                yAxis={[{
+                  label: 'Count'
+                }]}
+                series={[{
+                  dataKey: 'count',
+                  label: 'Agents',
                   showLabel: true,
-                },
-              ]}
-            />
+                }]}
+              />
+            </Box>
           </Item>
         </Grid>
       </Grid>
     </>
   );
+
 }
