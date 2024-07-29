@@ -2,13 +2,18 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  name: {
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
     type: String,
     required: true,
   },
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   passwordHash: {
     type: String,
@@ -19,7 +24,7 @@ const userSchema = new Schema({
     enum: ['traveler', 'agent', 'admin'],
     default: 'traveler',
   },
-  agency_bin: {
+  agency: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Agency',
     required: function () {
@@ -41,6 +46,5 @@ const userSchema = new Schema({
     default: Date.now,
   },
 });
-//Added a comment 
 
 module.exports = mongoose.model('User', userSchema);

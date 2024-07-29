@@ -21,8 +21,16 @@ const authMiddleware = async (req, res, next) => {
     req.user = user;
     next();
   } catch (err) {
-    res.status(401).json({ message: 'Token is not valid' });
+    console.log('Authorization Error:', err);
+    res.status(401).json({ message: 'Token is not valid...' });
   }
 };
 
-module.exports = authMiddleware;
+exports.verifyAdmin = async (req, res, next) => {
+  await exports.authMiddleware(req, res, async () => {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+    next();
+  });
+};

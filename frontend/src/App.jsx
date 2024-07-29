@@ -14,6 +14,8 @@ const ForgotPassword = lazy(() => import('./components/ForgotPassword.jsx'));
 const PasswordReset = lazy(() => import('./components/PasswordReset.jsx'));
 const AddTripPage = lazy(() => import('./pages/AddTrip.jsx'));
 import Spinner from './components/Spinner.jsx';
+import { AuthProvider } from "./context/AuthContext.jsx";
+import PrivateRoute from "./components/PrivateRoute";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -41,38 +43,58 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-        <Box flex flexDirection="column" minheight="100vh" minwidth="100%">
-          <Header />
-          <Box flexGrow={1} minheight="100vh" minwidth="100%">
-          <Suspense fallback={<Spinner />}>
-          <Routes>
+      <AuthProvider>
+        <BrowserRouter>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+          <Box flex flexDirection="column" minHeight="100vh" minWidth="100%">
+            <Header />
+            <Box flexGrow={1} minHeight="100vh" minWidth="100%">
+              <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/contact" element={<ContactUs />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/forgotpassword" element={<ForgotPassword />} />
+                <Route
+                  exact
+                  path="/forgotpassword"
+                  element={<ForgotPassword />}
+                />
                 <Route path="/reset-password" element={<PasswordReset />} />
-                <Route path="/add-trip" element={<AddTripPage />} />
+                <Route path="/tripdetail" element={<TripDetail />} />
+                <Route
+                  path="/profile"
+                  element={
+                    <PrivateRoute>
+                      <UserProfile />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <PrivateRoute>
+                      <Dashboard />
+                    </PrivateRoute>
+                  }
+                />
               </Routes>
-            </Suspense>
+            </Box>
+            <Footer />
           </Box>
-          <Footer />
-        </Box>
-        <ToastContainer />
-      </BrowserRouter>
+          <ToastContainer />
+        </BrowserRouter>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
