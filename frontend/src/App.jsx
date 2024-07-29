@@ -73,7 +73,7 @@ function App() {
                 <Route
                   path="/profile"
                   element={
-                    <PrivateRoute>
+                   <PrivateRoute>
                       <UserProfile />
                     </PrivateRoute>
                   }

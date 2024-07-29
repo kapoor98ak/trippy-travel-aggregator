@@ -69,6 +69,7 @@ const Header = () => {
         { name: "Dashboard", url: "dashboard" },
         { name: "View Profile", url: "profile" },
         { name: "Logout", url: "logout" },
+
       ]
     : [
         { name: "Login", url: "login" },
