@@ -9,20 +9,29 @@ We can delete a Trip.
 */
 
 // services/tripService.js
-const Trip = require('../models/Trips');
+const Trip = require('../models/Trip');
+
+exports.getAllTrips = async() => {
+  try{
+    const allTrips = await Trip.find({});
+    return allTrips;
+  } catch (error) {
+    console.log("Error while fetching all the trips...");
+    throw new Error(error.message);
+  }
+};
 
 exports.createTrip = async (tripData) => {
-    try{
-        const newTrip = new Trip(tripData);
-        const savedTrip = await newTrip.save();
-        return savedTrip;
-    }
-    catch (error) {
-        console.error("Error while creating a trip:", error.message);
-        throw new Error(error.message);
-    }
-
-}
+  try {
+      const newTrip = new Trip(tripData);
+      const savedTrip = await newTrip.save();
+      console.log("Trip saved successfully:", savedTrip);
+      return savedTrip;
+  } catch (error) {
+      console.error("Error while creating a trip:", error.message);
+      throw new Error(error.message);
+  }
+};
 
 exports.filterTrips = async ({ source, destination, startDate, endDate }) => {
   try {
@@ -48,7 +57,7 @@ exports.filterTrips = async ({ source, destination, startDate, endDate }) => {
     const trips = await Trip.find(query).populate('agentId', 'name email');
     return trips;
   } catch (error) {
-    console.error("Error while filtering trips:", error.message);
+    console.error('Error while filtering trips:', error.message);
     throw new Error(error.message);
   }
 };
