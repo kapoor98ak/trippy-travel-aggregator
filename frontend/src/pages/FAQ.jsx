@@ -18,8 +18,8 @@ const FAQ = () => {
     // <Box flex flexGrow={1}>
     <Container
       flex
-      minWidth="100%"
-      maxWidth="100%"
+      minwidth="100%"
+      maxwidth="100%"
       justifyContent="center"
       justifyItems="center"
       disableGutters

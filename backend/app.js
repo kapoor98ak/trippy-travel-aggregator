@@ -5,6 +5,7 @@ const config = require('./config/config');
 const connectDB = require('./config/databaseConfig');
 const routes = require('./routes');
 
+
 // Load environment variables
 dotenv.config();
 

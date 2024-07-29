@@ -105,10 +105,10 @@ const Landing = () => {
   };
 
   return (
-    <Container minHeight="100vh" minWidth="100%" maxWidth="100%" disableGutters>
+    <Container minheight="100vh" minwidth="100%" maxwidth="100%" disableGutters>
       <Grid
         container
-        minHeight={{ xs: "100vh" }}
+        minheight={{ xs: "100vh" }}
         height="100%"
         width="100%"
         bgcolor="#e1f5fe"
@@ -185,7 +185,7 @@ const Landing = () => {
       </Grid>
       <Stack
         direction="column"
-        minHeight={{ xs: "100vh", sm: "80vh" }}
+        minheight={{ xs: "100vh", sm: "80vh" }}
         height="100%"
         justifyContent="center"
         alignItems="center"
@@ -310,7 +310,7 @@ const Landing = () => {
       </Stack>
       <Stack
         direction="column"
-        minHeight="70vh"
+        minheight="70vh"
         height="100%"
         justifyContent="center"
         alignItems="center"
@@ -374,7 +374,7 @@ const Landing = () => {
       </Stack>
       <Grid
         container
-        minHeight={{ xs: "100vh", md: "70vh" }}
+        minheight={{ xs: "100vh", md: "70vh" }}
         height="100%"
         justifyContent="center"
         alignItems="start"
@@ -470,7 +470,7 @@ const Landing = () => {
       </Grid>
       <Stack
         direction="column"
-        minHeight={{ xs: "100vh", sm: "70vh" }}
+        minheight={{ xs: "100vh", sm: "70vh" }}
         height="100%"
         justifyContent="center"
         alignItems="center"
