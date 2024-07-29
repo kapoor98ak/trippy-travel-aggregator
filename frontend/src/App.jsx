@@ -17,6 +17,7 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import PrivateRoute from "./components/PrivateRoute";
 const UserProfile = lazy(() => import('./pages/UserProfile.jsx'));
 const Dashboard = lazy(() => import('./pages/Dashboard.jsx'));
+const EditTripPage= lazy(() => import('./pages/EditTrip.jsx'));
 
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -73,6 +74,7 @@ function App() {
                 <Route path="/reset-password" element={<PasswordReset />} />
                 <Route path="/tripdetail" element={<TripDetail />} />
                 <Route path="/admin-home" element={<AdminDashboard />} />
+                <Route path="/edittrip/:id" element={<EditTripPage />} />
                 <Route
                   path="/profile"
                   element={
@@ -89,6 +91,7 @@ function App() {
                     </PrivateRoute>
                   }
                 />
+                
               </Routes>
             </Box>
             <Footer />

@@ -105,7 +105,7 @@ const Landing = () => {
   };
 
   return (
-    <Container minheight="100vh" minwidth="100%" maxwidth="100%" disableGutters>
+    <Container minHeight="100vh" minWidth="100%" maxWidth="100%" disableGutters>
       <Grid
         container
         minheight={{ xs: "100vh" }}
