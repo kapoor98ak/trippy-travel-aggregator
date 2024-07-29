@@ -14,7 +14,8 @@ const bookingSchema = new Schema({
   // totalAmount: Number,
   travelerDetails: [
     {
-      name: String,
+      firstName: String,
+      lastName: String,
       email: String,
       phone: String,
       age: Number,

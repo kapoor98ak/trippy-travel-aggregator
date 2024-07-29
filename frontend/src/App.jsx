@@ -9,17 +9,28 @@ import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import PrivateRoute from "./components/PrivateRoute";
-const Landing = lazy(() => import("./pages/Landing.jsx"));
-const FAQ = lazy(() => import("./pages/FAQ.jsx"));
-const ContactUs = lazy(() => import("./pages/ContactUs.jsx"));
-const Login = lazy(() => import("./pages/Login.jsx"));
-const Register = lazy(() => import("./pages/Register.jsx"));
-const ForgotPassword = lazy(() => import("./components/ForgotPassword.jsx"));
-const PasswordReset = lazy(() => import("./components/PasswordReset.jsx"));
-const AddTripPage = lazy(() => import("./pages/AddTrip.jsx"));
-const TripDetail = lazy(() => import("./pages/TripDetail.jsx"));
-const UserProfile = lazy(() => import("./pages/UserProfile.jsx"));
-const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
+// const Landing = lazy(() => import("./pages/Landing.jsx"));
+// const FAQ = lazy(() => import("./pages/FAQ.jsx"));
+// const ContactUs = lazy(() => import("./pages/ContactUs.jsx"));
+// const Login = lazy(() => import("./pages/Login.jsx"));
+// const Register = lazy(() => import("./pages/Register.jsx"));
+// const ForgotPassword = lazy(() => import("./components/ForgotPassword.jsx"));
+// const PasswordReset = lazy(() => import("./components/PasswordReset.jsx"));
+// const AddTripPage = lazy(() => import("./pages/AddTrip.jsx"));
+// const TripDetail = lazy(() => import("./pages/TripDetail.jsx"));
+// const UserProfile = lazy(() => import("./pages/UserProfile.jsx"));
+// const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
+import Landing from "./pages/Landing.jsx";
+import FAQ from "./pages/FAQ.jsx";
+import ContactUs from "./pages/ContactUs.jsx";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
+import ForgotPassword from "./components/ForgotPassword.jsx";
+import PasswordReset from "./components/PasswordReset.jsx";
+import AddTripPage from "./pages/AddTrip.jsx";
+import TripDetail from "./pages/TripDetail.jsx";
+import UserProfile from "./pages/UserProfile.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
 import Trips from "./pages/Trips.jsx";
 
 const theme = createTheme({
@@ -48,7 +59,7 @@ function App() {
         <BrowserRouter>
           <ToastContainer
             position="top-right"
-            autoClose={5000}
+            autoClose={1000}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick
@@ -56,10 +67,19 @@ function App() {
             pauseOnFocusLoss
             draggable
             pauseOnHover
+            theme="light"
+            transition="Bounce"
           />
-          <Box flex flexDirection="column" minHeight="100vh" minWidth="100%">
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              minHeight: "100vh",
+              minWidth: "100%",
+            }}
+          >
             <Header />
-            <Box flexGrow={1} minHeight="100vh" minWidth="100%">
+            <Box sx={{ flexGrow: 1, minHeight: "100vh", minWidth: "100%" }}>
               <Routes>
                 {/* Basic Application Routes */}
                 <Route path="/" element={<Landing />} />

@@ -1,22 +1,48 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Navigate } from "react-router-dom";
-import AgentProfile from "../components/Profiles/AgentProfile.jsx";
-import TravelerProfile from "../components/Profiles/TravelerProfile.jsx";
+import { AuthContext } from "../context/AuthContext";
+import axiosInstance from "../api/Axios";
+import AgentProfile from "../components/Profiles/AgentProfile";
+import TravelerProfile from "../components/Profiles/TravelerProfile";
 
 const UserProfile = () => {
-  const auth = JSON.parse(localStorage.getItem("auth"));
+  const { auth } = useContext(AuthContext);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  if (!auth) {
+  useEffect(() => {
+    setUser(auth.user);
+    // console.log(user);
+  }, [auth]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!auth.token) {
     return <div>Error: User not authenticated</div>;
   }
 
-  if (auth.user.role === "admin") {
+  if (user && user.role === "admin") {
     return <Navigate to="/dashboard" />;
   }
 
   return (
     <div>
-      {auth.user.role === "agent" ? <AgentProfile /> : <TravelerProfile />}
+      {user ? (
+        user.role === "agent" ? (
+          <AgentProfile user={user} />
+        ) : (
+          <TravelerProfile user={user} />
+        )
+      ) : (
+        <div>Error: User data not available</div>
+      )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 const TravelerDashboard = () => {
-  return <div>TravelerDashboard</div>;
+  return <div>Traveler Dashboard</div>;
 };
 
 export default TravelerDashboard;
