@@ -1,4 +1,4 @@
-import React, { Suspense,lazy} from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
@@ -18,7 +18,7 @@ import Spinner from './components/Spinner.jsx';
 import { AuthProvider } from "./context/AuthContext.jsx";
 import PrivateRoute from "./components/PrivateRoute";
 const UserProfile = lazy(() => import('./pages/UserProfile.jsx'));
-const Dashboard= lazy(() => import('./pages/Dashboard.jsx'));
+const Dashboard = lazy(() => import('./pages/Dashboard.jsx'));
 
 
 import { ToastContainer, toast } from 'react-toastify';
