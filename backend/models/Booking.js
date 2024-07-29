@@ -8,10 +8,10 @@ const bookingSchema = new Schema({
   status: {
     type: String,
     enum: ['confirmed', 'pending', 'canceled'],
-    default: 'pending',
+    default: 'confirmed',
   },
-  paymentStatus: { type: String, enum: ['paid', 'unpaid'], default: 'unpaid' },
-  totalAmount: Number,
+  // paymentStatus: { type: String, enum: ['paid', 'unpaid'], default: 'unpaid' },
+  // totalAmount: Number,
   travelerDetails: [
     {
       name: String,
@@ -25,6 +25,10 @@ const bookingSchema = new Schema({
       },
     },
   ],
+  totalTravelers: {
+    type: Number,
+    default: 1,
+  },
 });
 
 module.exports = mongoose.model('Booking', bookingSchema);
