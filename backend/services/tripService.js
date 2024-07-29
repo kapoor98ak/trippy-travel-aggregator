@@ -23,26 +23,13 @@ exports.getAllTrips = async() => {
 
 exports.createTrip = async (tripData) => {
   try {
-    const newTrip = new Trip(tripData);
-    const savedTrip = await newTrip.save();
-    return savedTrip;
+      const newTrip = new Trip(tripData);
+      const savedTrip = await newTrip.save();
+      console.log("Trip saved successfully:", savedTrip);
+      return savedTrip;
   } catch (error) {
-    console.error('Error while creating a trip:', error.message);
-    throw new Error(error.message);
-  }
-};
-
-exports.getTrip = async(id) => {
-  try {
-    const query = {};
-    if (id) {
-      query._id = id;
-      const trip = await Trip.findById(query);
-      return trip;
-    }
-  } catch (error) {
-    console.error('Error while fetching trip...', error.message);
-    throw new Error(error.message);
+      console.error("Error while creating a trip:", error.message);
+      throw new Error(error.message);
   }
 };
 
