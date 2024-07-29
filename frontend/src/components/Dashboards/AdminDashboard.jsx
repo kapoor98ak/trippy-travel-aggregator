@@ -291,7 +291,7 @@ export default function AdminDashboard() {
             </Box>
           </Item>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6} sm={12}>
           <Item>
             <Box sx={{ width: '100%', height: { xs: 300, md: 400 } }}>
               <BarChart
@@ -314,13 +314,39 @@ export default function AdminDashboard() {
           </Item>
         </Grid>
       </Grid>
+
       <Typography variant="h3" component="h3" sx={{ paddingLeft: '30px', paddingTop: '50px', marginBottom: '30px' }}>
         Agent approval requests:
       </Typography >
 
       <Grid container spacing={4} justifyContent="center">
-        <Grid item xs={12} md={12} sm={12}>
-          <Paper elevation={3} style={{ height: 400, width: '53%', margin: 'auto' }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={10}
+          lg={7}
+          xl={7}
+          sx={{
+            width: {
+              xs: '100%',  // 100% width for extra-small screens
+              sm: '100%',   // 90% width for small screens
+              md: '100%',   // 80% width for medium screens
+              lg: '50%',   // 70% width for large screens
+              xl: '50%',   // 60% width for extra-large screens
+            },
+            margin: 'auto'
+          }}
+        >
+          <Paper
+            elevation={3}
+            sx={{
+              height: 400,
+              width: '100%',
+              margin: 'auto',
+              p: 2,  // padding
+            }}
+          >
             <DataGrid
               rows={unApprovedAgentsList}
               columns={columns}
