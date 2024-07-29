@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Typography,
@@ -22,6 +23,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
 const Landing = () => {
+  const navigate = useNavigate();
   const featuredTripsCards = [
     {
       image:
@@ -105,10 +107,10 @@ const Landing = () => {
   };
 
   return (
-    <Container minheight="100vh" minwidth="100%" maxwidth="100%" disableGutters>
+    <Container minHeight="100vh" minWidth="100%" maxWidth="100%" disableGutters>
       <Grid
         container
-        minheight={{ xs: "100vh" }}
+        minHeight={{ xs: "100vh" }}
         height="100%"
         width="100%"
         bgcolor="#e1f5fe"
@@ -152,7 +154,14 @@ const Landing = () => {
               // spacing={2}
             >
               <Grid item my={{ xs: 2, sm: 0 }}>
-                <Button variant="contained">Book a Trip</Button>
+                <Button
+                  onClick={() => {
+                    navigate("/trips");
+                  }}
+                  variant="contained"
+                >
+                  Book a Trip
+                </Button>
               </Grid>
               {/* <Grid item ml={{ xs: 0, sm: 2 }} my={{ xs: 2, sm: 0 }}>
               <Button variant="outlined">Explore Experiences</Button>
@@ -185,7 +194,7 @@ const Landing = () => {
       </Grid>
       <Stack
         direction="column"
-        minheight={{ xs: "100vh", sm: "80vh" }}
+        minHeight={{ xs: "100vh", sm: "80vh" }}
         height="100%"
         justifyContent="center"
         alignItems="center"
@@ -310,7 +319,7 @@ const Landing = () => {
       </Stack>
       <Stack
         direction="column"
-        minheight="70vh"
+        minHeight="70vh"
         height="100%"
         justifyContent="center"
         alignItems="center"
@@ -374,7 +383,7 @@ const Landing = () => {
       </Stack>
       <Grid
         container
-        minheight={{ xs: "100vh", md: "70vh" }}
+        minHeight={{ xs: "100vh", md: "70vh" }}
         height="100%"
         justifyContent="center"
         alignItems="start"
@@ -470,7 +479,7 @@ const Landing = () => {
       </Grid>
       <Stack
         direction="column"
-        minheight={{ xs: "100vh", sm: "70vh" }}
+        minHeight={{ xs: "100vh", sm: "70vh" }}
         height="100%"
         justifyContent="center"
         alignItems="center"
