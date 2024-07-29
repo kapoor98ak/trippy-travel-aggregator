@@ -44,3 +44,21 @@ exports.getUniqueYearsListFromUserCollection = async (req, res) => {
     let years = await adminService.getUniqueYearListFromUsers()
     return res.status(200).json(years)
 }
+
+
+exports.getUnApprovedAgentsList = async (req, res) => {
+    let agents = await adminService.getUnApprovedAgentsList()
+    return res.status(200).json(agents)
+}
+
+exports.approveAgentById = async (req, res) => {
+    let agentId = req.body.id
+    let updatedAgent = await adminService.approveAgent(agentId)
+    return res.status(200).json({ status: updatedAgent != null, agent: updatedAgent })
+}
+
+exports.rejectAgentById = async (req, res) => {
+    let agentId = req.body.id
+    let deletedAgent = await adminService.removeAgent(agentId)
+    return res.status(200).json({ status: deletedAgent != null, agent: deletedAgent })
+}

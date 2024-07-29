@@ -4,7 +4,6 @@ import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import { Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-// import { createMuiTheme} from "@material-ui/core";
 const Landing = lazy(() => import('./pages/Landing.jsx'));
 const FAQ = lazy(() => import('./pages/FAQ.jsx'));
 const ContactUs = lazy(() => import('./pages/ContactUs.jsx'));
@@ -14,7 +13,6 @@ const ForgotPassword = lazy(() => import('./components/ForgotPassword.jsx'));
 const PasswordReset = lazy(() => import('./components/PasswordReset.jsx'));
 const AddTripPage = lazy(() => import('./pages/AddTrip.jsx'));
 const TripDetail = lazy(() => import('./pages/TripDetail.jsx'));
-import Spinner from './components/Spinner.jsx';
 import { AuthProvider } from "./context/AuthContext.jsx";
 import PrivateRoute from "./components/PrivateRoute";
 const UserProfile = lazy(() => import('./pages/UserProfile.jsx'));
@@ -23,6 +21,7 @@ const Dashboard = lazy(() => import('./pages/Dashboard.jsx'));
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AdminDashboard from './components/Dashboards/AdminDashboard.jsx';
 
 
 const theme = createTheme({
@@ -73,6 +72,7 @@ function App() {
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<PasswordReset />} />
                 <Route path="/tripdetail" element={<TripDetail />} />
+                <Route path="/admin-home" element={<AdminDashboard />} />
                 <Route
                   path="/profile"
                   element={

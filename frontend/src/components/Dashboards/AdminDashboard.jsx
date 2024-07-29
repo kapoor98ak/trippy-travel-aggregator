@@ -8,10 +8,16 @@ import {
   Select,
   Typography,
   FormControl,
+  Button,
+  Snackbar,
+  IconButton
 } from "@mui/material";
 import { styled } from "@mui/system";
 import axios from "axios";
 import { BarChart } from "@mui/x-charts";
+import { DataGrid } from '@mui/x-data-grid';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -29,10 +35,17 @@ const getTotalAgentsURL = "/admin/getTotalAgents";
 const getTotalActiveTripURL = "/admin/getActiveTripCount";
 const getAgentsApprovalRatioURL = "/admin/getAgentsApprovalRatio";
 const getYearsListURL = "/admin/getUniqueYearsFromUsers";
+const getUnapprovedAgentListURL = "/admin/getUnApprovedAgentsList";
+const approveAgentURL = "/admin/approveAgentById";
+const rejectAgentURL = "/admin/rejectAgentById";
+
+
 
 export default function AdminDashboard() {
   const [yearsList, setYearsList] = useState([]);
   const [selectedYear, setSelectedYear] = useState(2024);
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const [monthWiseUserChart, setMonthWiseUserChart] = useState([]);
   const [monthWiseAgentChart, setMonthWiseAgentChart] = useState([]);
@@ -40,6 +53,8 @@ export default function AdminDashboard() {
   const [totalAgentsCount, setTotalAgentsCount] = useState(0);
   const [totalActiveTripsCount, setTotalActiveTripsCount] = useState(0);
   const [agentApprovalRatio, setAgentApprovalRatio] = useState(0);
+
+  const [unApprovedAgentsList, setUnApprovedAgentsList] = useState([])
 
   useEffect(() => {
     GetYearsList();
@@ -50,12 +65,39 @@ export default function AdminDashboard() {
     GetTotalAgentCount();
     GetTotalActiveTripsCount();
     GetAgentApprovalRatio();
+    GetUnApprovedAgentsList();
   }, []);
 
   useEffect(() => {
     GetMonthWiseUserByYear();
     GetMonthWiseAgentByYear();
   }, [selectedYear]);
+
+  // useEffect(() => {
+  //   GetAgentApprovalRatio();
+  //   GetUnApprovedAgentsList();
+  // }, [unApprovedAgentsList])
+
+  const handleToastClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setToastVisible(false);
+  };
+
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleToastClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   async function GetMonthWiseUserByYear() {
     const response = await axios.get(
@@ -108,11 +150,76 @@ export default function AdminDashboard() {
 
   async function handleSelectedYearChange(event) {
     setSelectedYear(event.target.value);
-    // console.log(`Incoming year: ${event.target.value}`)
-    // console.log(`Set year: ${selectedYear}`)
-    // GetMonthWiseUserByYear();
-    // GetMonthWiseAgentByYear();
   }
+
+  async function GetUnApprovedAgentsList(id) {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}${getUnapprovedAgentListURL}`, { id: id })
+    setUnApprovedAgentsList(response.data)
+    console.log(response.data)
+  }
+
+  const columns = [
+    {
+      field: 'name', headerName: 'Name',
+      width: 200
+    },
+    {
+      field: 'email', headerName: 'Email',
+      width: 250
+    },
+    { field: 'createdAt', headerName: 'Creation time', width: 200 },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 200,
+      renderCell: (params) => (
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            style={{ marginRight: 8 }}
+            onClick={() => handleApprove(params.id)}
+          >
+            Approve
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            size="small"
+            onClick={() => handleReject(params.id)}
+          >
+            Reject
+          </Button>
+        </div>
+      ),
+    },
+  ];
+
+  const handleApprove = async (id) => {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}${approveAgentURL}`, { id: id })
+    if (response.data.status) {
+      setToastMessage("Agent approved !")
+    } else {
+      setToastMessage("Agent approve failed !")
+    }
+    setToastVisible(true);
+    GetUnApprovedAgentsList();
+    GetAgentApprovalRatio();
+  };
+
+  const handleReject = async (id) => {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}${rejectAgentURL}`, { id: id })
+    if (response.data.status) {
+      setToastMessage("Agent rejected !")
+    } else {
+      setToastMessage("Agent rejection failed !")
+    }
+    setToastVisible(true);
+    GetUnApprovedAgentsList();
+    GetAgentApprovalRatio();
+
+  };
 
   return (
     <>
@@ -207,6 +314,34 @@ export default function AdminDashboard() {
           </Item>
         </Grid>
       </Grid>
+      <Typography variant="h3" component="h3" sx={{ paddingLeft: '30px', paddingTop: '50px', marginBottom: '30px' }}>
+        Agent approval requests:
+      </Typography >
+
+      <Grid container spacing={4} justifyContent="center">
+        <Grid item xs={12} md={12} sm={12}>
+          <Paper elevation={3} style={{ height: 400, width: '53%', margin: 'auto' }}>
+            <DataGrid
+              rows={unApprovedAgentsList}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 5 },
+                },
+              }}
+              pageSizeOptions={[5, 10]}
+              getRowId={(row) => row._id}
+            />
+          </Paper>
+        </Grid>
+      </Grid>
+      <Snackbar
+        open={toastVisible}
+        autoHideDuration={6000}
+        onClose={handleToastClose}
+        message={toastMessage}
+        action={action}
+      />
     </>
   );
 
