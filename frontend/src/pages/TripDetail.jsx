@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import axiosInstance from "../api/Axios.jsx";
+import AddReviewModal from "../components/AddReviewModal.jsx";
 import ImageCarousel from "../components/ImageCarousel.jsx";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
@@ -16,48 +20,122 @@ import {
   Stack,
   Box,
   Button,
-  TextField,
-  Card,
-  Alert,
   Grid,
   Stepper,
   Step,
   StepLabel,
   StepContent,
   Paper,
+  CircularProgress,
 } from "@mui/material";
 
 const TripDetail = () => {
+  const navigate = useNavigate();
+  let { tripId } = useParams();
+
+  const [tripDetails, setTripDetails] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // useEffect(() => {
+  //   const fetchTripDetails = async () => {
+  //     try {
+  //       // const response = await axiosInstance.get(`/trips/${tripId}`);
+
+  //       setTripDetails(response.data);
+
+  //       setReviews(response.data.reviews || []);
+  //     } catch (error) {
+  //       console.error("Error fetching trip details:", error);
+
+  //       setError("Failed to load trip details.");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   // fetchTripDetails();
+  // }, [tripId]);
+
+  // if (!tripDetails) {
+  //   return null; // Or return a message indicating no data
+  // }
+
+  // const {
+  //   // images,
+  //   // steps,
+  //   price,
+  //   duration,
+  //   difficulty,
+  //   ageGroup,
+  //   maxAltitude,
+  //   includes,
+  // } = tripDetails;
+
+  const handleAddReview = () => {
+    const user = JSON.parse(localStorage.getItem("auth"));
+
+    if (!user) {
+      toast.error("You need to be logged in to add a review.");
+      return;
+    }
+
+    setShowReviewModal(true);
+  };
+
   const images = [
     "https://via.placeholder.com/600x400", // Replace with your image URLs
     "https://via.placeholder.com/600x400",
     "https://via.placeholder.com/600x400",
   ];
-  const steps = [
+  const itinerary = [
     {
-      label: "DAY 1 • JUL 13, 2024",
-      title: `Departure & Sunrise Trek`,
+      visitDate: "DAY 1 • JUL 13, 2024",
+      locationName: `Departure & Sunrise Trek`,
       description: "Trek to Idar Garh & Visit Polo Forest",
     },
     {
-      label: "DAY 2 • JUL 14, 2024",
-      title: "Trekking & Adventure Activities at Idar",
+      visitDate: "DAY 2 • JUL 14, 2024",
+      locationName: "Trekking & Adventure Activities at Idar",
       description: "Evening Returning to Ahmedabad",
     },
   ];
   const [activeStep, setActiveStep] = React.useState(0);
-
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
-
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
   const handleReset = () => {
     setActiveStep(0);
   };
+
+  if (loading) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container>
+        <Typography color="error" align="center">
+          {error}
+        </Typography>
+      </Container>
+    );
+  }
+
   return (
     <Container minWidth="100%" maxWidth="lg" disableGutters>
       <Box>
@@ -69,9 +147,14 @@ const TripDetail = () => {
             <Box flex direction="column" width="100%">
               <Box flex direction="column">
                 <Typography variant="h3">Polo Forest Trekking Camp</Typography>
-                <Typography variant="subtitle1">
+                {/* <Typography variant="h3">{tripDetails.title}</Typography> */}
+                {/* <Typography variant="subtitle1">
                   Polo Forest Trekking Camp
-                </Typography>
+                </Typography> */}
+                {/* <Typography variant="h3">{tripDetails.title}</Typography>
+                <Typography variant="subtitle1">
+                  {tripDetails.subtitle}
+                </Typography> */}
               </Box>
               <Stack
                 flex
@@ -94,6 +177,7 @@ const TripDetail = () => {
                   <Box flex direction="column" ml={1}>
                     <Typography variant="body1">Duration</Typography>
                     <Typography variant="body2">2 days / 1 night</Typography>
+                    {/* <Typography variant="body2">{duration}</Typography> */}
                   </Box>
                 </Stack>
                 <Stack
@@ -107,6 +191,7 @@ const TripDetail = () => {
                   <Box flex direction="column" ml={1}>
                     <Typography variant="body1">Difficulty</Typography>
                     <Typography variant="body2">Easy</Typography>
+                    {/* <Typography variant="body2">{difficulty}</Typography> */}
                   </Box>
                 </Stack>
                 <Stack
@@ -120,6 +205,7 @@ const TripDetail = () => {
                   <Box flex direction="column" ml={1}>
                     <Typography variant="body1">Age Group</Typography>
                     <Typography variant="body2">6-35 years</Typography>
+                    {/* <Typography variant="body2">{ageGroup}</Typography> */}
                   </Box>
                 </Stack>
                 <Stack
@@ -133,6 +219,7 @@ const TripDetail = () => {
                   <Box flex direction="column" ml={1}>
                     <Typography variant="body1">Max Altitude</Typography>
                     <Typography variant="body2">600 ft</Typography>
+                    {/* <Typography variant="body2">{maxAltitude}</Typography> */}
                   </Box>
                 </Stack>
               </Stack>
@@ -155,6 +242,7 @@ const TripDetail = () => {
                 The government has also established a campsite with a view to
                 provide nature education and develop the site as tourism place.
               </Typography>
+              {/* <Typography variant="body2">{tripDetails.description}</Typography> */}
             </Stack>
           </Stack>
         </Grid>
@@ -162,6 +250,7 @@ const TripDetail = () => {
           <Stack direction="column" boxShadow={2} borderRadius={2} p={2} mt={2}>
             <Stack direction="row" justifyContent="">
               <Typography variant="h4">₹1,499</Typography>
+              {/* <Typography variant="h4">₹{tripDetails.price}</Typography> */}
               <Typography variant="subtitle1">/person</Typography>
             </Stack>
 
@@ -169,6 +258,17 @@ const TripDetail = () => {
               Includes
             </Typography>
             <Grid container mb={2} spacing={1}>
+              {/* {includes.map((item, index) => (
+                <Grid item xs={6} key={index}>
+                  <Stack direction="row">
+                    <item.icon />
+
+                    <Typography ml={1} variant="body2">
+                      {item.text}
+                    </Typography>
+                  </Stack>
+                </Grid>
+              ))} */}
               <Grid item xs={6}>
                 <Stack direction="row">
                   <LocalDiningIcon />
@@ -227,11 +327,11 @@ const TripDetail = () => {
           Itinerary
         </Typography>
         <Stepper activeStep={activeStep} orientation="vertical">
-          {steps.map((step, index) => (
-            <Step key={step.label}>
-              <StepLabel>{step.label}</StepLabel>
+          {itinerary.map((step, index) => (
+            <Step key={step.visitDate}>
+              <StepLabel>{step.visitDate}</StepLabel>
               <StepContent>
-                <Typography variant="h5">{step.title}</Typography>
+                <Typography variant="h5">{step.locationName}</Typography>
                 <Typography variant="body2">{step.description}</Typography>
                 <Box sx={{ mb: 2 }}>
                   <div>
@@ -240,7 +340,7 @@ const TripDetail = () => {
                       onClick={handleNext}
                       sx={{ mt: 1, mr: 1 }}
                     >
-                      {index === steps.length - 1 ? "Finish" : "Continue"}
+                      {index === itinerary.length - 1 ? "Finish" : "Continue"}
                     </Button>
                     <Button
                       disabled={index === 0}
@@ -255,7 +355,7 @@ const TripDetail = () => {
             </Step>
           ))}
         </Stepper>
-        {activeStep === steps.length && (
+        {activeStep === itinerary.length && (
           <Paper square elevation={0} sx={{ p: 3 }}>
             {/* <Typography>All steps completed - you&apos;re finished</Typography> */}
             <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
@@ -264,6 +364,32 @@ const TripDetail = () => {
           </Paper>
         )}
       </Stack>
+      <Stack>
+        <Typography variant="h4">Reviews</Typography>
+        {reviews.length > 0 ? (
+          reviews.map((review) => (
+            <Box key={review._id} mb={2}>
+              <Typography variant="body1">{review.comment}</Typography>
+              <Typography variant="body2">Rating: {review.rating}</Typography>
+              <Typography variant="body2">
+                By: {review.userId.firstName} {review.userId.lastName}
+              </Typography>
+            </Box>
+          ))
+        ) : (
+          <Typography>No reviews yet.</Typography>
+        )}
+        <Button variant="contained" onClick={handleAddReview}>
+          Add a Review
+        </Button>
+      </Stack>
+      {/* Add review modal */}
+      {showReviewModal && (
+        <AddReviewModal
+          tripId={tripId}
+          onClose={() => setShowReviewModal(false)}
+        />
+      )}
     </Container>
   );
 };
