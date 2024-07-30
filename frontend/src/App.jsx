@@ -8,40 +8,20 @@ import Spinner from "./components/Spinner.jsx";
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
-
-// import PrivateRoute from "./components/PrivateRoute";
 import Landing from "./pages/Landing.jsx";
 import FAQ from "./pages/FAQ.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import ForgotPassword from "./components/ForgotPassword.jsx";
-import PasswordReset from "./components/PasswordReset.jsx";
+import ResetPassword from "./components/ResetPassword.jsx";
 import AddTripPage from "./pages/AddTrip.jsx";
 import TripDetail from "./pages/TripDetail.jsx";
 import UserProfile from "./pages/UserProfile.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import AdminDashboard from "./components/Dashboards/AdminDashboard.jsx";
 import EditTripPage from "./pages/EditTrip.jsx";
-
-
 import Trips from "./pages/Trips.jsx";
-
-// import TravelAgentDashboard from "./pages/TravelAgentDashboard.jsx";
-// const Landing = lazy(() => import("./pages/Landing.jsx"));
-// const FAQ = lazy(() => import("./pages/FAQ.jsx"));
-// const ContactUs = lazy(() => import("./pages/ContactUs.jsx"));
-// const Login = lazy(() => import("./pages/Login.jsx"));
-// const Register = lazy(() => import("./pages/Register.jsx"));
-// const ForgotPassword = lazy(() => import("./components/ForgotPassword.jsx"));
-// const PasswordReset = lazy(() => import("./components/PasswordReset.jsx"));
-// const AddTripPage = lazy(() => import("./pages/AddTrip.jsx"));
-// const TripDetail = lazy(() => import("./pages/TripDetail.jsx"));
-// const UserProfile = lazy(() => import("./pages/UserProfile.jsx"));
-// const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
-// const EditTripPage= lazy(() => import('./pages/EditTrip.jsx'));
-// const TrailAgentDashboard= lazy(() => import('./pages/TrailAgentDashboard.jsx'));
-// const Spinner=lazy(() => import('./components/Spinner.jsx'));
 
 const theme = createTheme({
   typography: {
@@ -103,8 +83,11 @@ function App() {
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
                   <Route path="/addtrip" element={<AddTripPage />} />
-                  <Route path="/forgot-password" element={<ForgotPassword />} />
-                  <Route path="/reset-password" element={<PasswordReset />} />
+                  <Route path="/forgotpassword" element={<ForgotPassword />} />
+                  <Route
+                    path="/resetpassword/:token"
+                    element={<ResetPassword />}
+                  />
                   <Route path="/admin-home" element={<AdminDashboard />} />
                   {/* <Route
                     path="/agent-dashboard"
@@ -117,7 +100,7 @@ function App() {
                   {/* Trip Routes */}
                   <Route path="/trip/:tripId" element={<TripDetail />} />
                   <Route path="/edittrip/:id" element={<EditTripPage />} />
-                  <Route path="/trip" element={<Trips/>} />
+                  <Route path="/trips" element={<Trips />} />
                   {/*  */}
                 </Routes>
               </Suspense>

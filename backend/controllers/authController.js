@@ -50,3 +50,25 @@ exports.getUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const response = await authService.forgotPassword(email);
+    res.status(200).json({ message: response });
+  } catch (error) {
+    console.error('Error in forgotPassword controller:', error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.resetPassword = async (req, res) => {
+  const { token, newPassword } = req.body;
+  try {
+    const response = await authService.resetPassword(token, newPassword);
+    res.status(200).json({ message: response });
+  } catch (error) {
+    console.error('Error in resetPassword controller:', error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
