@@ -18,6 +18,8 @@ import PrivateRoute from "./components/PrivateRoute";
 const UserProfile = lazy(() => import('./pages/UserProfile.jsx'));
 const Dashboard = lazy(() => import('./pages/Dashboard.jsx'));
 const EditTripPage= lazy(() => import('./pages/EditTrip.jsx'));
+const TrailAgentDashboard= lazy(() => import('./pages/TrailAgentDashboard.jsx'));
+const ErrorBoundary=lazy(() => import('./components/ErrorBoundary.jsx'));
 
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -63,6 +65,7 @@ function App() {
           <Box flex flexDirection="column" minHeight="100vh" minWidth="100%">
             <Header />
             <Box flexGrow={1} minHeight="100vh" minWidth="100%">
+              <ErrorBoundary>
               <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="/faq" element={<FAQ />} />
@@ -74,7 +77,9 @@ function App() {
                 <Route path="/reset-password" element={<PasswordReset />} />
                 <Route path="/tripdetail" element={<TripDetail />} />
                 <Route path="/admin-home" element={<AdminDashboard />} />
+                <Route path="/agent-dashboard" element={<TrailAgentDashboard />} />
                 <Route path="/edittrip/:id" element={<EditTripPage />} />
+            
                 <Route
                   path="/profile"
                   element={
@@ -91,8 +96,8 @@ function App() {
                     </PrivateRoute>
                   }
                 />
-                
               </Routes>
+              </ErrorBoundary>
             </Box>
             <Footer />
           </Box>
