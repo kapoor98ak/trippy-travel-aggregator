@@ -19,7 +19,7 @@ const UserProfile = lazy(() => import('./pages/UserProfile.jsx'));
 const Dashboard = lazy(() => import('./pages/Dashboard.jsx'));
 const EditTripPage= lazy(() => import('./pages/EditTrip.jsx'));
 const TrailAgentDashboard= lazy(() => import('./pages/TrailAgentDashboard.jsx'));
-const ErrorBoundary=lazy(() => import('./components/ErrorBoundary.jsx'));
+const Spinner=lazy(() => import('./components/Spinner.jsx'));
 
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -65,8 +65,8 @@ function App() {
           <Box flex flexDirection="column" minHeight="100vh" minWidth="100%">
             <Header />
             <Box flexGrow={1} minHeight="100vh" minWidth="100%">
-              <ErrorBoundary>
-              <Routes>
+            <Suspense fallback={<Spinner/>}>
+            <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/contact" element={<ContactUs />} />
@@ -97,7 +97,7 @@ function App() {
                   }
                 />
               </Routes>
-              </ErrorBoundary>
+            </Suspense>
             </Box>
             <Footer />
           </Box>
