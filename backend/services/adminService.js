@@ -1,5 +1,7 @@
 const User = require('../models/User');
 const Trip = require('../models/Trip');
+const { UserRoles } = require('../utilities/role')
+
 
 // Returns total count of user having particular role
 exports.getUserCountByType = async (userType) => {
@@ -132,3 +134,40 @@ exports.getUniqueYearListFromUsers = async () => {
     throw new Error('Unable to fetch unique years from users collection');
   }
 };
+
+// Gets list of un approved agents
+exports.getUnApprovedAgentsList = async () => {
+  try {
+    const unApprovedAgents = await User.find({ isApproved: false, role: UserRoles.AGENT });
+    return unApprovedAgents
+  }
+  catch (err) {
+    console.error(err);
+    throw new Error("Unable to fetch unapproved agents list.");
+  }
+}
+
+// Updates isApproved field to true of agent
+exports.approveAgent = async (id) => {
+  let updatedAgent = null
+  try {
+    updatedAgent = await User.findByIdAndUpdate(id, { isApproved: true });
+  }
+  catch (err) {
+    console.error(err);
+    //throw new Error("Unable to approve agent");
+  }
+  return updatedAgent;
+}
+
+exports.removeAgent = async (id) => {
+  let deletedAgent = null
+  try {
+    deletedAgent = await User.findByIdAndDelete(id);
+  }
+  catch (err) {
+    console.error(err);
+    //throw new Error("Unable to delete agent");
+  }
+  return deletedAgent;
+}
