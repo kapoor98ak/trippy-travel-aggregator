@@ -10,12 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
+=======
+>>>>>>> c582d00a8919e0970c669d1f8d42c75a7a764680
     "@mui/icons-material": "^5.15.20",
     "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.5",
     "@mui/x-charts": "^7.11.1",
+    "@mui/x-data-grid": "^7.11.1",
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "react": "^18.2.0",

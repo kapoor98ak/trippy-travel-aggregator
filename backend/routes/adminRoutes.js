@@ -4,20 +4,15 @@ const adminController = require('../controllers/adminController');
 
 router.get('/getTotalTravellers', adminController.getTravellersCount);
 router.get('/getTotalAgents', adminController.getAgentsCount);
-router.get(
-  '/getMonthWiseTravellerCountForYear/:year',
-  adminController.getTravellerCountMonthWiseForYear,
-);
-router.get(
-  '/getMonthWiseAgentCountForYear/:year',
-  adminController.getAgentsCountMonthWiseForYear,
-);
+router.get('/getMonthWiseTravellerCountForYear/:year', adminController.getTravellerCountMonthWiseForYear);
+router.get('/getMonthWiseAgentCountForYear/:year', adminController.getAgentsCountMonthWiseForYear);
 router.get('/getActiveTripCount', adminController.getActiveTripCount);
 router.get('/getAgentsApprovalRatio', adminController.getAgentApprovalRatio);
-router.get(
-  '/getUniqueYearsFromUsers',
-  adminController.getUniqueYearsListFromUserCollection,
-);
+router.get('/getUniqueYearsFromUsers', adminController.getUniqueYearsListFromUserCollection);
+router.get('/getUnApprovedAgentsList', adminController.getUnApprovedAgentsList)
+router.post('/approveAgentById', adminController.approveAgentById)
+router.post('/rejectAgentById', adminController.rejectAgentById)
+
 
 // Temporary Admin Route for creating Admin User Credentials for the application
 
