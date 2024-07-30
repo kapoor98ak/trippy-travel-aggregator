@@ -12,20 +12,15 @@ const bookingSchema = new Schema({
   },
   // paymentStatus: { type: String, enum: ['paid', 'unpaid'], default: 'unpaid' },
   // totalAmount: Number,
-  travelerDetails: [
-    {
-      firstName: String,
-      lastName: String,
-      email: String,
+  travelerDetails: {
+    phone: String,
+    age: Number,
+    gender: String,
+    emergencyContact: {
+      name: String,
       phone: String,
-      age: Number,
-      gender: String,
-      emergencyContact: {
-        name: String,
-        phone: String,
-      },
     },
-  ],
+  },
   totalTravelers: {
     type: Number,
     default: 1,
