@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
- 
+
 const Trips = () => {
   const [trips, setTrips] = useState([]);
   const [filters, setFilters] = useState({
@@ -27,48 +27,46 @@ const Trips = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
- 
+
   useEffect(() => {
     fetchTrips();
   }, []);
- 
+
   const fetchTrips = async () => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.get("/trips/all");
+      const response = await axiosInstance.get("/trips/");
       setTrips(response.data);
     } catch (error) {
-      toast.error(error.message || "Error fetching trips");
+      toast.error(error.response?.data?.message || "Error fetching trips");
     } finally {
       setIsLoading(false);
     }
   };
- 
+
   const handleFilterChange = (e) => {
     setFilters({
       ...filters,
       [e.target.name]: e.target.value,
     });
   };
- 
+
   const handleFilterTrips = async () => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.get("/trips/filter", {
-        params: filters,
-      });
+      const response = await axiosInstance.post("/trips/filter", filters);
       setTrips(response.data);
     } catch (error) {
-      toast.error(error.message || "Error filtering trips");
+      toast.error(error.response?.data?.message || "Error filtering trips");
     } finally {
       setIsLoading(false);
     }
   };
- 
+
   const handleBookNow = (tripId) => {
     navigate(`/trip/${tripId}`);
   };
- 
+
   return (
     <Container>
       <ToastContainer />
@@ -121,12 +119,16 @@ const Trips = () => {
             }}
             variant="outlined"
           />
-          <Button variant="contained" onClick={handleFilterTrips}>
-            Filter
+          <Button
+            variant="contained"
+            onClick={handleFilterTrips}
+            disabled={isLoading}
+          >
+            {isLoading ? <CircularProgress size={24} /> : "Filter"}
           </Button>
         </Box>
       </Box>
- 
+
       {isLoading ? (
         <Box display="flex" justifyContent="center">
           <CircularProgress />
@@ -144,7 +146,11 @@ const Trips = () => {
               >
                 <CardMedia
                   sx={{ height: 180 }}
-                  image={trip.image}
+                  image={
+                    trip.images.length > 0
+                      ? `data:image/jpeg;base64,${trip.images[0]}`
+                      : ""
+                  }
                   title={trip.title}
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
@@ -153,6 +159,20 @@ const Trips = () => {
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     {trip.description}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    <strong>Source:</strong> {trip.source}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    <strong>Destination:</strong> {trip.destination}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    <strong>Start Date:</strong>{" "}
+                    {new Date(trip.startDate).toLocaleDateString()}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    <strong>End Date:</strong>{" "}
+                    {new Date(trip.endDate).toLocaleDateString()}
                   </Typography>
                 </CardContent>
                 <CardActions>
@@ -172,5 +192,5 @@ const Trips = () => {
     </Container>
   );
 };
- 
+
 export default Trips;
