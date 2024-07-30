@@ -216,3 +216,50 @@ exports.getTravelerTrips = async (req, res) => {
     res.status(500).json({ msg: 'Server error' });
   }
 };
+
+
+exports.rescheduleTrip = async (req, res) => {
+  const { startDate, endDate } = req.body;
+  const { id } = req.params;
+
+  if (new Date(startDate) > new Date(endDate)) {
+    return res.status(400).json({ msg: 'Start date cannot be later than end date.' });
+  }
+
+  try {
+    const trip = await Trip.findById(id);
+
+    if (!trip) {
+      return res.status(404).json({ msg: 'Trip not found.' });
+    }
+
+    trip.startDate = startDate;
+    trip.endDate = endDate;
+    await trip.save();
+
+    res.status(200).json({ msg: 'Trip rescheduled successfully.' });
+  } catch (error) {
+    console.error('Error rescheduling trip:', error);
+    res.status(500).json({ msg: 'Server error.' });
+  }
+};
+
+exports.cancelTrip = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const trip = await Trip.findById(id);
+
+    if (!trip) {
+      return res.status(404).json({ msg: 'Trip not found.' });
+    }
+
+    trip.status = 'canceled';
+    await trip.save();
+
+    res.status(200).json({ msg: 'Trip canceled successfully.' });
+  } catch (error) {
+    console.error('Error canceling trip:', error);
+    res.status(500).json({ msg: 'Server error.' });
+  }
+};

@@ -5,30 +5,33 @@ import { Container, Grid, Typography, Button, Box } from "@mui/material";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TripCard from "../TripCard.jsx";
+import TripSchedulerModal from "../TripSchedulerModal.jsx";
 
 const AgentDashboard = () => {
   const navigate = useNavigate();
   const [upcomingTrips, setUpcomingTrips] = useState([]);
   const [pastTrips, setPastTrips] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedTripId, setSelectedTripId] = useState(null);
 
   useEffect(() => {
     const fetchTrips = async () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:3000/api/trips/agent",
+          `https://csci-5709-project.onrender.com/api/trips/agent`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        const trips = response.data;
+        const trips = response.data.filter(trip => trip.status !== "canceled");
 
         const now = new Date();
         const upcoming = trips.filter((trip) => new Date(trip.endDate) > now);
         const past = trips.filter((trip) => new Date(trip.endDate) <= now);
-
+        console.log(upcoming);
         setUpcomingTrips(upcoming);
         setPastTrips(past);
       } catch (error) {
@@ -45,12 +48,12 @@ const AgentDashboard = () => {
   };
 
   const handleSchedule = (id) => {
-    // Implement scheduling logic here
-    console.log("Schedule trip:", id);
+    setSelectedTripId(id);
+    setOpenModal(true);
   };
 
   const handleCardClick = (id) => {
-    navigate(`/tripdetail/${id}`);
+    navigate(`/trip/${id}`);
   };
 
   return (
@@ -126,6 +129,11 @@ const AgentDashboard = () => {
       >
         Personalized Travel Requests
       </Typography>
+      <TripSchedulerModal
+        open={openModal}
+        handleClose={() => setOpenModal(false)}
+        tripId={selectedTripId}
+      />
     </Container>
   );
 };

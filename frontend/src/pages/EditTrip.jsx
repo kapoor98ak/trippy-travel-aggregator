@@ -34,7 +34,7 @@ const EditTripPage = () => {
   useEffect(() => {
     const fetchTripData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/trips/${id}`, {
+        const response = await axios.get(`https://csci-5709-project.onrender.com/api/trips/${id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -129,7 +129,12 @@ const EditTripPage = () => {
       await sendDataToBackendForEditTrip(formData, id);
 
       toast.success("Trip updated successfully");
-      navigate(`/tripdetail/${id}`);
+
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 3500);
+      
+      
     } catch (err) {
       if (err instanceof z.ZodError) {
         toast.error("Please fill all the required fields correctly");
