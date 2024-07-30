@@ -26,4 +26,10 @@ router.put(
   tripController.editTrip,
 );
 
+router.put('/:id/reschedule', authMiddleware, tripController.rescheduleTrip);
+
+router.put('/:id/cancel', authMiddleware, tripController.cancelTrip);
+
+
+
 module.exports = router;
