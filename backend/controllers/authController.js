@@ -40,3 +40,13 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.getUser = async (req, res) => {
+  try {
+    const user = req.user;
+    res.status(200).json({ user });
+  } catch (error) {
+    console.error('Error in getUser controller:', error.message);
+    res.status(500).json({ message: error.message });
+  }
+};

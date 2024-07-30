@@ -75,6 +75,12 @@ const tripSchema = new Schema({
     enum: ['active', 'canceled', 'completed'],
     default: 'active',
   },
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Review',
+    },
+  ],
 });
 
 module.exports = mongoose.model('Trip', tripSchema);

@@ -75,8 +75,7 @@ const Login = () => {
     try {
       setIsLoading(true);
       await login(userEmail, pwd);
-      setSuccessMsg("Login Successful");
-      navigate("/dashboard"); // Adjust the route as needed
+      navigate("/dashboard");
     } catch (err) {
       let errorMessage = "Login Failed";
       if (!err?.response) {
@@ -94,9 +93,7 @@ const Login = () => {
 
   return (
     <Container
-      minHeight="100%"
-      minWidth="100vw"
-      maxWidth="100vw"
+      sx={{ minHeight: "100%", minWidth: "100vw", maxWidth: "100vw" }}
       disableGutters
     >
       <Container maxWidth="sm" disableGutters>
