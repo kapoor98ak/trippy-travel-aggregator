@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   Container,
   Typography,
@@ -8,9 +8,10 @@ import {
   Box,
   Alert,
 } from "@mui/material";
+import axiosInstance from "../api/Axios";
 
-const PasswordReset = () => {
-  // const { token } = useParams();
+const ResetPassword = () => {
+  const { token } = useParams();
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -47,13 +48,20 @@ const PasswordReset = () => {
     return isValid;
   };
 
-  const handlePasswordReset = (e) => {
+  const handlePasswordReset = async (e) => {
     e.preventDefault();
-    if (validateInputs()) {
-      setErrMsg("");
+    if (!validateInputs()) return;
+    try {
+      const response = await axiosInstance.post("/auth/resetPassword", {
+        token,
+        newPassword,
+      });
+      // setSuccessMsg(response.data.message);
       setSuccessMsg("Password reset successful");
       setNewPassword("");
       setConfirmPassword("");
+    } catch (error) {
+      setErrMsg(error.response?.data?.message || "Error resetting password");
     }
   };
 
@@ -68,12 +76,13 @@ const PasswordReset = () => {
     >
       <Box textAlign="center" mb={2} mt={10}>
         <Typography variant="h4" component="h1" fontWeight="bold" mb={5}>
-          Password Reset
+          Reset Password
         </Typography>
       </Box>
       <Box component="form" onSubmit={handlePasswordReset}>
         <TextField
-          type="password"
+          type="newPassword"
+          name="newPassword"
           label="New Password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
@@ -84,7 +93,8 @@ const PasswordReset = () => {
           helperText={newPasswordError}
         />
         <TextField
-          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
           label="Confirm Password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
@@ -114,4 +124,4 @@ const PasswordReset = () => {
   );
 };
 
-export default PasswordReset;
+export default ResetPassword;
