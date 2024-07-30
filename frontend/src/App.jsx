@@ -20,10 +20,9 @@ import AddTripPage from "./pages/AddTrip.jsx";
 import TripDetail from "./pages/TripDetail.jsx";
 import UserProfile from "./pages/UserProfile.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
-import Trips from "./pages/Trips.jsx";
 import AdminDashboard from "./components/Dashboards/AdminDashboard.jsx";
 import EditTripPage from "./pages/EditTrip.jsx";
-import TravelAgentDashboard from "./pages/TravelAgentDashboard.jsx";
+// import TravelAgentDashboard from "./pages/TravelAgentDashboard.jsx";
 // const Landing = lazy(() => import("./pages/Landing.jsx"));
 // const FAQ = lazy(() => import("./pages/FAQ.jsx"));
 // const ContactUs = lazy(() => import("./pages/ContactUs.jsx"));
@@ -102,17 +101,16 @@ function App() {
                   <Route path="/forgot-password" element={<ForgotPassword />} />
                   <Route path="/reset-password" element={<PasswordReset />} />
                   <Route path="/admin-home" element={<AdminDashboard />} />
-                  <Route
+                  {/* <Route
                     path="/agent-dashboard"
                     element={<TravelAgentDashboard />}
-                  />
+                  /> */}
                   <Route path="/profile" element={<UserProfile />} />
                   <Route path="/dashboard" element={<Dashboard />} />
                   {/*  */}
 
                   {/* Trip Routes */}
                   <Route path="/trip/:tripId" element={<TripDetail />} />
-                  <Route path="/trips" element={<Trips />} />
                   <Route path="/edittrip/:id" element={<EditTripPage />} />
                   {/*  */}
                 </Routes>
