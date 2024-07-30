@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Typography,
@@ -22,6 +23,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
 const Landing = () => {
+  const navigate = useNavigate();
   const featuredTripsCards = [
     {
       image:
@@ -105,7 +107,10 @@ const Landing = () => {
   };
 
   return (
-    <Container minHeight="100vh" minWidth="100%" maxWidth="100%" disableGutters>
+    <Container
+      sx={{ minHeight: "100vh", minWidth: "100%", maxWidth: "100%" }}
+      disableGutters
+    >
       <Grid
         container
         minHeight={{ xs: "100vh" }}
@@ -152,7 +157,14 @@ const Landing = () => {
               // spacing={2}
             >
               <Grid item my={{ xs: 2, sm: 0 }}>
-                <Button variant="contained">Book a Trip</Button>
+                <Button
+                  onClick={() => {
+                    navigate("/trips");
+                  }}
+                  variant="contained"
+                >
+                  Book a Trip
+                </Button>
               </Grid>
               {/* <Grid item ml={{ xs: 0, sm: 2 }} my={{ xs: 2, sm: 0 }}>
               <Button variant="outlined">Explore Experiences</Button>

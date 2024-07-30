@@ -62,6 +62,11 @@ const tripSchema = new Schema({
     ref: 'User',
     required: true,
   },
+  bookings: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Booking'
+  }],
+
   createdAt: {
     type: Date,
     default: Date.now,
@@ -75,6 +80,13 @@ const tripSchema = new Schema({
     enum: ['active', 'canceled', 'completed'],
     default: 'active',
   },
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Review',
+    },
+  ],
+
 });
 
 module.exports = mongoose.model('Trip', tripSchema);

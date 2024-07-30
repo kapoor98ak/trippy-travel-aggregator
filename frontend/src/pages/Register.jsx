@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext.jsx";
 import {
   Container,
   TextField,
@@ -8,82 +9,117 @@ import {
   Box,
   CircularProgress,
   Alert,
+  Switch,
+  FormControlLabel,
 } from "@mui/material";
 
 const Register = () => {
   const navigate = useNavigate();
-  const [fName, setFName] = useState("");
-  const [lName, setLName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [pwd, setPwd] = useState("");
-  const [errMsg, setErrMsg] = useState("");
-  const [userEmailError, setUserEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [fNameError, setFNameError] = useState("");
-  const [lNameError, setLNameError] = useState("");
+  const { register } = useContext(AuthContext);
+  const [formData, setFormData] = useState({
+    fName: "",
+    lName: "",
+    userEmail: "",
+    pwd: "",
+    role: "traveler",
+    agencyBin: "",
+    agencyName: "",
+    agencyAddress: "",
+  });
+  const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
+  const [errMsg, setErrMsg] = useState("");
 
   useEffect(() => {
     setErrMsg("");
-    setUserEmailError("");
-    setPasswordError("");
-    setFNameError("");
-    setLNameError("");
-  }, [userEmail, pwd, fName, lName]);
+    setErrors({});
+  }, [formData]);
 
   const validateInputs = () => {
-    let isValid = true;
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+    let tempErrors = {};
 
-    if (!fName.trim()) {
-      setFNameError("Please enter your first name");
-      isValid = false;
+    if (!formData.fName.trim()) {
+      tempErrors.fName = "Please enter your first name";
+    }
+    if (!formData.lName.trim()) {
+      tempErrors.lName = "Please enter your last name";
+    }
+    if (!formData.userEmail.trim()) {
+      tempErrors.userEmail = "Please enter your email address";
+    } else if (!emailRegex.test(formData.userEmail)) {
+      tempErrors.userEmail = "Please enter a valid email address";
+    }
+    if (!formData.pwd.trim()) {
+      tempErrors.pwd = "Please enter your password";
+    } else if (!passwordRegex.test(formData.pwd)) {
+      tempErrors.pwd =
+        "Password must contain at least 8 characters including one uppercase letter, one lowercase letter, and one number";
+    }
+    if (formData.role === "agent") {
+      if (!formData.agencyBin.trim()) {
+        tempErrors.agencyBin = "Please enter the agency BIN number";
+      }
+      if (!formData.agencyName.trim()) {
+        tempErrors.agencyName = "Please enter the agency name";
+      }
+      if (!formData.agencyAddress.trim()) {
+        tempErrors.agencyAddress = "Please enter the agency address";
+      }
     }
 
-    if (!lName.trim()) {
-      setLNameError("Please enter your last name");
-      isValid = false;
-    }
-
-    if (!userEmail.trim()) {
-      setUserEmailError("Please enter your email address");
-      isValid = false;
-    } else if (!emailRegex.test(userEmail)) {
-      setUserEmailError("Please enter a valid email address");
-      isValid = false;
-    }
-
-    if (!pwd.trim()) {
-      setPasswordError("Please enter your password");
-      isValid = false;
-    } else if (!passwordRegex.test(pwd)) {
-      setPasswordError(
-        "Password must contain at least 8 characters including one uppercase letter, one lowercase letter, and one number"
-      );
-      isValid = false;
-    }
-
-    return isValid;
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateInputs()) {
-      setSuccessMsg("Registration Successful");
+    if (!validateInputs()) return;
+
+    try {
       setIsLoading(true);
-      // Implement register logic
+      await register({
+        firstName: formData.fName,
+        lastName: formData.lName,
+        email: formData.userEmail,
+        password: formData.pwd,
+        role: formData.role,
+        agency_bin: formData.agencyBin,
+        agency_name: formData.agencyName,
+        agency_address: formData.agencyAddress,
+      });
+      navigate("/dashboard"); // or wherever you want to redirect
+    } catch (err) {
+      let errorMessage = "Registration Failed";
+      if (err.response?.data?.message) {
+        errorMessage = err.response.data.message;
+      }
+      setErrMsg(errorMessage);
+    } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleRoleChange = (e) => {
+    setFormData({
+      ...formData,
+      role: e.target.checked ? "agent" : "traveler",
+      agencyBin: "",
+      agencyName: "",
+      agencyAddress: "",
+    });
   };
 
   return (
     <Container maxWidth="sm">
       <Box textAlign="center" my={8}>
-        {/* <Typography variant="h4" component="h1" gutterBottom>
-          TRIPPY
-        </Typography> */}
         <Typography variant="h5" component="h2" gutterBottom>
           Register for a new account
         </Typography>
@@ -98,56 +134,111 @@ const Register = () => {
             margin="normal"
             required
             fullWidth
-            id="firstName"
+            id="fName"
             label="First Name"
-            name="firstName"
+            name="fName"
             autoComplete="given-name"
             autoFocus
-            error={!!fNameError}
-            helperText={fNameError}
-            onChange={(e) => setFName(e.target.value)}
-            value={fName}
+            error={!!errors.fName}
+            helperText={errors.fName}
+            onChange={handleInputChange}
+            value={formData.fName}
           />
           <TextField
             margin="normal"
             required
             fullWidth
-            id="lastName"
+            id="lName"
             label="Last Name"
-            name="lastName"
+            name="lName"
             autoComplete="family-name"
-            error={!!lNameError}
-            helperText={lNameError}
-            onChange={(e) => setLName(e.target.value)}
-            value={lName}
+            error={!!errors.lName}
+            helperText={errors.lName}
+            onChange={handleInputChange}
+            value={formData.lName}
           />
           <TextField
             margin="normal"
             required
             fullWidth
-            id="email"
+            id="userEmail"
             label="Email Address"
-            name="email"
+            name="userEmail"
             autoComplete="email"
-            error={!!userEmailError}
-            helperText={userEmailError}
-            onChange={(e) => setUserEmail(e.target.value)}
-            value={userEmail}
+            error={!!errors.userEmail}
+            helperText={errors.userEmail}
+            onChange={handleInputChange}
+            value={formData.userEmail}
           />
           <TextField
             margin="normal"
             required
             fullWidth
-            name="password"
+            name="pwd"
             label="Password"
             type="password"
-            id="password"
+            id="pwd"
             autoComplete="new-password"
-            error={!!passwordError}
-            helperText={passwordError}
-            onChange={(e) => setPwd(e.target.value)}
-            value={pwd}
+            error={!!errors.pwd}
+            helperText={errors.pwd}
+            onChange={handleInputChange}
+            value={formData.pwd}
           />
+          <FormControlLabel
+            control={
+              <Switch
+                checked={formData.role === "agent"}
+                onChange={handleRoleChange}
+                name="role"
+                color="primary"
+              />
+            }
+            label="Register as a Travel Agent"
+            sx={{ mt: 2 }}
+          />
+          {formData.role === "agent" && (
+            <>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="agencyBin"
+                label="Agency BIN Number"
+                name="agencyBin"
+                autoComplete="agency-bin"
+                error={!!errors.agencyBin}
+                helperText={errors.agencyBin}
+                onChange={handleInputChange}
+                value={formData.agencyBin}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="agencyName"
+                label="Agency Name"
+                name="agencyName"
+                autoComplete="agency-name"
+                error={!!errors.agencyName}
+                helperText={errors.agencyName}
+                onChange={handleInputChange}
+                value={formData.agencyName}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="agencyAddress"
+                label="Agency Address"
+                name="agencyAddress"
+                autoComplete="agency-address"
+                error={!!errors.agencyAddress}
+                helperText={errors.agencyAddress}
+                onChange={handleInputChange}
+                value={formData.agencyAddress}
+              />
+            </>
+          )}
           <Button
             type="submit"
             fullWidth
@@ -156,15 +247,13 @@ const Register = () => {
           >
             Register
           </Button>
-          {errMsg && <Typography color="error">{errMsg}</Typography>}
-          <Typography variant="body2" color="text.secondary" align="center">
-            Already have an account? <Link to="/login">Login</Link>
-          </Typography>
-          {successMsg && (
-            <Alert severity="success" sx={{ mt: 4 }}>
-              {successMsg}
-            </Alert>
-          )}
+          {errMsg && <Alert severity="error">{errMsg}</Alert>}
+          {successMsg && <Alert severity="success">{successMsg}</Alert>}
+          <Box textAlign="center">
+            <Typography variant="body2">
+              Already have an account? <Link to="/login">Login here</Link>
+            </Typography>
+          </Box>
         </Box>
       )}
     </Container>

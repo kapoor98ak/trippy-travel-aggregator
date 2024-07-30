@@ -1,13 +1,18 @@
-import React, { useContext } from "react";
-import { Navigate } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const PrivateRoute = ({ children }) => {
   const { auth } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  if (!auth.token) {
-    return <Navigate to="/login" />;
-  }
+  useEffect(() => {
+    if (auth && auth.token) {
+      return;
+    } else {
+      navigate("/login");
+    }
+  }, []);
 
   return children;
 };

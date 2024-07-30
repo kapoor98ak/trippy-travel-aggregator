@@ -7,10 +7,11 @@ const ImageCarousel = ({ images }) => {
   return (
     <Box sx={{ width: "100%", maxWidth: 600, margin: "auto" }}>
       <Carousel showThumbs={false} showStatus={false} infiniteLoop autoPlay>
-        {images.map((image, index) => (
+        {images.map((base64, index) => (
           <div key={index}>
             <img
-              src={image}
+              // src={image}
+              src={`data:image/jpeg;base64,${base64}`}
               alt={`carousel-${index}`}
               style={{ width: "100%", height: "auto" }}
             />
