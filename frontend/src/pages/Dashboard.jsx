@@ -17,7 +17,6 @@ const Dashboard = () => {
       {role === "agent" && <AgentDashboard />}
       {role === "traveler" && <TravelerDashboard />}
       {role === "admin" && <AdminDashboard />}
-      <TravelerDashboard />
     </div>
   );
 };
