@@ -9,30 +9,40 @@ const AuthProvider = ({ children }) => {
     user: null,
     token: null,
   });
+  const [loading, setLoading] = useState(true); // Add loading state
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken && storedToken !== "") {
+      setAuth((prevAuth) => ({ ...prevAuth, token: storedToken }));
+      fetchUserDetails(storedToken);
+    } else {
+      setLoading(false); // Set loading to false if no token found
+    }
+  }, []);
 
   const fetchUserDetails = async (token) => {
     try {
       const response = await axiosInstance.get("/auth/user", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(response.data);
+      console.log("fetchUserDetails", response.data);
       setAuth((prevAuth) => ({ ...prevAuth, user: response.data.user }));
     } catch (error) {
       console.error("Error fetching user details", error);
       toast.error("Failed to fetch user details");
+    } finally {
+      setLoading(false); // Set loading to false after fetching user details
     }
   };
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setAuth((prevAuth) => ({ ...prevAuth, token: storedToken }));
-      fetchUserDetails(storedToken);
-    }
-  }, []);
+    console.log("auth change: ", auth);
+  }, [auth]);
 
   const login = async (email, password) => {
     try {
+      setLoading(true); // Set loading to true when login starts
       const response = await axiosInstance.post("/auth/login", {
         email,
         password,
@@ -40,10 +50,12 @@ const AuthProvider = ({ children }) => {
       const token = response.data.token;
       setAuth((prevAuth) => ({ ...prevAuth, token: response.data.token }));
       localStorage.setItem("token", token);
+      fetchUserDetails(token); // Fetch user details after login
       toast.success("Login Successful!");
     } catch (error) {
       console.error("Error logging in", error);
       toast.error("Login failed");
+      setLoading(false); // Set loading to false if login fails
     }
   };
 
@@ -58,6 +70,7 @@ const AuthProvider = ({ children }) => {
     agency_address,
   }) => {
     try {
+      setLoading(true); // Set loading to true when registration starts
       const response = await axiosInstance.post("/auth/register", {
         firstName,
         lastName,
@@ -71,10 +84,12 @@ const AuthProvider = ({ children }) => {
       const token = response.data.token;
       setAuth((prevAuth) => ({ ...prevAuth, token: response.data.token }));
       localStorage.setItem("token", token);
+      fetchUserDetails(token); // Fetch user details after registration
       toast.success("Registration Successful!");
     } catch (error) {
       console.error("Error signing up", error);
       toast.error("Registration failed");
+      setLoading(false); // Set loading to false if registration fails
     }
   };
 
@@ -85,7 +100,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ auth, login, register, logout }}>
+    <AuthContext.Provider value={{ auth, loading, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

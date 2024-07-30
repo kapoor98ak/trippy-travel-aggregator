@@ -5,22 +5,26 @@ import TravelerDashboard from "../components/Dashboards/TravelerDashboard";
 import AdminDashboard from "../components/Dashboards/AdminDashboard";
 
 const Dashboard = () => {
-  const { auth } = useContext(AuthContext);
+  const { auth, loading } = useContext(AuthContext);
 
-  if (!auth.token) {
-    return <div>Error: User not authenticated</div>;
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
-  const { user } = auth;
-  const { role } = user || {};
-
-  return (
-    <div>
-      {role === "agent" && <AgentDashboard />}
-      {role === "traveler" && <TravelerDashboard />}
-      {role === "admin" && <AdminDashboard />}
-    </div>
-  );
+  if (auth && auth.user) {
+    switch (auth.user.role) {
+      case "agent":
+        return <AgentDashboard />;
+      case "traveler":
+        return <TravelerDashboard />;
+      case "admin":
+        return <AdminDashboard />;
+      default:
+        return <div>Role not recognized</div>;
+    }
+  } else {
+    return <div>User not authenticated</div>;
+  }
 };
 
 export default Dashboard;
