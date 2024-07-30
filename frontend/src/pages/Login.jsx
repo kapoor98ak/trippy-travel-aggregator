@@ -93,9 +93,7 @@ const Login = () => {
 
   return (
     <Container
-      minHeight="100%"
-      minWidth="100vw"
-      maxWidth="100vw"
+      sx={{ minHeight: "100%", minWidth: "100vw", maxWidth: "100vw" }}
       disableGutters
     >
       <Container maxWidth="sm" disableGutters>

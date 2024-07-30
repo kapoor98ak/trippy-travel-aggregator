@@ -18,8 +18,10 @@ const FAQ = () => {
     // <Box flex flexGrow={1}>
     <Container
       flex
-      minwidth="100%"
-      maxwidth="100%"
+      sx={{
+        minwidth: "100%",
+        maxwidth: "100%",
+      }}
       justifyContent="center"
       justifyItems="center"
       disableGutters
