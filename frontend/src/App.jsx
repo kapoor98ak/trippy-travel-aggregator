@@ -117,7 +117,7 @@ function App() {
                   {/* Trip Routes */}
                   <Route path="/trip/:tripId" element={<TripDetail />} />
                   <Route path="/edittrip/:id" element={<EditTripPage />} />
-                  <Route path="/trip" element={<Trips/>} />
+                  <Route path="/trips" element={<Trips/>} />
                   {/*  */}
                 </Routes>
               </Suspense>

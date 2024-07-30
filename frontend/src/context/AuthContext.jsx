@@ -50,6 +50,7 @@ const AuthProvider = ({ children }) => {
       const token = response.data.token;
       setAuth((prevAuth) => ({ ...prevAuth, token: response.data.token }));
       localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
       fetchUserDetails(token); // Fetch user details after login
       toast.success("Login Successful!");
     } catch (error) {

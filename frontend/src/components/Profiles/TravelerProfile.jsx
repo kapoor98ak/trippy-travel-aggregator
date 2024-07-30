@@ -4,49 +4,50 @@ import { Box, TextField, Button, Typography, Grid } from '@mui/material';
 
 function TravelerProfile() {
   // Initialize state from local storage or default values
-  const getUserData = () => JSON.parse(localStorage.getItem('auth'))?.user || {};
-
+  const getUserData = JSON.parse(localStorage.getItem('user'))
+  console.log("user", getUserData)
   // State hooks for user profile data
-  const [userData, setUserData] = useState(getUserData());
-  const [_id, setId] = useState(userData._id || '');
-  const [firstName, setFirstName] = useState(userData.firstName || '');
-  const [lastName, setLastName] = useState(userData.lastName || '');
-  const [email, setEmail] = useState(userData.email || '');
-  const [city, setCity] = useState(userData.city || '');
-  const [country, setCountry] = useState(userData.country || '');
-  const [age, setAge] = useState(userData.age || '');
-  const [gender, setGender] = useState(userData.gender || '');
-  const [username, setUsername] = useState(userData.username || '');
-  const [website, setWebsite] = useState(userData.website || '');
-  const [contact, setContact] = useState(userData.contact || '');
-  const [bio, setBio] = useState(userData.bio || '');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
+  const [age, setAge] = useState('');
+  const [gender, setGender] = useState('');
+  const [username, setUsername] = useState('');
+  const [website, setWebsite] = useState('');
+  const [contact, setContact] = useState('');
+  const [bio, setBio] = useState('');
 
   // Fetch user data on component mount
   useEffect(() => {
-    if (userData._id) {
-      axios.get(`${import.meta.env.VITE_API_URL}/user/get-profile/${userData._id}`)
+    console.log("init")
+    if (getUserData._id) {
+      axios.get(`${import.meta.env.VITE_API_URL}/user/get-profile/${getUserData._id}`)
         .then(response => {
+          console.log("hrllo",response)
           if (response.data.success) {
             const data = response.data.data;
-            setId(data._id);
-            setFirstName(data.firstName);
-            setLastName(data.lastName);
-            setEmail(data.email);
-            setCity(data.city);
-            setCountry(data.country);
-            setAge(data.age);
-            setGender(data.gender);
-            setUsername(data.username);
-            setWebsite(data.website);
-            setContact(data.contact);
-            setBio(data.bio);
+            //setId(data._id);
+            console.log(data);
+            setFirstName(data?.firstName);
+            setLastName(data?.lastName);
+            setEmail(data?.email);
+            setCity(data?.city);
+            setCountry(data?.country);
+            setAge(data?.age);
+            setGender(data?.gender);
+            setUsername(data?.username);
+            setWebsite(data?.website);
+            setContact(data?.contact);
+            setBio(data?.bio);
           }
         })
         .catch(error => {
           console.error('Error fetching profile:', error);
         });
     }
-  }, [userData._id]);
+  }, [getUserData._id]);
 
   // Validate contact number
   const validateContact = (contact) => {
@@ -56,6 +57,8 @@ function TravelerProfile() {
 
   // Handle profile update
   const handleSave = async () => {
+    let id = getUserData._id
+    console.log(id)
     if (!validateContact(contact)) {
       alert("Please enter a valid contact number.");
       return;
@@ -63,7 +66,7 @@ function TravelerProfile() {
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/user/update-profile`, {
-        _id,
+        id,
         city,
         country,
         age,
