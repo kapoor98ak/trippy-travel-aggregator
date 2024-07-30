@@ -24,6 +24,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import AdminDashboard from "./components/Dashboards/AdminDashboard.jsx";
 import EditTripPage from "./pages/EditTrip.jsx";
 
+
 import Trips from "./pages/Trips.jsx";
 
 // import TravelAgentDashboard from "./pages/TravelAgentDashboard.jsx";
@@ -116,6 +117,7 @@ function App() {
                   {/* Trip Routes */}
                   <Route path="/trip/:tripId" element={<TripDetail />} />
                   <Route path="/edittrip/:id" element={<EditTripPage />} />
+                  <Route path="/trip" element={<Trips/>} />
                   {/*  */}
                 </Routes>
               </Suspense>

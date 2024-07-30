@@ -17,6 +17,8 @@ router.get('/agent', authMiddleware, tripController.getTripsByAgent);
 
 router.get('/:id', tripController.getTripById);
 
+router.get('/traveler/trips', authMiddleware, tripController.getTravelerTrips);
+
 router.put(
   '/:id',
   authMiddleware,
