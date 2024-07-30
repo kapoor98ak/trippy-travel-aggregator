@@ -4,6 +4,7 @@ const cors = require('cors');
 const config = require('./config/config');
 const connectDB = require('./config/databaseConfig');
 const routes = require('./routes');
+const bodyParser = require('body-parser');
 
 
 // Load environment variables
@@ -22,6 +23,8 @@ app.use(express.urlencoded({ extended: true })); // For parsing URL-encoded payl
 
 // Routes
 app.use('/api', routes);
+
+app.use(bodyParser.json());
 
 app.listen(config.port, () => {
   console.log(`HELLO! Server running on port ${config.port}`);

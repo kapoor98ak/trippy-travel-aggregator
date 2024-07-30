@@ -13,7 +13,7 @@ import {
   FormControlLabel,
 } from "@mui/material";
 
-const registerUrl = "/auth/register";
+const registerUrl = "http://localhost:3000/api/auth/register";
 
 const Register = () => {
   const navigate = useNavigate();

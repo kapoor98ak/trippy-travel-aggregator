@@ -17,8 +17,11 @@ const TripDetail = lazy(() => import('./pages/TripDetail.jsx'));
 import Spinner from './components/Spinner.jsx';
 import { AuthProvider } from "./context/AuthContext.jsx";
 import PrivateRoute from "./components/PrivateRoute";
+
+import Trips from "./pages/Trips.jsx";
 const UserProfile = lazy(() => import('./pages/UserProfile.jsx'));
 const Dashboard = lazy(() => import('./pages/Dashboard.jsx'));
+
 
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -73,12 +76,14 @@ function App() {
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<PasswordReset />} />
                 <Route path="/tripdetail" element={<TripDetail />} />
+                <Route path="/trips" element={<Trips/>}/>
+
                 <Route
                   path="/profile"
                   element={
                    <PrivateRoute>
                       <UserProfile />
-                    </PrivateRoute>
+                   </PrivateRoute>
                   }
                 />
                 <Route

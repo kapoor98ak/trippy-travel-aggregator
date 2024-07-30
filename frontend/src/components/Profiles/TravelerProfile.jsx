@@ -1,202 +1,103 @@
-import React from 'react';
-import { TextField, Button, Box, Typography, Avatar, Grid } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-export default class TravelerProfile extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstName: 'Sophia',
-      lastName: 'Lauren',
-      city: 'Halifax',
-      country: 'Canada',
-      age: '32',
-      gender: 'Female',
-      username: '@username123',
-      email: 'email@domain.com',
-      website: 'website.net',
-      contact: '+1 780 847 7463',
-      bio: 'I am a traveler, like to explore new places.',
-      editable: false
-    };
-  }
+function TravelerProfile() {
+  // Fetch user data from local storage and initialize state
+  const getUserData = () => JSON.parse(localStorage.getItem('auth'))?.user || {};
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+  // State hooks for each user field
+  const [userData, setUserData] = useState(getUserData());
+  const [_id, setId] = useState(userData._id || '');
+  const [city, setCity] = useState(userData.city || '');
+  const [country, setCountry] = useState(userData.country || '');
+  const [age, setAge] = useState(userData.age || '');
+  const [gender, setGender] = useState(userData.gender || '');
+  const [username, setUsername] = useState(userData.username || '');
+  const [website, setWebsite] = useState(userData.website || '');
+  const [contact, setContact] = useState(userData.contact || '');
+  const [bio, setBio] = useState(userData.bio || '');
 
-  toggleEdit = () => {
-    this.setState({ editable: !this.state.editable });
-  };
-
-  validateEmail = (email) => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  }
-
-  validateContact = (contact) => {
-    const re = /^\+?([0-9]{1,3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-    return re.test(String(contact));
-  }
-
-  handleSave = () => {
-    if (!this.validateEmail(this.state.email)) {
-      alert("Please enter a valid email address.");
-      return;
+  // Fetch profile data from the server
+  useEffect(() => {
+    if (userData._id) {
+      axios.get(`http://localhost:3000/api/users/get-profile/${userData._id}`)
+        .then(response => {
+          console.log(response)
+          if (response.data.success) {
+            const { _id, city, country, age, gender, username, website, contact, bio } = response.data.data;
+            setId(_id);
+            setCity(city);
+            setCountry(country);
+            setAge(age);
+            setGender(gender);
+            setUsername(username);
+            setWebsite(website);
+            setContact(contact);
+            setBio(bio);
+          }
+        })
+        .catch(error => {
+          console.error('There was an error fetching the profile!', error);
+        });
     }
-    if (!this.validateContact(this.state.contact)) {
+  }, [userData._id]);  // Depending on userData._id to refetch when it changes
+
+  // Validate contact number
+  const validateContact = (contact) => {
+    const regex = /^[0-9]{10}$/;  // Example: Validates a 10-digit number
+    return regex.test(contact);
+  };
+
+  // Handle form submission to update profile
+  const handleSave = async () => {
+    if (!validateContact(contact)) {
       alert("Please enter a valid contact number.");
       return;
     }
-    this.toggleEdit();
-    // Here you would typically also save to a backend service
-  }
 
-  render() {
-    const { editable } = this.state;
-    return (
-      <Box sx={{ flexGrow: 1, m: { xs: 2, md: 4 } }}>
-        <Typography variant="h4" gutterBottom component="div">
-          User Profile
-        </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <TextField
-              label="First Name"
-              variant="outlined"
-              value={this.state.firstName}
-              onChange={this.handleChange}
-              name="firstName"
-              fullWidth
-              margin="normal"
-              disabled={!editable}
-            />
-            <TextField
-              label="Last Name"
-              variant="outlined"
-              value={this.state.lastName}
-              onChange={this.handleChange}
-              name="lastName"
-              fullWidth
-              margin="normal"
-              disabled={!editable}
-            />
-            <TextField
-              label="City"
-              variant="outlined"
-              value={this.state.city}
-              onChange={this.handleChange}
-              name="city"
-              fullWidth
-              margin="normal"
-              disabled={!editable}
-            />
-            <TextField
-              label="Country"
-              variant="outlined"
-              value={this.state.country}
-              onChange={this.handleChange}
-              name="country"
-              fullWidth
-              margin="normal"
-              disabled={!editable}
-            />
-            <TextField
-              label="Age"
-              variant="outlined"
-              value={this.state.age}
-              onChange={this.handleChange}
-              name="age"
-              fullWidth
-              margin="normal"
-              disabled={!editable}
-            />
-            <TextField
-              label="Gender"
-              variant="outlined"
-              value={this.state.gender}
-              onChange={this.handleChange}
-              name="gender"
-              fullWidth
-              margin="normal"
-              disabled={!editable}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-              <Avatar
-                src="path_to_avatar.jpg"
-                sx={{
-                  width: { xs: 40, sm: 56 },
-                  height: { xs: 40, sm: 56 }
-                }}
-              />
-              {editable && <Button variant="outlined">Change profile photo</Button>}
-            </Box>
-            <TextField
-              label="Username"
-              variant="outlined"
-              value={this.state.username}
-              onChange={this.handleChange}
-              name="username"
-              fullWidth
-              margin="normal"
-              disabled={!editable}
-            />
-            <TextField
-              label="Email"
-              variant="outlined"
-              value={this.state.email}
-              onChange={this.handleChange}
-              name="email"
-              fullWidth
-              margin="normal"
-              disabled={!editable}
-            />
-            <TextField
-              label="Website"
-              variant="outlined"
-              value={this.state.website}
-              onChange={this.handleChange}
-              name="website"
-              fullWidth
-              margin="normal"
-              disabled={!editable}
-            />
-            <TextField
-              label="Contact"
-              variant="outlined"
-              value={this.state.contact}
-              onChange={this.handleChange}
-              name="contact"
-              fullWidth
-              margin="normal"
-              disabled={!editable}
-            />
-            <TextField
-              label="Bio"
-              variant="outlined"
-              multiline
-              rows={4}
-              value={this.state.bio}
-              onChange={this.handleChange}
-              name="bio"
-              fullWidth
-              margin="normal"
-              disabled={!editable}
-            />
-          </Grid>
-        </Grid>
-        {editable ? (
-          <Button variant="contained" color="primary" sx={{ mt: 2 }} onClick={this.handleSave}>
-            Save Changes
-          </Button>
-        ) : (
-          <Button variant="contained" color="secondary" sx={{ mt: 2 }} onClick={this.toggleEdit}>
-            Edit
-          </Button>
-          
-        )}
-      </Box>
-    );
-  }
+    try {
+      const response = await axios.post('http://localhost:3000/api/users/update-profile', {
+        _id,
+        city,
+        country,
+        age,
+        gender,
+        username,
+        website,
+        contact,
+        bio,
+      });
+      if (response.data.success) {
+        alert('Profile updated successfully');
+      } else {
+        alert('Failed to update profile');
+      }
+    } catch (error) {
+      console.error('There was an error updating the profile!', error);
+    }
+  };
+
+  return (
+    <div>
+      <h2>Edit Profile</h2>
+      <form onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
+        <input type="text" placeholder="City" value={city} onChange={e => setCity(e.target.value)} />
+        <input type="text" placeholder="Country" value={country} onChange={e => setCountry(e.target.value)} />
+        <input type="number" placeholder="Age" value={age} onChange={e => setAge(e.target.value)} />
+        <select value={gender} onChange={e => setGender(e.target.value)}>
+          <option value="">Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+        <input type="text" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} />
+        <input type="text" placeholder="Website" value={website} onChange={e => setWebsite(e.target.value)} />
+        <input type="text" placeholder="Contact" value={contact} onChange={e => setContact(e.target.value)} />
+        <textarea placeholder="Bio" value={bio} onChange={e => setBio(e.target.value)} />
+        <button type="submit">Save Profile</button>
+      </form>
+    </div>
+  );
 }
+
+export default TravelerProfile;

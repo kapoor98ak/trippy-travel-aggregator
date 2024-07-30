@@ -17,7 +17,7 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const response = await axiosInstance.post("/auth/login", {
+    const response = await axiosInstance.post("http://localhost:3000/api/auth/login", {
       email,
       password,
     });
