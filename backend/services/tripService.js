@@ -61,3 +61,28 @@ exports.filterTrips = async ({ source, destination, startDate, endDate }) => {
     throw new Error(error.message);
   }
 };
+
+
+exports.getPastTrips = async (travelerId) => {
+  const today = new Date();
+  return await Trip.find({
+    "bookings.travelerId": travelerId,
+    endDate: { $lt: today }
+  }).populate('bookings');
+};
+
+exports.getUpcomingTrips = async (travelerId) => {
+  const today = new Date();
+  return await Trip.find({
+    "bookings.travelerId": travelerId,
+    startDate: { $gte: today }
+  }).populate('bookings');
+};
+
+exports.getRequestedTrips = async (travelerId) => {
+  // Assuming there is a field in bookings to denote requested status
+  return await Trip.find({
+    "bookings.travelerId": travelerId,
+    "bookings.status": "requested"
+  }).populate('bookings');
+};

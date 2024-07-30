@@ -62,6 +62,10 @@ const tripSchema = new Schema({
     ref: 'User',
     required: true,
   },
+  bookings: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Booking'
+  }],
   createdAt: {
     type: Date,
     default: Date.now,

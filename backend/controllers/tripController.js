@@ -198,3 +198,21 @@ exports.filterTrips = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.getTravelerTrips = async (req, res) => {
+  try {
+    const travelerId = req.user._id; // Ensure the user is authenticated
+    const pastTrips = await tripService.getPastTrips(travelerId);
+    const upcomingTrips = await tripService.getUpcomingTrips(travelerId);
+    const requestedTrips = await tripService.getRequestedTrips(travelerId);
+
+    res.json({
+      pastTrips,
+      upcomingTrips,
+      requestedTrips
+    });
+  } catch (error) {
+    console.error('Error fetching trips for traveler:', error);
+    res.status(500).json({ msg: 'Server error' });
+  }
+};

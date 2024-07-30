@@ -8,6 +8,7 @@ import Spinner from "./components/Spinner.jsx";
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
+
 // import PrivateRoute from "./components/PrivateRoute";
 import Landing from "./pages/Landing.jsx";
 import FAQ from "./pages/FAQ.jsx";
@@ -22,6 +23,10 @@ import UserProfile from "./pages/UserProfile.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import AdminDashboard from "./components/Dashboards/AdminDashboard.jsx";
 import EditTripPage from "./pages/EditTrip.jsx";
+
+
+import Trips from "./pages/Trips.jsx";
+
 // import TravelAgentDashboard from "./pages/TravelAgentDashboard.jsx";
 // const Landing = lazy(() => import("./pages/Landing.jsx"));
 // const FAQ = lazy(() => import("./pages/FAQ.jsx"));
@@ -112,6 +117,7 @@ function App() {
                   {/* Trip Routes */}
                   <Route path="/trip/:tripId" element={<TripDetail />} />
                   <Route path="/edittrip/:id" element={<EditTripPage />} />
+                  <Route path="/trip" element={<Trips/>} />
                   {/*  */}
                 </Routes>
               </Suspense>

@@ -37,6 +37,30 @@ const userSchema = new Schema({
       return this.role !== 'agent';
     },
   },
+  city: {
+    type: String,
+  },
+  country: {
+    type: String,
+  },
+  age: {
+    type: String,
+  },
+  gender: {
+    type: String,
+  },
+  username: {
+    type: String,
+  },
+  website: {
+    type: String,
+  },
+  contact: {
+    type: String,
+  },
+  bio: {
+    type: String,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
