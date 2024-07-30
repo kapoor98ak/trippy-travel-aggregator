@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { TextField, Button, Typography, Container, Grid } from "@mui/material";
 
 const AgentProfile = ({ user }) => {
-  const [firstName, setFirstName] = useState(user.name);
+  const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
   const [email, setEmail] = useState(user.email);
   const [agency, setAgency] = useState(user.agency);
@@ -25,7 +25,7 @@ const AgentProfile = ({ user }) => {
 
   return (
     <Container maxWidth="sm">
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom mt={4}>
         Agent Profile
       </Typography>
       <Grid container spacing={2}>
