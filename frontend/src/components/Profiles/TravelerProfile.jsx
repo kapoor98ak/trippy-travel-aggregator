@@ -24,7 +24,7 @@ function TravelerProfile() {
   // Fetch user data on component mount
   useEffect(() => {
     if (userData._id) {
-      axios.get(`http://localhost:3000/api/users/get-profile/${userData._id}`)
+      axios.get(`${import.meta.env.VITE_API_URL}/user/get-profile/${userData._id}`)
         .then(response => {
           if (response.data.success) {
             const data = response.data.data;
@@ -62,7 +62,7 @@ function TravelerProfile() {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/api/users/update-profile', {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/user/update-profile`, {
         _id,
         city,
         country,

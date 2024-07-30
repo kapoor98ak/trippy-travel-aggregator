@@ -1,8 +1,5 @@
 const tripService = require('../services/tripService');
-const Trip=require('../models/Trip');
-
-// tripController.js
-
+const Trip = require('../models/Trip');
 
 exports.getAllTrips = async (req, res) => {
   const allTrips = await tripService.getAllTrips();
@@ -16,7 +13,8 @@ exports.getTrip = async (req, res) => {
 };
 
 exports.createTrip = async (req, res) => {
-  const { title, source, destination, startDate, endDate, price, images } = req.body;
+  const { title, source, destination, startDate, endDate, price, images } =
+    req.body;
   const capacity = req.body.occupancy;
   let amenities;
   let itinerary;
@@ -26,17 +24,32 @@ exports.createTrip = async (req, res) => {
     itinerary = JSON.parse(req.body.itinerary);
   } catch (error) {
     console.error('Error parsing amenities or itinerary:', error);
-    return res.status(400).json({ msg: 'Invalid amenities or itinerary format' });
+    return res
+      .status(400)
+      .json({ msg: 'Invalid amenities or itinerary format' });
   }
 
-  if (!title || !source || !destination || !startDate || !endDate || !price || !capacity || !itinerary || !images || !amenities) {
+  if (
+    !title ||
+    !source ||
+    !destination ||
+    !startDate ||
+    !endDate ||
+    !price ||
+    !capacity ||
+    !itinerary ||
+    !images ||
+    !amenities
+  ) {
     console.log('Missing required fields');
     return res.status(400).json({ msg: 'Please enter all the details!!' });
   }
 
   if (req.user.role !== 'agent') {
     console.log('Unauthorized access attempt by:', req.user.email);
-    return res.status(403).json({ msg: 'Unauthorized: Only agents can create trips.' });
+    return res
+      .status(403)
+      .json({ msg: 'Unauthorized: Only agents can create trips.' });
   }
   const agentId = req.user._id;
 
@@ -52,13 +65,12 @@ exports.createTrip = async (req, res) => {
       itinerary,
       amenities,
       images,
-      agentId
+      agentId,
     };
 
-    console.log("Calling tripService.createTrip with data:", tripData);
+    console.log('Calling tripService.createTrip with data:', tripData);
     const newTrip = await tripService.createTrip(tripData);
-    console.log("Trip created successfully:", newTrip);
-
+    console.log('Trip created successfully:', newTrip);
     res.status(201).json(newTrip);
   } catch (error) {
     console.error('Error while creating trip:', error);
@@ -66,43 +78,39 @@ exports.createTrip = async (req, res) => {
   }
 };
 
-
-
 exports.getTripsByAgent = async (req, res) => {
   try {
-      const agentId = req.user._id;
+    const agentId = req.user._id;
 
-      const trips = await Trip.find({ agentId });
+    const trips = await Trip.find({ agentId });
 
-      res.status(200).json(trips);
+    res.status(200).json(trips);
   } catch (error) {
-      console.error('Error fetching trips by agent:', error);
-      res.status(500).json({ msg: 'Server error' });
+    console.error('Error fetching trips by agent:', error);
+    res.status(500).json({ msg: 'Server error' });
   }
 };
-
-
 
 exports.getTripById = async (req, res) => {
   try {
-      const tripId = req.params.id;
-      const trip = await Trip.findById(tripId);
+    const tripId = req.params.id;
+    const trip = await Trip.findById(tripId);
 
-      if (!trip) {
-          return res.status(404).json({ msg: 'Trip not found' });
-      }
+    if (!trip) {
+      return res.status(404).json({ msg: 'Trip not found' });
+    }
 
-      res.status(200).json(trip);
+    res.status(200).json(trip);
   } catch (error) {
-      console.error('Error fetching trip details:', error);
-      res.status(500).json({ msg: 'Server error' });
+    console.error('Error fetching trip details:', error);
+    res.status(500).json({ msg: 'Server error' });
   }
 };
 
-
 exports.editTrip = async (req, res) => {
   const tripId = req.params.id;
-  const { title, source, destination, startDate, endDate, price, images } = req.body;
+  const { title, source, destination, startDate, endDate, price, images } =
+    req.body;
   const capacity = req.body.occupancy;
   let amenities;
   let itinerary;
@@ -112,17 +120,32 @@ exports.editTrip = async (req, res) => {
     itinerary = JSON.parse(req.body.itinerary);
   } catch (error) {
     console.error('Error parsing amenities or itinerary:', error);
-    return res.status(400).json({ msg: 'Invalid amenities or itinerary format' });
+    return res
+      .status(400)
+      .json({ msg: 'Invalid amenities or itinerary format' });
   }
 
-  if (!title || !source || !destination || !startDate || !endDate || !price || !capacity || !itinerary || !images || !amenities) {
+  if (
+    !title ||
+    !source ||
+    !destination ||
+    !startDate ||
+    !endDate ||
+    !price ||
+    !capacity ||
+    !itinerary ||
+    !images ||
+    !amenities
+  ) {
     console.log('Missing required fields');
     return res.status(400).json({ msg: 'Please enter all the details!!' });
   }
 
   if (req.user.role !== 'agent') {
     console.log('Unauthorized access attempt by:', req.user.email);
-    return res.status(403).json({ msg: 'Unauthorized: Only agents can edit trips.' });
+    return res
+      .status(403)
+      .json({ msg: 'Unauthorized: Only agents can edit trips.' });
   }
 
   const agentId = req.user._id;
@@ -139,17 +162,19 @@ exports.editTrip = async (req, res) => {
       itinerary,
       amenities,
       images,
-      agentId
+      agentId,
     };
 
-    console.log("Calling Trip.findByIdAndUpdate with data:", tripData);
-    const updatedTrip = await Trip.findByIdAndUpdate(tripId, tripData, { new: true });
+    console.log('Calling Trip.findByIdAndUpdate with data:', tripData);
+    const updatedTrip = await Trip.findByIdAndUpdate(tripId, tripData, {
+      new: true,
+    });
 
     if (!updatedTrip) {
       return res.status(404).json({ msg: 'Trip not found' });
     }
 
-    console.log("Trip updated successfully:", updatedTrip);
+    console.log('Trip updated successfully:', updatedTrip);
     res.status(200).json(updatedTrip);
   } catch (error) {
     console.error('Error while updating trip:', error);
@@ -161,10 +186,15 @@ exports.filterTrips = async (req, res) => {
   const { source, destination, startDate, endDate } = req.body;
 
   try {
-    const trips = await tripService.filterTrips({ source, destination, startDate, endDate });
+    const trips = await tripService.filterTrips({
+      source,
+      destination,
+      startDate,
+      endDate,
+    });
     res.status(200).json(trips);
   } catch (error) {
-    console.error("Error while filtering trips:", error.message);
+    console.error('Error while filtering trips:', error.message);
     res.status(500).json({ message: error.message });
   }
 };

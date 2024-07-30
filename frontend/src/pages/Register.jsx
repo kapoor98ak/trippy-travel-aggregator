@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axiosInstance from "../api/Axios.jsx";
+import { AuthContext } from "../context/AuthContext.jsx";
 import {
   Container,
   TextField,
@@ -13,10 +13,9 @@ import {
   FormControlLabel,
 } from "@mui/material";
 
-const registerUrl = "http://localhost:3000/api/auth/register";
-
 const Register = () => {
   const navigate = useNavigate();
+  const { register } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     fName: "",
     lName: "",
@@ -81,7 +80,7 @@ const Register = () => {
 
     try {
       setIsLoading(true);
-      const response = await axiosInstance.post(registerUrl, {
+      await register({
         firstName: formData.fName,
         lastName: formData.lName,
         email: formData.userEmail,
@@ -91,21 +90,11 @@ const Register = () => {
         agency_name: formData.agencyName,
         agency_address: formData.agencyAddress,
       });
-
-      if (response.data.user && response.data.token) {
-        setSuccessMsg("Registration Successful!");
-        // Further actions, e.g., navigate to a different page
-      } else {
-        throw new Error("Registration failed");
-      }
+      navigate("/dashboard"); // or wherever you want to redirect
     } catch (err) {
       let errorMessage = "Registration Failed";
-      if (!err?.response) {
-        errorMessage = "No Server Response";
-      } else if (err.response?.status === 409) {
-        errorMessage = "User with same email already exists";
-      } else if (err.response?.status === 400) {
-        errorMessage = "Validation Failed";
+      if (err.response?.data?.message) {
+        errorMessage = err.response.data.message;
       }
       setErrMsg(errorMessage);
     } finally {
@@ -258,15 +247,13 @@ const Register = () => {
           >
             Register
           </Button>
-          {errMsg && <Typography color="error">{errMsg}</Typography>}
-          <Typography variant="body2" color="text.secondary" align="center">
-            Already have an account? <Link to="/login">Login</Link>
-          </Typography>
-          {successMsg && (
-            <Alert severity="success" sx={{ mt: 4 }}>
-              {successMsg}
-            </Alert>
-          )}
+          {errMsg && <Alert severity="error">{errMsg}</Alert>}
+          {successMsg && <Alert severity="success">{successMsg}</Alert>}
+          <Box textAlign="center">
+            <Typography variant="body2">
+              Already have an account? <Link to="/login">Login here</Link>
+            </Typography>
+          </Box>
         </Box>
       )}
     </Container>

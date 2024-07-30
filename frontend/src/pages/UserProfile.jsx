@@ -1,23 +1,35 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import AgentProfile from "../components/Profiles/AgentProfile.jsx";
-import TravelerProfile from "../components/Profiles/TravelerProfile.jsx";
+import { AuthContext } from "../context/AuthContext";
+import AgentProfile from "../components/Profiles/AgentProfile";
+import TravelerProfile from "../components/Profiles/TravelerProfile";
 
 const UserProfile = () => {
-  const auth = JSON.parse(localStorage.getItem("auth"));
+  const { auth, loading } = useContext(AuthContext);
 
-  if (!auth) {
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!auth.token) {
     return <div>Error: User not authenticated</div>;
   }
 
-  if (auth.user.role === "admin") {
+  if (auth && auth.user && auth.user.role === "admin") {
     return <Navigate to="/dashboard" />;
   }
 
   return (
     <div>
-      {auth.user.role === "agent" ? <AgentProfile /> : <TravelerProfile />}
-    
+      {auth.user ? (
+        auth.user.role === "agent" ? (
+          <AgentProfile user={auth.user} />
+        ) : (
+          <TravelerProfile user={auth.user} />
+        )
+      ) : (
+        <div>Error: User data not available</div>
+      )}
     </div>
   );
 };

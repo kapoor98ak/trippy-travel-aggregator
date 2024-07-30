@@ -18,12 +18,20 @@ exports.registerUser = async ({
     if (await User.findOne({ email })) {
       throw new Error('User already exists');
     }
-    console.log('Registering a User...');
+    console.log('Registering a User with data:', {
+      firstName,
+      lastName,
+      email,
+      password,
+      role,
+      agency_bin,
+      agency_name,
+      agency_address,
+    });
 
     // Hash the password
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
-
     let agency = null;
     if (role === 'agent') {
       // Check if the Agency exists
@@ -52,7 +60,6 @@ exports.registerUser = async ({
 
     // Save the user to the database
     const savedUser = await newUser.save();
-
     // Create JWT token
     const payload = {
       user: {
@@ -68,8 +75,8 @@ exports.registerUser = async ({
 
     return { user: savedUser, token };
   } catch (err) {
-    console.log('Error while registering user...');
-    console.error(err.message);
+    console.log('Error while registering user...', err.message);
+
     throw new Error('Server error');
   }
 };
@@ -85,9 +92,9 @@ exports.loginUser = async ({ email, password }) => {
     if (!isMatch) {
       throw new Error('Invalid password');
     }
-    
-    // The user credentials are correct... 
-    console.log("User successfull logged in!!");
+
+    // The user credentials are correct...
+    console.log('User successfull logged in!!');
 
     const payload = {
       user: {

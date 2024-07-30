@@ -17,7 +17,7 @@ import { AuthContext } from "../context/AuthContext.jsx";
 const pages = [
   {
     name: "Home",
-    url: "",
+    url: "trips",
   },
   {
     name: "FAQ",
