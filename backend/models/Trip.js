@@ -66,6 +66,7 @@ const tripSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Booking'
   }],
+
   createdAt: {
     type: Date,
     default: Date.now,
@@ -85,6 +86,7 @@ const tripSchema = new Schema({
       ref: 'Review',
     },
   ],
+
 });
 
 module.exports = mongoose.model('Trip', tripSchema);

@@ -3,11 +3,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import { AuthProvider } from "./context/AuthContext.jsx";
 import { Box } from "@mui/material";
+
+// Components
 import Spinner from "./components/Spinner.jsx";
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
-import { AuthProvider } from "./context/AuthContext.jsx";
 import Landing from "./pages/Landing.jsx";
 import FAQ from "./pages/FAQ.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
@@ -21,7 +23,11 @@ import UserProfile from "./pages/UserProfile.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import AdminDashboard from "./components/Dashboards/AdminDashboard.jsx";
 import EditTripPage from "./pages/EditTrip.jsx";
+import AdminHomePage from "./pages/AdminHomePage.jsx";
 import Trips from "./pages/Trips.jsx";
+// AL Changes
+import TravelRequestForm from "./pages/TravelRequestForm.jsx";
+import DisplayRequests from "./pages/DisplayRequests.jsx";
 
 const theme = createTheme({
   typography: {
@@ -100,7 +106,11 @@ function App() {
                   {/* Trip Routes */}
                   <Route path="/trip/:tripId" element={<TripDetail />} />
                   <Route path="/edittrip/:id" element={<EditTripPage />} />
+
                   <Route path="/trips" element={<Trips />} />
+                  <Route path="/travel-request-form" element={<TravelRequestForm/>} />
+                  <Route path="/display-requests" element={<DisplayRequests />} />
+
                   {/*  */}
                 </Routes>
               </Suspense>
