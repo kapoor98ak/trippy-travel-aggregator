@@ -55,6 +55,9 @@ const AgentDashboard = () => {
   const handleCardClick = (id) => {
     navigate(`/trip/${id}`);
   };
+  const handleButtonClick = () => {
+    navigate('/display-requests');
+  };
 
   return (
     <Container sx={{ marginTop: 4 }}>
@@ -122,18 +125,21 @@ const AgentDashboard = () => {
           ))}
         </Grid>
       )}
-      <Typography
-        variant="h5"
-        gutterBottom
+      <div>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleButtonClick}
         sx={{ marginTop: 3, marginBottom: 2 }}
       >
-        Personalized Travel Requests
-      </Typography>
+        Travel Requests
+      </Button>
       <TripSchedulerModal
         open={openModal}
         handleClose={() => setOpenModal(false)}
         tripId={selectedTripId}
       />
+    </div>
     </Container>
   );
 };
