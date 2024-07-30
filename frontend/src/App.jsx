@@ -20,6 +20,8 @@ import Trips from "./pages/Trips.jsx";
 const UserProfile = lazy(() => import('./pages/UserProfile.jsx'));
 const Dashboard = lazy(() => import('./pages/Dashboard.jsx'));
 const EditTripPage= lazy(() => import('./pages/EditTrip.jsx'));
+const TrailAgentDashboard= lazy(() => import('./pages/TrailAgentDashboard.jsx'));
+const Spinner=lazy(() => import('./components/Spinner.jsx'));
 
 
 
@@ -66,7 +68,8 @@ function App() {
           <Box flex flexDirection="column" minHeight="100vh" minWidth="100%">
             <Header />
             <Box flexGrow={1} minHeight="100vh" minWidth="100%">
-              <Routes>
+            <Suspense fallback={<Spinner/>}>
+            <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/contact" element={<ContactUs />} />
@@ -77,7 +80,9 @@ function App() {
                 <Route path="/reset-password" element={<PasswordReset />} />
                 <Route path="/tripdetail" element={<TripDetail />} />
                 <Route path="/admin-home" element={<AdminDashboard />} />
+                <Route path="/agent-dashboard" element={<TrailAgentDashboard />} />
                 <Route path="/edittrip/:id" element={<EditTripPage />} />
+            
                 <Route path="/trips" element={<Trips/>}/>
 
                 <Route
@@ -96,8 +101,8 @@ function App() {
                     </PrivateRoute>
                   }
                 />
-                
               </Routes>
+            </Suspense>
             </Box>
             <Footer />
           </Box>

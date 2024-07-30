@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/create', authMiddleware, uploadFilesAndConvertToBase64, tripController.createTrip);
 router.post('/filter', tripController.filterTrips);
 
-router.get('/', authMiddleware, tripController.getTripsByAgent);
+router.get('/agent', authMiddleware, tripController.getTripsByAgent);
 
 router.get('/:id', authMiddleware, tripController.getTripById);
 
