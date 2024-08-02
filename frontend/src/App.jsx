@@ -107,7 +107,7 @@ function App() {
                   <Route path="/trip/:tripId" element={<TripDetail />} />
                   <Route path="/edittrip/:id" element={<EditTripPage />} />
 
-                  <Route path="/tripss" element={<Trips />} />
+                  <Route path="/trips" element={<Trips />} />
                   <Route path="/travel-request-form" element={<TravelRequestForm/>} />
                   <Route path="/display-requests" element={<DisplayRequests />} />
 
