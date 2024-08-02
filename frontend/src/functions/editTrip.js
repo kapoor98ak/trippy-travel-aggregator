@@ -13,7 +13,7 @@ const sendDataToBackendForEditTrip = async (data, id) => {
     });
 
     try {
-        const response = await axios.put(`http://localhost:3000/api/trips/${id}`, formData, {
+        const response = await axios.put(`https://csci-5709-project.onrender.com/api/trips/${id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': `Bearer ${token}`

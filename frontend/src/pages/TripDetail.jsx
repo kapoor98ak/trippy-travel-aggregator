@@ -120,10 +120,8 @@ const TripDetail = () => {
   const handleBookNow = () => {
     if (!auth.user) {
       toast.error("You need to be logged in to book a trip.");
-
       return;
     }
-
     setShowBookingModal(true);
   };
 
@@ -599,7 +597,7 @@ const TripDetail = () => {
                 type="number"
                 value={totalTravelers}
                 onChange={(e) => {
-                  setTotalTravelers(e.target);
+                  setTotalTravelers(e.target.value);
                 }}
                 variant="outlined"
                 fullWidth

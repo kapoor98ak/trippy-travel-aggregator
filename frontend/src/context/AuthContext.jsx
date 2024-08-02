@@ -12,13 +12,17 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken && storedToken !== "") {
-      setAuth((prevAuth) => ({ ...prevAuth, token: storedToken }));
-      fetchUserDetails(storedToken);
-    } else {
-      setLoading(false); // Set loading to false if no token found
-    }
+    const initializeAuth = async () => {
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        setAuth((prevAuth) => ({ ...prevAuth, token: storedToken }));
+        await fetchUserDetails(storedToken);
+      } else {
+        setLoading(false); // Set loading to false if no token found
+      }
+    };
+
+    initializeAuth();
   }, []);
 
   const fetchUserDetails = async (token) => {
@@ -31,6 +35,8 @@ const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error("Error fetching user details", error);
       toast.error("Failed to fetch user details");
+      setAuth({ user: null, token: null });
+      localStorage.removeItem("token");
     } finally {
       setLoading(false); // Set loading to false after fetching user details
     }
@@ -48,10 +54,10 @@ const AuthProvider = ({ children }) => {
         password,
       });
       const token = response.data.token;
-      setAuth((prevAuth) => ({ ...prevAuth, token: response.data.token }));
+      setAuth((prevAuth) => ({ ...prevAuth, token: token }));
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
-      fetchUserDetails(token); // Fetch user details after login
+      await fetchUserDetails(token); // Fetch user details after login
       toast.success("Login Successful!");
     } catch (error) {
       console.error("Error logging in", error);
@@ -83,9 +89,9 @@ const AuthProvider = ({ children }) => {
         agency_address,
       });
       const token = response.data.token;
-      setAuth((prevAuth) => ({ ...prevAuth, token: response.data.token }));
+      setAuth((prevAuth) => ({ ...prevAuth, token: token }));
       localStorage.setItem("token", token);
-      fetchUserDetails(token); // Fetch user details after registration
+      await fetchUserDetails(token); // Fetch user details after registration
       toast.success("Registration Successful!");
     } catch (error) {
       console.error("Error signing up", error);

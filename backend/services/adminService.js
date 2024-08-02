@@ -2,7 +2,6 @@ const User = require('../models/User');
 const Trip = require('../models/Trip');
 const { UserRoles } = require('../utilities/role')
 
-
 // Returns total count of user having particular role
 exports.getUserCountByType = async (userType) => {
   try {
@@ -134,7 +133,6 @@ exports.getUniqueYearListFromUsers = async () => {
     throw new Error('Unable to fetch unique years from users collection');
   }
 };
-
 // Gets list of un approved agents
 exports.getUnApprovedAgentsList = async () => {
   try {
@@ -171,3 +169,4 @@ exports.removeAgent = async (id) => {
   }
   return deletedAgent;
 }
+

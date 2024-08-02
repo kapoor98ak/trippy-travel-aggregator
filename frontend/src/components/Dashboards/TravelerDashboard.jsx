@@ -110,7 +110,7 @@ const TravelerDashboard = () => {
   return (
     <Box sx={{ flexGrow: 1, p: { xs: 2, md: 4 } }}>
       <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between' }}>
-        <Button variant="contained" color="primary" onClick={() => navigate('/request-trip')}>
+        <Button variant="contained" color="primary" onClick={() => navigate('/travel-request-form')}>
           Request New Trip
         </Button>
         <Button variant="contained" color="secondary" onClick={() => navigate('/trips')}>

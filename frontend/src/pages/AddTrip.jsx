@@ -97,6 +97,10 @@ const AddTripPage = () => {
       await sendDataToBackend(formData);
 
       toast.success("Form submitted successfully");
+
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 3500);
     } catch (err) {
       if (err instanceof z.ZodError) {
         toast.error("Please fill all the required fields correctly");
