@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 
+const testRoute = require('./testRoute');
 const emailRoutes = require('./emailRoutes');
 const authRoutes = require('./authRoutes');
 const adminRoutes = require('./adminRoutes');
@@ -12,6 +13,7 @@ const userRoutes = require('./userRoutes');
 const travelRequestRoutes = require("./travelRequestsRoutes")
 const googleMapsRoutes = require("./googleMapsRoutes")
 
+router.use('/test', testRoute);
 router.use('/email', emailRoutes);
 router.use('/auth', authRoutes);
 router.use('/admin', adminRoutes);
