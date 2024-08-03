@@ -10,6 +10,9 @@ We can delete a Trip.
 
 // services/tripService.js
 const Trip = require('../models/Trip');
+const Booking = require('../models/Booking');
+const User = require('../models/User');
+
 
 exports.getAllTrips = async() => {
   try{
@@ -26,6 +29,18 @@ exports.createTrip = async (tripData) => {
       const newTrip = new Trip(tripData);
       const savedTrip = await newTrip.save();
       console.log("Trip saved successfully:", savedTrip);
+
+      // Fetch agent details
+      const agent = await User.findById(savedTrip.agentId);
+      
+      // Send email notification to the agent
+      const agentMailOptions = {
+        to: agent.email,
+        from: process.env.EMAIL_ADDRESS,
+        subject: 'New Trip Assigned to You',
+        text: `Hello ${agent.firstName},\n\nA new trip titled "${savedTrip.title}" has been created. Please check the trip details.\n\nBest Regards,\nTrippy`,
+      };
+      await emailService.sendEmail(agentMailOptions); 
       return savedTrip;
   } catch (error) {
       console.error("Error while creating a trip:", error.message);

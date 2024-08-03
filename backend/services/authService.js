@@ -76,6 +76,14 @@ exports.registerUser = async ({
       expiresIn: '1h', // 1 hour token expiration
     });
 
+    // Send email for successful registration
+    const mailOptions = {
+      to: savedUser.email,
+      from: process.env.EMAIL_ADDRESS,
+      subject: 'Registration Successful',
+      text: `Hello ${savedUser.firstName},\n\nYour registration was successful. Welcome!\n\nBest Regards,\nTrippy`,
+    };
+    await emailService.sendEmail(mailOptions);
     return { user: savedUser, token };
   } catch (err) {
     console.log('Error while registering user...', err.message);
@@ -111,6 +119,14 @@ exports.loginUser = async ({ email, password }) => {
       expiresIn: '1h', // 1 hour token expiration
     });
 
+    // Send email for successful login
+    const mailOptions = {
+      to: user.email,
+      from: process.env.EMAIL_ADDRESS,
+      subject: 'Login Successful',
+      text: `Hello ${user.firstName},\n\nYou have successfully logged in.\n\nBest Regards,\nTrippy`,
+    };
+    await emailService.sendEmail(mailOptions);
     return { user, token };
   } catch (error) {
     console.error('Error while logging in user:', error.message);
