@@ -29,3 +29,34 @@ exports.createBooking = async(bookingData) => {
         throw new Error(err.message);
     }
 };
+
+
+
+
+// Get upcoming bookings for a traveler
+exports.getUpcomingBookings = async (travelerId) => {
+  try {
+    const today = new Date();
+    const upcomingBookings = await Booking.find({ travelerId: travelerId })
+      .populate('tripId') // Populate trip details
+      .then(bookings => bookings.filter(booking => new Date(booking.tripId.startDate) >= today));
+
+    return upcomingBookings;
+  } catch (error) {
+    throw new Error('Unable to fetch upcoming bookings: ' + error.message);
+  }
+};
+
+// Get past bookings for a traveler
+exports.getPastBookings = async (travelerId) => {
+  try {
+    const today = new Date();
+    const pastBookings = await Booking.find({ travelerId: travelerId })
+      .populate('tripId') // Populate trip details
+      .then(bookings => bookings.filter(booking => new Date(booking.tripId.startDate) < today));
+
+    return pastBookings;
+  } catch (error) {
+    throw new Error('Unable to fetch past bookings: ' + error.message);
+  }
+};

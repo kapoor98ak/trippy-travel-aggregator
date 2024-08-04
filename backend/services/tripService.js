@@ -63,26 +63,54 @@ exports.filterTrips = async ({ source, destination, startDate, endDate }) => {
 };
 
 
+// exports.getRequestedTrips = async (travelerId) => {
+//   // Assuming there is a field in bookings to denote requested status
+//   return await Trip.find({
+//     "bookings.travelerId": travelerId,
+//     "bookings.status": "requested"
+//   }).populate('bookings');
+// };
+
 exports.getPastTrips = async (travelerId) => {
   const today = new Date();
-  return await Trip.find({
-    "bookings.travelerId": travelerId,
-    endDate: { $lt: today }
-  }).populate('bookings');
+  try {
+    return await Trip.find({
+      bookings: {
+        $elemMatch: { travelerId, status: 'confirmed' }
+      },
+      endDate: { $lt: today }
+    }).populate('bookings');
+  } catch (error) {
+    console.error('Error fetching past trips:', error.message);
+    throw new Error('Error fetching past trips');
+  }
 };
 
 exports.getUpcomingTrips = async (travelerId) => {
   const today = new Date();
-  return await Trip.find({
-    "bookings.travelerId": travelerId,
-    startDate: { $gte: today }
-  }).populate('bookings');
+  try {
+    return await Trip.find({
+      bookings: {
+        $elemMatch: { travelerId, status: 'confirmed' }
+      },
+      startDate: { $gte: today }
+    }).populate('bookings');
+  } catch (error) {
+    console.error('Error fetching upcoming trips:', error.message);
+    throw new Error('Error fetching upcoming trips');
+  }
 };
 
 exports.getRequestedTrips = async (travelerId) => {
-  // Assuming there is a field in bookings to denote requested status
-  return await Trip.find({
-    "bookings.travelerId": travelerId,
-    "bookings.status": "requested"
-  }).populate('bookings');
+  try {
+    return await Trip.find({
+      bookings: {
+        $elemMatch: { travelerId, status: 'requested' }
+      }
+    }).populate('bookings');
+  } catch (error) {
+    console.error('Error fetching requested trips:', error.message);
+    throw new Error('Error fetching requested trips');
+  }
 };
+

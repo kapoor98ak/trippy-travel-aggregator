@@ -21,8 +21,10 @@ app.use(cors()); // Enable CORS
 app.use(express.json()); // For parsing JSON payloads
 app.use(express.urlencoded({ extended: true })); // For parsing URL-encoded payloads, with support for nested objects
 
+
 // Routes
 app.use('/api', routes);
+// app.use('/api/trips', tripRoutes);
 
 app.use(bodyParser.json());
 
