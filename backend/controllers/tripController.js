@@ -209,7 +209,7 @@ exports.getTravelerTrips = async (req, res) => {
     res.json({
       pastTrips,
       upcomingTrips,
-      requestedTrips
+      requestedTrips,
     });
   } catch (error) {
     console.error('Error fetching trips for traveler:', error);
@@ -217,13 +217,14 @@ exports.getTravelerTrips = async (req, res) => {
   }
 };
 
-
 exports.rescheduleTrip = async (req, res) => {
   const { startDate, endDate } = req.body;
   const { id } = req.params;
 
   if (new Date(startDate) > new Date(endDate)) {
-    return res.status(400).json({ msg: 'Start date cannot be later than end date.' });
+    return res
+      .status(400)
+      .json({ msg: 'Start date cannot be later than end date.' });
   }
 
   try {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import axiosInstance from "../../api/Axios.jsx";
 import { Container, Grid, Typography, Button, Box } from "@mui/material";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,15 +19,14 @@ const AgentDashboard = () => {
     const fetchTrips = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(
-          `https://csci-5709-project.onrender.com/api/trips/agent`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+        const response = await axiosInstance.get(`/trips/agent`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const trips = response.data.filter(
+          (trip) => trip.status !== "canceled"
         );
-        const trips = response.data.filter(trip => trip.status !== "canceled");
 
         const now = new Date();
         const upcoming = trips.filter((trip) => new Date(trip.endDate) > now);
@@ -56,7 +56,7 @@ const AgentDashboard = () => {
     navigate(`/trip/${id}`);
   };
   const handleButtonClick = () => {
-    navigate('/display-requests');
+    navigate("/display-requests");
   };
 
   return (
@@ -126,20 +126,20 @@ const AgentDashboard = () => {
         </Grid>
       )}
       <div>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleButtonClick}
-        sx={{ marginTop: 3, marginBottom: 2 }}
-      >
-        Travel Requests
-      </Button>
-      <TripSchedulerModal
-        open={openModal}
-        handleClose={() => setOpenModal(false)}
-        tripId={selectedTripId}
-      />
-    </div>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleButtonClick}
+          sx={{ marginTop: 3, marginBottom: 2 }}
+        >
+          Travel Requests
+        </Button>
+        <TripSchedulerModal
+          open={openModal}
+          handleClose={() => setOpenModal(false)}
+          tripId={selectedTripId}
+        />
+      </div>
     </Container>
   );
 };

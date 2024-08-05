@@ -14,6 +14,12 @@ import SportsFootballIcon from "@mui/icons-material/SportsFootball";
 import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
+import {
+  GoogleMap,
+  LoadScript,
+  Polyline,
+  Marker,
+} from "@react-google-maps/api";
 
 import {
   Container,
@@ -214,6 +220,57 @@ const TripDetail = () => {
     );
   }
 
+  const renderMap = () => {
+    const zoomLevel = 6;
+    const center =
+      tripDetails.itinerary.length > 0
+        ? {
+            lat: tripDetails.itinerary[0].latitude,
+            lng: tripDetails.itinerary[0].longitude,
+          }
+        : { lat: 0, lng: 0 };
+
+    const pathCoordinates = tripDetails.itinerary.map((step) => ({
+      lat: step.latitude,
+      lng: step.longitude,
+    }));
+
+    console.log(pathCoordinates);
+
+    return (
+      // <LoadScript googleMapsApiKey="AIzaSyCn2ETkQeDAUWWne2Du0kn5iQ-AALFxH3M">
+      <LoadScript googleMapsApiKey="AIzaSyDk-FWf87-PJj8C7FI5Hrg8Z24ZJfdGO-Y">
+        <GoogleMap
+          key={JSON.stringify(pathCoordinates)}
+          mapContainerStyle={{ width: "100%", height: "400px" }}
+          center={center}
+          zoom={zoomLevel}
+        >
+          {pathCoordinates.length > 0 ? (
+            <>
+              <Polyline
+                path={pathCoordinates}
+                options={{
+                  strokeColor: "#FF0000",
+                  strokeOpacity: 1,
+                  strokeWeight: 2,
+                  clickable: false,
+                  draggable: false,
+                  editable: false,
+                  visible: true,
+                }}
+              />
+              <Marker position={pathCoordinates[0]} />
+              <Marker position={pathCoordinates[pathCoordinates.length - 1]} />
+            </>
+          ) : (
+            <p>No itinerary data available</p>
+          )}
+        </GoogleMap>
+      </LoadScript>
+    );
+  };
+
   return (
     <Container minWidth="100%" maxWidth="lg" disableGutters>
       {tripId && tripDetails && tripDetails.images && (
@@ -335,6 +392,15 @@ const TripDetail = () => {
                     jungles are rich with many wild animals like leopards and
                     bears.
                   </Typography>
+                </Stack>
+                <Stack>
+                  <Box flex direction="column" mt={4}>
+                    <Typography variant="h5">Route Map</Typography>
+                    {tripDetails &&
+                      tripDetails.itinerary &&
+                      tripDetails.itinerary.length !== 0 &&
+                      renderMap()}
+                  </Box>
                 </Stack>
               </Stack>
             </Grid>
