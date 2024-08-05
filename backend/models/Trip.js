@@ -14,6 +14,14 @@ const itinerarySchema = new Schema({
     type: Date,
     required: true,
   },
+  latitude: {
+    type: Number,
+    required: true,
+  },
+  longitude: {
+    type: Number,
+    required: true,
+  },
 });
 
 const tripSchema = new Schema({
@@ -62,10 +70,12 @@ const tripSchema = new Schema({
     ref: 'User',
     required: true,
   },
-  bookings: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Booking'
-  }],
+  bookings: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Booking',
+    },
+  ],
 
   createdAt: {
     type: Date,
@@ -86,7 +96,6 @@ const tripSchema = new Schema({
       ref: 'Review',
     },
   ],
-
 });
 
 module.exports = mongoose.model('Trip', tripSchema);
