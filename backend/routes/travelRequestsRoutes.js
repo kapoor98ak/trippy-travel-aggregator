@@ -13,6 +13,7 @@ router.get('/agent/:agentId', authMiddleware, travelRequestController.getRequest
 router.put('/request/:_id/approve', authMiddleware, travelRequestController.approveRequest);
 router.put('/request/:_id/reject', authMiddleware, travelRequestController.rejectRequest);
 
-router.get('/traveler/:travelerId', travelRequestController.getRequestsByTraveler);
+router.get('/traveler', authMiddleware, travelRequestController.getRequestsByTraveler);
 
 module.exports = router;
+

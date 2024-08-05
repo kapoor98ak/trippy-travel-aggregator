@@ -17,10 +17,10 @@ router.post(
 
 
 // Route for getting upcoming bookings
-router.get('/traveler/:travelerId/upcoming', bookingController.getUpcomingBookings);
+router.get('/traveler/upcoming',authMiddleware.authMiddleware, bookingController.getUpcomingBookings);
 
 // Route for getting past bookings
-router.get('/traveler/:travelerId/past', bookingController.getPastBookings);
+router.get('/traveler/past',authMiddleware.authMiddleware, bookingController.getPastBookings);
 
 // To Do: Add the auth Middle ware in this creation...
 module.exports = router;

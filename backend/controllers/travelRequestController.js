@@ -42,8 +42,9 @@ exports.createRequest = async (req, res) => {
 // Get personal requests by traveler ID
 exports.getRequestsByTraveler = async (req, res) => {
     try {
-        console.log(req.params.travelerId)
-        const travelerId = req.params.travelerId;
+        // console.log(req.params.travelerId)
+        console.log("helllo oo000000000000000000000000000000000000000000000000000")
+        const travelerId = req.user._id;
         const requests = await getRequestsByTravelerId(travelerId);
         res.status(200).json(requests);
     } catch (error) {

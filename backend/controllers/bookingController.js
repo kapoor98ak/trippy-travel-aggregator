@@ -31,7 +31,8 @@ exports.bookTrip = async (req, res) => {
 // Get upcoming bookings for a traveler
 exports.getUpcomingBookings = async (req, res) => {
     try {
-      const travelerId = req.params.travelerId;
+      console.log(req.user)
+      const travelerId = req.user._id;
       const upcomingBookings = await bookingService.getUpcomingBookings(travelerId);
       res.status(200).json(upcomingBookings);
     } catch (error) {
@@ -42,7 +43,7 @@ exports.getUpcomingBookings = async (req, res) => {
   // Get past bookings for a traveler
   exports.getPastBookings = async (req, res) => {
     try {
-      const travelerId = req.params.travelerId;
+      const travelerId = req.user._id;
       const pastBookings = await bookingService.getPastBookings(travelerId);
       res.status(200).json(pastBookings);
     } catch (error) {

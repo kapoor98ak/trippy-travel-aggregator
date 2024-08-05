@@ -23,12 +23,19 @@ const TravelerDashboard = () => {
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
+  // const user = JSON.parse(localStorage.getItem("user"));
 
   // Fetch Upcoming Trips
   const fetchUpcomingTrips = async () => {
+    const token = localStorage.getItem("token");
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/booking/traveler/${user._id}/upcoming`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/booking/traveler/upcoming`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
       console.log(response.data)
       setUpcomingTrips(Array.isArray(response.data) ? response.data : []); // Ensure the response is an array
     } catch (error) {
@@ -40,8 +47,15 @@ const TravelerDashboard = () => {
 
   // Fetch Past Trips
   const fetchPastTrips = async () => {
+    const token = localStorage.getItem("token");
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/booking/traveler/${user._id}/past`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/booking/traveler/past`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log(response.data)
       setPastTrips(Array.isArray(response.data) ? response.data : []); // Ensure the response is an array
     } catch (error) {
@@ -53,8 +67,14 @@ const TravelerDashboard = () => {
 
   // Fetch Requested Trips
   const fetchRequestedTrips = async () => {
+    const token = localStorage.getItem("token");
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/travelrequests/traveler/${user._id}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/travelrequests/traveler`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(response.data)
       setRequestedTrips(Array.isArray(response.data) ? response.data : []); // Ensure the response is an array
     } catch (error) {
@@ -82,7 +102,7 @@ const TravelerDashboard = () => {
     if (isRequested) {
       navigate('/display-requests');
     } else {
-      navigate(`/trip-details/${id}`);
+      navigate(`/trip/${id}`);
     }
   };
 

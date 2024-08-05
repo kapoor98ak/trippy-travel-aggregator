@@ -30,10 +30,11 @@ exports.updateRequestStatus = async (requestId, status) => {
 };
 
 
-exports.getRequestsByTravelerId = async (travelerId) => {
+exports.getRequestsByTravelerId = async (travelid) => {  
     try {
-        console.log("service", travelerId)
-        const requests = await TravelRequest.find({ travelerId: travelerId });
+        // console.log("service", travelerId)
+
+        const requests = await TravelRequest.find({ travelerId: travelid });
         console.log(requests)
         return requests;
     } catch (error) {
