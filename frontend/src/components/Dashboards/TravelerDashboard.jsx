@@ -96,7 +96,7 @@ const TravelerDashboard = () => {
 
   const handleCardClick = (id, isRequested) => {
     if (isRequested) {
-      navigate('/display-requests');
+      navigate('/trips');
     } else {
       navigate(`/trip/${id}`);
     }

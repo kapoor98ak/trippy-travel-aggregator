@@ -23,6 +23,13 @@ router.get('/traveler/upcoming',authMiddleware.authMiddleware, bookingController
 router.get('/traveler/past',authMiddleware.authMiddleware, bookingController.getPastBookings);
 
 // To Do: Add the auth Middle ware in this creation...
+// Edit booking route
+router.put(
+    '/:id', 
+    authMiddleware.authMiddleware,
+    bookingController.editBooking
+);
+
 module.exports = router;
 
 

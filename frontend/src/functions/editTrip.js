@@ -1,4 +1,6 @@
 import axios from 'axios';
+import axiosInstance from '../api/Axios';
+
 
 
 const sendDataToBackendForEditTrip = async (data, id) => {
@@ -13,7 +15,7 @@ const sendDataToBackendForEditTrip = async (data, id) => {
     });
 
     try {
-        const response = await axios.put(`https://csci-5709-project.onrender.com/api/trips/${id}`, formData, {
+        const response = await axiosInstance.put(`/trips/${id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': `Bearer ${token}`

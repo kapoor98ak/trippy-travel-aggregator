@@ -16,4 +16,3 @@ router.put('/request/:_id/reject', authMiddleware, travelRequestController.rejec
 router.get('/traveler', authMiddleware, travelRequestController.getRequestsByTraveler);
 
 module.exports = router;
-

@@ -13,6 +13,7 @@ import Footer from "./components/Footer.jsx";
 import Landing from "./pages/Landing.jsx";
 import FAQ from "./pages/FAQ.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
+// import MapPage from "./pages/MapPage";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import ForgotPassword from "./components/ForgotPassword.jsx";
@@ -108,9 +109,17 @@ function App() {
                   <Route path="/edittrip/:id" element={<EditTripPage />} />
 
                   <Route path="/trips" element={<Trips />} />
-                  <Route path="/travel-request-form" element={<TravelRequestForm/>} />
-                  <Route path="/display-requests" element={<DisplayRequests />} />
+                  <Route
+                    path="/travel-request-form"
+                    element={<TravelRequestForm />}
+                  />
+                  <Route
+                    path="/display-requests"
+                    element={<DisplayRequests />}
+                  />
 
+                  {/* Map Routes - Abhishek Kapoor */}
+                  {/* <Route path="/map/:tripId" element={<MapPage />} /> */}
                   {/*  */}
                 </Routes>
               </Suspense>

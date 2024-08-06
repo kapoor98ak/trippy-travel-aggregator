@@ -26,4 +26,14 @@ router.put('/:id/reschedule', authMiddleware, tripController.rescheduleTrip);
 
 router.put('/:id/cancel', authMiddleware, tripController.cancelTrip);
 
+router.get('/agent//trips-summary',authMiddleware, tripController.getTripsSummary);
+
+router.get('/agent/bookings-sumary', authMiddleware, tripController.getBookingsSummary);
+
+router.get('/agent/average-trip-cost', authMiddleware, tripController.getAverageTripCost);
+
+router.get('/agent/bookings-sumary/:year', authMiddleware, tripController.getBookingsSummaryByYear);
+
+router.get('/agent/review-summary', authMiddleware, tripController.getReviewSummary);
+
 module.exports = router;

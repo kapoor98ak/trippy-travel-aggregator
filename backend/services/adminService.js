@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Trip = require('../models/Trip');
 const { UserRoles } = require('../utilities/role')
+const emailService = require('../services/emailService');
 
 // Returns total count of user having particular role
 exports.getUserCountByType = async (userType) => {
@@ -150,6 +151,16 @@ exports.approveAgent = async (id) => {
   let updatedAgent = null
   try {
     updatedAgent = await User.findByIdAndUpdate(id, { isApproved: true });
+    if (updatedAgent) {
+      // Send email notification to the approved agent
+      const mailOptions = {
+        to: updatedAgent.email,
+        from: process.env.EMAIL_ADDRESS,
+        subject: 'Approval Notification',
+        text: `Hello ${updatedAgent.firstName},\n\nYour account has been approved. You can now access all the features available to agents.\n\nBest Regards,\nTrippy`,
+      };
+      await emailService.sendEmail(mailOptions);
+    }
   }
   catch (err) {
     console.error(err);

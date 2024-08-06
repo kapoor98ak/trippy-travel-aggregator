@@ -1,4 +1,6 @@
 import axios from 'axios';
+import axiosInstance from '../api/Axios';
+
 
 const sendDataToBackend = async (data) => {
     const token = localStorage.getItem('token');
@@ -12,7 +14,7 @@ const sendDataToBackend = async (data) => {
     });
   
     try {
-      const response = await axios.post('https://csci-5709-project.onrender.com/api/trips/create', formData, {
+      const response = await axiosInstance.get('/trips/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}`
@@ -26,3 +28,6 @@ const sendDataToBackend = async (data) => {
   };
   
   export default sendDataToBackend;
+
+
+

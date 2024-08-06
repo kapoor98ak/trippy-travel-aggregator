@@ -3,36 +3,17 @@
 const travelRequest = require('../models/travelRequest');
 const User = require('../models/User');
 const {updateRequestStatus, getRequestsByTravelerId} = require("../services/travelRequestService");
+const travelRequestService = require("../services/travelRequestService");
 
 // Create a new personal request
 exports.createRequest = async (req, res) => {
     try {
         const { title, source, destination, startDate, endDate, budget, itineraryDetails, numOfTravellers, amenities } = req.body;
-        console.log(req.body)
         const travelerId = req.user._id;
-
-        // Fetch all agents and assign the request to a random agent
-        const agents = await User.find({ role: 'agent' });
-        if (agents.length === 0) {
-            return res.status(400).json({ message: 'No agents available' });
-        }
-        const assignedAgent = agents[Math.floor(Math.random() * agents.length)];
-
-        const newRequest = new travelRequest({
-            title,
-            source,
-            destination,
-            startDate,
-            endDate,
-            budget,
-            itineraryDetails,
-            numOfTravellers,
-            amenities,
-            travelerId,
-            agentId: assignedAgent._id,
-        });
-
-        await newRequest.save();
+        const traveler = req.user;
+        const travelRequestData = { traveler, travelerId, title, source, destination, startDate, endDate, budget, itineraryDetails, numOfTravellers, amenities };
+        newRequest = await travelRequestService.createTravelRequest(travelRequestData);
+        
         res.status(201).json(newRequest);
     } catch (error) {
         res.status(500).json({ error: error.message });
