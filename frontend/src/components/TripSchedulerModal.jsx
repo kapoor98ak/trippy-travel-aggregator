@@ -4,6 +4,7 @@ import {
 } from '@mui/material';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import axiosInstance from '../api/Axios';
 
 const TripSchedulerModal = ({ open, handleClose, tripId }) => {
   const [newStartDate, setNewStartDate] = useState('');
@@ -17,7 +18,7 @@ const TripSchedulerModal = ({ open, handleClose, tripId }) => {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`https://csci-5709-project.onrender.com/api/trips/${tripId}/reschedule`, {
+      await axiosInstance.put(`/trips/${tripId}/reschedule`, {
         startDate: newStartDate,
         endDate: newEndDate,
       }, {
@@ -36,7 +37,7 @@ const TripSchedulerModal = ({ open, handleClose, tripId }) => {
   const handleCancelClick = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`https://csci-5709-project.onrender.com/api/trips/${tripId}/cancel`, {}, {
+      await axiosInstance.put(`/trips/${tripId}/cancel`, {}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
