@@ -27,8 +27,13 @@ const TravelerDashboard = () => {
   useEffect(() => {
     const fetchTrips = async () => {
       setLoading(true);
+      const token = localStorage.getItem('token'); // Adjust this according to where you store your token
       try {
-        const response = await axios.get('/api/trips/traveler/trips'); // Adjust this URL to your actual API endpoint
+        const response = await axios.get('/trips/traveler/trips', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setTrips({
           upcoming: response.data.upcomingTrips || [],
           past: response.data.pastTrips || [],

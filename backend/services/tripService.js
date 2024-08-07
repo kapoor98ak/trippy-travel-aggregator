@@ -79,22 +79,56 @@ exports.filterTrips = async ({ source, destination, startDate, endDate }) => {
 };
 
 exports.getPastTrips = async (travelerId) => {
+  console.log("Fetching past trips for traveler ID:", travelerId);
   const today = new Date();
-  return await Trip.find({
-    'bookings.travelerId': travelerId,
+  console.log("Today's date:", today);
+
+  // Fetch all bookings for the traveler
+  const bookings = await Booking.find({ travelerId: travelerId });
+  console.log("Bookings for traveler:", bookings);
+
+  // Extract unique trip IDs from the bookings
+  const tripIds = [...new Set(bookings.map(booking => booking.tripId))];
+  console.log("Unique trip IDs:", tripIds);
+
+  // Fetch trips with these IDs where endDate is in the past
+  const pastTrips = await Trip.find({
+    _id: { $in: tripIds },
     endDate: { $lt: today },
-  }).populate('bookings');
+  });
+
+  console.log("Past trips:", pastTrips);
+
+  return pastTrips;
 };
 
 exports.getUpcomingTrips = async (travelerId) => {
+  console.log("Fetching upcoming trips for traveler ID:", travelerId);
   const today = new Date();
-  return await Trip.find({
-    'bookings.travelerId': travelerId,
+  console.log("Today's date:", today);
+
+  // Fetch all bookings for the traveler
+  const bookings = await Booking.find({ travelerId: travelerId });
+  console.log("Bookings for traveler:", bookings);
+
+  // Extract unique trip IDs from the bookings
+  const tripIds = [...new Set(bookings.map(booking => booking.tripId))];
+  console.log("Unique trip IDs:", tripIds);
+
+  // Fetch trips with these IDs where startDate is in the future
+  const upcomingTrips = await Trip.find({
+    _id: { $in: tripIds },
     startDate: { $gte: today },
-  }).populate('bookings');
+  });
+
+  console.log("Upcoming trips:", upcomingTrips);
+
+  return upcomingTrips;
 };
 
+
 exports.getRequestedTrips = async (travelerId) => {
+  console.log("Requested trips...");
   // Assuming there is a field in bookings to denote requested status
   return await Trip.find({
     'bookings.travelerId': travelerId,
