@@ -159,8 +159,9 @@ export default function AdminDashboard() {
 
   const columns = [
     // {
-    //   field: 'name', headerName: 'Name',
-    //   width: 200
+    //   field: "name",
+    //   headerName: "Name",
+    //   width: 200,
     // },
     {
       field: "firstName",

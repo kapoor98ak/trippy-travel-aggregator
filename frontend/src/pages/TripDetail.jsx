@@ -413,7 +413,7 @@ const TripDetail = () => {
                 // mt={2}
               >
                 <Stack direction="row" justifyContent="">
-                  <Typography variant="h4">₹{tripDetails.price}</Typography>
+                  <Typography variant="h4">${tripDetails.price}</Typography>
                   <Typography variant="subtitle1">/person</Typography>
                 </Stack>
 
