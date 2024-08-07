@@ -10,6 +10,8 @@ import {
   Checkbox,
   Button,
 } from "@mui/material";
+import axiosInstance from "../api/Axios";
+
 
 const ContactUs = () => {
   const firstNameRef = useRef(null);
@@ -30,10 +32,25 @@ const ContactUs = () => {
 
   function handleSubmit() {
     if (areAllInputsValid()) {
-      setSuccessMsg("Message sent successfully!");
-      clearInputs();
+      sendEmailToAdmin()
     } else {
       setSuccessMsg("");
+    }
+  }
+
+  async function sendEmailToAdmin() {
+    try {
+      const response = await axiosInstance.post('/email/send', {
+        to: emailRef.current.value,
+        subject: `Customer contact request | ${firstNameRef.current.value}`,
+        text: `${firstNameRef.current.value} ${lastNameRef.current.value} want to connect to you about the trippy. Their email: ${emailRef.current.value}. Message : ${messageRef.current.value} . Happy conversation !`
+      })
+      setSuccessMsg("Message sent successfully!");
+      clearInputs();
+    }
+    catch (error) {
+      alert("Unable to submit the form. Please try again later")
+      console.log(`Error while sending email. Error: ${error}`)
     }
   }
 
