@@ -67,13 +67,7 @@ const AddTripPage = () => {
   const addItineraryItem = () => {
     setItinerary([
       ...itinerary,
-      {
-        locationName: "",
-        description: "",
-        visitDate: "",
-        latitude: null,
-        longitude: null,
-      },
+      { locationName: "", description: "", visitDate: "" },
     ]);
   };
 
@@ -268,32 +262,6 @@ const AddTripPage = () => {
                   value={item.visitDate}
                   onChange={(e) =>
                     handleItineraryChange(index, "visitDate", e.target.value)
-                  }
-                  style={{ marginBottom: "10px" }}
-                  error={!!errors.itinerary}
-                  helperText={errors.itinerary}
-                />
-                <TextField
-                  label="Latitude"
-                  type="number"
-                  fullWidth
-                  InputLabelProps={{ shrink: true }}
-                  value={item.latitude}
-                  onChange={(e) =>
-                    handleItineraryChange(index, "latitude", e.target.value)
-                  }
-                  style={{ marginBottom: "10px" }}
-                  error={!!errors.itinerary}
-                  helperText={errors.itinerary}
-                />
-                <TextField
-                  label="Longitude"
-                  type="number"
-                  fullWidth
-                  InputLabelProps={{ shrink: true }}
-                  value={item.longitude}
-                  onChange={(e) =>
-                    handleItineraryChange(index, "longitude", e.target.value)
                   }
                   style={{ marginBottom: "10px" }}
                   error={!!errors.itinerary}

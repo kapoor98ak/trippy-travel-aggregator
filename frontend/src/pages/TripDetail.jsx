@@ -77,9 +77,7 @@ const TripDetail = () => {
       try {
         const response = await axiosInstance.get(`/trips/${tripId}`);
         setTripDetails(response.data);
-        const getReviews = await axiosInstance.get(`/review/${tripId}`);
-        setReviews(getReviews.data);
-       
+        setReviews(response.data.reviews || []);
       } catch (error) {
         console.error("Error fetching trip details:", error);
         setError("Failed to load trip details.");
@@ -415,7 +413,7 @@ const TripDetail = () => {
                 // mt={2}
               >
                 <Stack direction="row" justifyContent="">
-                  <Typography variant="h4">${tripDetails.price}</Typography>
+                  <Typography variant="h4">₹{tripDetails.price}</Typography>
                   <Typography variant="subtitle1">/person</Typography>
                 </Stack>
 
@@ -523,17 +521,11 @@ const TripDetail = () => {
               <Box flex flexDirection="column" py={4}>
                 {reviews.length > 0 ? (
                   reviews.map((review) => (
-                    <Box
-                      key={review._id}
-                      mb={2}
-                      p={2}
-                      border={1}
-                      borderRadius={2}
-                      borderColor="grey.300"
-                      boxShadow={1}
-                    >
+                    <Box key={review._id} mb={2}>
                       <Typography variant="body1">{review.comment}</Typography>
-                      <Rating value={review.rating} readOnly />
+                      <Typography variant="body2">
+                        Rating: {review.rating}
+                      </Typography>
                       <Typography variant="body2">
                         By: {review.userId.firstName} {review.userId.lastName}
                       </Typography>

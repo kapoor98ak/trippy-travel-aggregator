@@ -29,7 +29,6 @@ const ContactUs = () => {
 
   const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
   const nameRegex = /^[A-Za-z]+$/;
-  const adminEmail = "kapoor28204@gmail.com"
 
   function handleSubmit() {
     if (areAllInputsValid()) {
@@ -42,7 +41,7 @@ const ContactUs = () => {
   async function sendEmailToAdmin() {
     try {
       const response = await axiosInstance.post('/email/send', {
-        to: adminEmail,
+        to: emailRef.current.value,
         subject: `Customer contact request | ${firstNameRef.current.value}`,
         text: `${firstNameRef.current.value} ${lastNameRef.current.value} want to connect to you about the trippy. Their email: ${emailRef.current.value}. Message : ${messageRef.current.value} . Happy conversation !`
       })

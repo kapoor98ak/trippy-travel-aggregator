@@ -95,7 +95,7 @@ function App() {
                     path="/resetpassword/:token"
                     element={<ResetPassword />}
                   />
-                  {/* <Route path="/admin-home" element={<AdminDashboard />} />/ */}
+                  <Route path="/admin-home" element={<AdminDashboard />} />
                   {/* <Route
                     path="/agent-dashboard"
                     element={<TravelAgentDashboard />}
