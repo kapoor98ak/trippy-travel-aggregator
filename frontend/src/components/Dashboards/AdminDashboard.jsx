@@ -10,14 +10,13 @@ import {
   FormControl,
   Button,
   Snackbar,
-  IconButton
+  IconButton,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import axios from "axios";
 import { BarChart } from "@mui/x-charts";
-import { DataGrid } from '@mui/x-data-grid';
-import CloseIcon from '@mui/icons-material/Close';
-
+import { DataGrid } from "@mui/x-data-grid";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -39,8 +38,6 @@ const getUnapprovedAgentListURL = "/admin/getUnApprovedAgentsList";
 const approveAgentURL = "/admin/approveAgentById";
 const rejectAgentURL = "/admin/rejectAgentById";
 
-
-
 export default function AdminDashboard() {
   const [yearsList, setYearsList] = useState([]);
   const [selectedYear, setSelectedYear] = useState(2024);
@@ -54,7 +51,7 @@ export default function AdminDashboard() {
   const [totalActiveTripsCount, setTotalActiveTripsCount] = useState(0);
   const [agentApprovalRatio, setAgentApprovalRatio] = useState(0);
 
-  const [unApprovedAgentsList, setUnApprovedAgentsList] = useState([])
+  const [unApprovedAgentsList, setUnApprovedAgentsList] = useState([]);
 
   useEffect(() => {
     GetYearsList();
@@ -79,12 +76,11 @@ export default function AdminDashboard() {
   // }, [unApprovedAgentsList])
 
   const handleToastClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setToastVisible(false);
   };
-
 
   const action = (
     <React.Fragment>
@@ -153,24 +149,39 @@ export default function AdminDashboard() {
   }
 
   async function GetUnApprovedAgentsList(id) {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL}${getUnapprovedAgentListURL}`, { id: id })
-    setUnApprovedAgentsList(response.data)
-    console.log(response.data)
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}${getUnapprovedAgentListURL}`,
+      { id: id }
+    );
+    setUnApprovedAgentsList(response.data);
+    console.log(response.data);
   }
 
   const columns = [
+    // {
+    //   field: "name",
+    //   headerName: "Name",
+    //   width: 200,
+    // },
     {
-      field: 'name', headerName: 'Name',
-      width: 200
+      field: "firstName",
+      headerName: "First name",
+      width: 200,
     },
     {
-      field: 'email', headerName: 'Email',
-      width: 250
+      field: "lastName",
+      headerName: "Last name",
+      width: 200,
     },
-    { field: 'createdAt', headerName: 'Creation time', width: 200 },
     {
-      field: 'actions',
-      headerName: 'Actions',
+      field: "email",
+      headerName: "Email",
+      width: 250,
+    },
+    { field: "createdAt", headerName: "Creation time", width: 200 },
+    {
+      field: "actions",
+      headerName: "Actions",
       width: 200,
       renderCell: (params) => (
         <div>
@@ -197,11 +208,14 @@ export default function AdminDashboard() {
   ];
 
   const handleApprove = async (id) => {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}${approveAgentURL}`, { id: id })
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}${approveAgentURL}`,
+      { id: id }
+    );
     if (response.data.status) {
-      setToastMessage("Agent approved !")
+      setToastMessage("Agent approved !");
     } else {
-      setToastMessage("Agent approve failed !")
+      setToastMessage("Agent approve failed !");
     }
     setToastVisible(true);
     GetUnApprovedAgentsList();
@@ -209,16 +223,18 @@ export default function AdminDashboard() {
   };
 
   const handleReject = async (id) => {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}${rejectAgentURL}`, { id: id })
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}${rejectAgentURL}`,
+      { id: id }
+    );
     if (response.data.status) {
-      setToastMessage("Agent rejected !")
+      setToastMessage("Agent rejected !");
     } else {
-      setToastMessage("Agent rejection failed !")
+      setToastMessage("Agent rejection failed !");
     }
     setToastVisible(true);
     GetUnApprovedAgentsList();
     GetAgentApprovalRatio();
-
   };
 
   return (
@@ -227,25 +243,33 @@ export default function AdminDashboard() {
         <Grid item xs={12} md={3} sm={6}>
           <Item>
             Total users
-            <Typography variant="h3" component="h3">{totalUsersCount}</Typography>
+            <Typography variant="h3" component="h3">
+              {totalUsersCount}
+            </Typography>
           </Item>
         </Grid>
         <Grid item xs={12} md={3} sm={6}>
           <Item>
             Total agents
-            <Typography variant="h3" component="h3">{totalAgentsCount}</Typography>
+            <Typography variant="h3" component="h3">
+              {totalAgentsCount}
+            </Typography>
           </Item>
         </Grid>
         <Grid item xs={12} md={3} sm={6}>
           <Item>
             Total active trips
-            <Typography variant="h3" component="h3">{totalActiveTripsCount}</Typography>
+            <Typography variant="h3" component="h3">
+              {totalActiveTripsCount}
+            </Typography>
           </Item>
         </Grid>
         <Grid item xs={12} md={3} sm={6}>
           <Item>
             Agent approval ratio
-            <Typography variant="h3" component="h3">{agentApprovalRatio} %</Typography>
+            <Typography variant="h3" component="h3">
+              {agentApprovalRatio} %
+            </Typography>
           </Item>
         </Grid>
       </Grid>
@@ -259,11 +283,11 @@ export default function AdminDashboard() {
             label="Age"
             onChange={handleSelectedYearChange}
           >
-            {
-              yearsList.map(year => (
-                <MenuItem key={year} value={year}>{year}</MenuItem>
-              ))
-            }
+            {yearsList.map((year) => (
+              <MenuItem key={year} value={year}>
+                {year}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Box>
@@ -271,53 +295,69 @@ export default function AdminDashboard() {
       <Grid container spacing={2}>
         <Grid item xs={12} md={6} sm={12}>
           <Item>
-            <Box sx={{ width: '100%', height: { xs: 300, md: 400 } }}>
+            <Box sx={{ width: "100%", height: { xs: 300, md: 400 } }}>
               <BarChart
                 dataset={monthWiseUserChart}
-                xAxis={[{
-                  scaleType: 'band',
-                  dataKey: 'month',
-                  label: `Month wise new users - ${selectedYear}`,
-                }]}
-                yAxis={[{
-                  label: 'Count'
-                }]}
-                series={[{
-                  dataKey: 'count',
-                  label: 'Users',
-                  showLabel: true,
-                }]}
+                xAxis={[
+                  {
+                    scaleType: "band",
+                    dataKey: "month",
+                    label: `Month wise new users - ${selectedYear}`,
+                  },
+                ]}
+                yAxis={[
+                  {
+                    label: "Count",
+                  },
+                ]}
+                series={[
+                  {
+                    dataKey: "count",
+                    label: "Users",
+                    showLabel: true,
+                  },
+                ]}
               />
             </Box>
           </Item>
         </Grid>
         <Grid item xs={12} md={6} sm={12}>
           <Item>
-            <Box sx={{ width: '100%', height: { xs: 300, md: 400 } }}>
+            <Box sx={{ width: "100%", height: { xs: 300, md: 400 } }}>
               <BarChart
                 dataset={monthWiseAgentChart}
-                xAxis={[{
-                  scaleType: 'band',
-                  dataKey: 'month',
-                  label: `Month wise new agents - ${selectedYear}`,
-                }]}
-                yAxis={[{
-                  label: 'Count'
-                }]}
-                series={[{
-                  dataKey: 'count',
-                  label: 'Agents',
-                  showLabel: true,
-                }]}
+                xAxis={[
+                  {
+                    scaleType: "band",
+                    dataKey: "month",
+                    label: `Month wise new agents - ${selectedYear}`,
+                  },
+                ]}
+                yAxis={[
+                  {
+                    label: "Count",
+                  },
+                ]}
+                series={[
+                  {
+                    dataKey: "count",
+                    label: "Agents",
+                    showLabel: true,
+                  },
+                ]}
               />
             </Box>
           </Item>
         </Grid>
       </Grid>
 
-      <Typography variant="h3" component="h3" sx={{ paddingLeft: '30px', paddingTop: '50px', marginBottom: '30px' }}>
+      <Typography
+        variant="h3"
+        component="h3"
+        sx={{ paddingLeft: "30px", paddingTop: "50px", marginBottom: "30px" }}
+      >
         Agent approval requests:
-      </Typography >
+      </Typography>
 
       <Grid container spacing={4} justifyContent="center">
         <Grid
@@ -329,22 +369,22 @@ export default function AdminDashboard() {
           xl={7}
           sx={{
             width: {
-              xs: '100%',  // 100% width for extra-small screens
-              sm: '100%',   // 90% width for small screens
-              md: '100%',   // 80% width for medium screens
-              lg: '50%',   // 70% width for large screens
-              xl: '50%',   // 60% width for extra-large screens
+              xs: "100%", // 100% width for extra-small screens
+              sm: "100%", // 90% width for small screens
+              md: "100%", // 80% width for medium screens
+              lg: "50%", // 70% width for large screens
+              xl: "50%", // 60% width for extra-large screens
             },
-            margin: 'auto'
+            margin: "auto",
           }}
         >
           <Paper
             elevation={3}
             sx={{
               height: 400,
-              width: '100%',
-              margin: 'auto',
-              p: 2,  // padding
+              width: "100%",
+              margin: "auto",
+              p: 2, // padding
             }}
           >
             <DataGrid
@@ -370,5 +410,4 @@ export default function AdminDashboard() {
       />
     </>
   );
-
 }

@@ -121,7 +121,7 @@ const TravelerDashboard = () => {
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleTabChange} aria-label="trip tabs">
             <Tab label="Registered Trips" value="registered" />
-            <Tab label="Requested Trips" value="requested" />
+            <Tab label="Requested Trips" value="requested"  onClick={()=> navigate('/display-requests')} />
           </TabList>
         </Box>
         <TabPanel value="registered">
