@@ -78,17 +78,30 @@ exports.filterTrips = async ({ source, destination, startDate, endDate }) => {
   }
 };
 
+
+
+exports.getRequestedTrips = async (travelerId) => {
+  console.log("Requested trips...");
+  // Assuming there is a field in bookings to denote requested status
+  return await Trip.find({
+    'bookings.travelerId': travelerId,
+    'bookings.status': 'requested',
+  }).populate('bookings');
+};
+
+
+
 exports.getPastTrips = async (travelerId) => {
   console.log("Fetching past trips for traveler ID:", travelerId);
   const today = new Date();
   console.log("Today's date:", today);
 
-  // Fetch all bookings for the traveler
-  const bookings = await Booking.find({ travelerId: travelerId });
+  // Fetch all bookings for the traveler and populate trip details
+  const bookings = await Booking.find({ travelerId }).populate('tripId');
   console.log("Bookings for traveler:", bookings);
 
   // Extract unique trip IDs from the bookings
-  const tripIds = [...new Set(bookings.map(booking => booking.tripId))];
+  const tripIds = [...new Set(bookings.map(booking => booking.tripId._id))];
   console.log("Unique trip IDs:", tripIds);
 
   // Fetch trips with these IDs where endDate is in the past
@@ -107,12 +120,12 @@ exports.getUpcomingTrips = async (travelerId) => {
   const today = new Date();
   console.log("Today's date:", today);
 
-  // Fetch all bookings for the traveler
-  const bookings = await Booking.find({ travelerId: travelerId });
+  // Fetch all bookings for the traveler and populate trip details
+  const bookings = await Booking.find({ travelerId }).populate('tripId');
   console.log("Bookings for traveler:", bookings);
 
   // Extract unique trip IDs from the bookings
-  const tripIds = [...new Set(bookings.map(booking => booking.tripId))];
+  const tripIds = [...new Set(bookings.map(booking => booking.tripId._id))];
   console.log("Unique trip IDs:", tripIds);
 
   // Fetch trips with these IDs where startDate is in the future
@@ -127,11 +140,7 @@ exports.getUpcomingTrips = async (travelerId) => {
 };
 
 
-exports.getRequestedTrips = async (travelerId) => {
-  console.log("Requested trips...");
-  // Assuming there is a field in bookings to denote requested status
-  return await Trip.find({
-    'bookings.travelerId': travelerId,
-    'bookings.status': 'requested',
-  }).populate('bookings');
-};
+
+
+
+

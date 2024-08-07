@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Typography,
+  Container,
   Grid,
   Card,
   CardContent,
@@ -12,7 +13,8 @@ import {
   Tab,
 } from '@mui/material';
 import { TabPanel, TabContext, TabList } from '@mui/lab';
-import axios from 'axios';
+import axiosInstance from '../../api/Axios';
+import { format } from 'date-fns';
 
 const TravelerDashboard = () => {
   const navigate = useNavigate();
@@ -23,13 +25,14 @@ const TravelerDashboard = () => {
     requested: [],
   });
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchTrips = async () => {
       setLoading(true);
-      const token = localStorage.getItem('token'); // Adjust this according to where you store your token
+      const token = localStorage.getItem('token');
       try {
-        const response = await axios.get('/trips/traveler/trips', {
+        const response = await axiosInstance.get('/trips/traveler/trips', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -41,6 +44,7 @@ const TravelerDashboard = () => {
         });
       } catch (error) {
         console.error('Error fetching trips:', error);
+        setError('Failed to load trips. Please try again.');
         setTrips({
           upcoming: [],
           past: [],
@@ -54,11 +58,15 @@ const TravelerDashboard = () => {
   }, []);
 
   const handleCardClick = (id) => {
-    navigate(`/tripdetail/${id}`);
+    navigate(`/trip/${id}`);
   };
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
+  };
+
+  const handleRequestTabClick = () => {
+    navigate('/display-requests');
   };
 
   const renderTrips = (tripList) => {
@@ -66,14 +74,14 @@ const TravelerDashboard = () => {
       return <Typography>No trips available.</Typography>;
     }
     return tripList.map((trip) => (
-      <Grid item xs={12} sm={6} md={4} key={trip.id}>
+      <Grid item xs={12} sm={6} md={4} key={trip._id}>
         <Card>
-          <CardActionArea onClick={() => handleCardClick(trip.id)}>
+          <CardActionArea onClick={() => handleCardClick(trip._id)}>
             <CardMedia
               component="img"
               alt={trip.title}
               height="140"
-              image={trip.image}
+              image={trip.images && trip.images.length > 0 ? `data:image/jpeg;base64,${trip.images[0]}` : '/path/to/default/image.jpg'}
               title={trip.title}
             />
             <CardContent>
@@ -87,22 +95,13 @@ const TravelerDashboard = () => {
                 {trip.location}
               </Typography>
               <Typography variant="body1" color="textPrimary">
-                {trip.price}
+                ${trip.price}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                Duration: {trip.duration}
+                From {format(new Date(trip.startDate), 'MMMM dd, yyyy')} to {format(new Date(trip.endDate), 'MMMM dd, yyyy')}
               </Typography>
             </CardContent>
           </CardActionArea>
-          <Button
-            size="small"
-            color="primary"
-            variant="contained"
-            onClick={() => handleCardClick(trip.id)}
-            sx={{ m: 2 }}
-          >
-            Book Now
-          </Button>
         </Card>
       </Grid>
     ));
@@ -113,46 +112,54 @@ const TravelerDashboard = () => {
   }
 
   return (
-    <Box sx={{ flexGrow: 1, p: { xs: 2, md: 4 } }}>
-      <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between' }}>
-        <Button variant="contained" color="primary" onClick={() => navigate('/travel-request-form')}>
-          Request New Trip
-        </Button>
-        <Button variant="contained" color="secondary" onClick={() => navigate('/trips')}>
-          Explore Trips
-        </Button>
+    <Container>
+      <Box sx={{ flexGrow: 1, p: { xs: 2, md: 4 } }}>
+        {error ? (
+          <Typography color="error">{error}</Typography>
+        ) : (
+          <>
+            <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between' }}>
+              <Button variant="contained" color="primary" onClick={() => navigate('/travel-request-form')}>
+                Request New Trip
+              </Button>
+              <Button variant="contained" color="secondary" onClick={() => navigate('/trips')}>
+                Explore Trips
+              </Button>
+            </Box>
+            <TabContext value={tabValue}>
+              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <TabList onChange={handleTabChange} aria-label="trip tabs">
+                  <Tab label="Registered Trips" value="registered" />
+                  <Tab label="Requested Trips" value="requested" onClick={handleRequestTabClick} />
+                </TabList>
+              </Box>
+              <TabPanel value="registered">
+                <Typography variant="h4" gutterBottom>
+                  Upcoming Trips
+                </Typography>
+                <Grid container spacing={2}>
+                  {renderTrips(trips.upcoming)}
+                </Grid>
+                <Typography variant="h4" gutterBottom sx={{ mt: 4 }}>
+                  Past Trips
+                </Typography>
+                <Grid container spacing={2}>
+                  {renderTrips(trips.past)}
+                </Grid>
+              </TabPanel>
+              <TabPanel value="requested">
+                <Typography variant="h4" gutterBottom>
+                  Requested Trips
+                </Typography>
+                <Grid container spacing={2}>
+                  {renderTrips(trips.requested)}
+                </Grid>
+              </TabPanel>
+            </TabContext>
+          </>
+        )}
       </Box>
-      <TabContext value={tabValue}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <TabList onChange={handleTabChange} aria-label="trip tabs">
-            <Tab label="Registered Trips" value="registered" />
-            <Tab label="Requested Trips" value="requested"  onClick={()=> navigate('/display-requests')} />
-          </TabList>
-        </Box>
-        <TabPanel value="registered">
-          <Typography variant="h4" gutterBottom>
-            Upcoming Trips
-          </Typography>
-          <Grid container spacing={2}>
-            {renderTrips(trips.upcoming)}
-          </Grid>
-          <Typography variant="h4" gutterBottom sx={{ mt: 4 }}>
-            Past Trips
-          </Typography>
-          <Grid container spacing={2}>
-            {renderTrips(trips.past)}
-          </Grid>
-        </TabPanel>
-        <TabPanel value="requested">
-          <Typography variant="h4" gutterBottom>
-            Requested Trips
-          </Typography>
-          <Grid container spacing={2}>
-            {renderTrips(trips.requested)}
-          </Grid>
-        </TabPanel>
-      </TabContext>
-    </Box>
+    </Container>
   );
 };
 

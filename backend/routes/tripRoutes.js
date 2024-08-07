@@ -36,4 +36,5 @@ router.get('/agent/bookings-sumary/:year', authMiddleware, tripController.getBoo
 
 router.get('/agent/review-summary', authMiddleware, tripController.getReviewSummary);
 
+
 module.exports = router;
