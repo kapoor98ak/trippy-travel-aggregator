@@ -1,6 +1,5 @@
-# CSCI5709_Grp_Project-06
+# Trippy - Trip Aggregator Web Application
 
-## Backend
 
 ### Services
 
@@ -81,5 +80,3 @@ In summary, each file in our project plays a specific role in the overall archit
 Service has the implementation logic.
 Controller defines the functions.
 Routes bind the controller function to HTTP Endpoints.
-
-## Frontend
